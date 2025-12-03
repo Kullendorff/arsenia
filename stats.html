@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arsenia "Sagoskärvan" Merinita - Karaktärsblad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 2rem;
+    }
+    .header-text {
+      flex: 1;
+    }
+    /* Typografi för rubriker och korttitlar */
+    h1, h2, h3,
+    .section-title,
+    .featured-title,
+    .story-title {
+      font-family: 'Inconsolata', 'Courier New', monospace;
+      font-weight: 600;
+      letter-spacing: 0.03em; /* liten luftighet */
+    }
+    h1 {
+      color: #fef3c7;
+      font-size: 2.5rem;
+      margin: 0;
+      position: relative;
+      display: inline-block;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(245, 158, 11, 0.5), transparent);
+    }
+    h1 span {
+      font-size: 1.75rem;
+      font-weight: normal;
+    }
+    header p {
+      color: rgba(254, 243, 199, 0.8);
+      font-style: italic;
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
+    .portrait {
+      width: 200px;
+      height: 200px;
+      border-radius: 0.5rem;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .portrait:hover {
+      transform: scale(1.05);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      overflow: auto;
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      margin-top: 2%;
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .nav-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+      padding-bottom: 1rem;
+    }
+    .nav-link {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+    }
+    .nav-link:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    .nav-link.active {
+      background-color: rgba(217, 119, 6, 0.2);
+      font-weight: bold;
+    }
+    .section {
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    .section h2 {
+      color: #fef3c7;
+      font-size: 1.5rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.5);
+      padding-bottom: 0.5rem;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .stat-box {
+      background-color: rgba(30, 41, 59, 0.8);
+      padding: 0.75rem 1rem;
+      border-radius: 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stat-label {
+      font-weight: bold;
+      color: #e5e7eb;
+    }
+    .stat-value {
+      font-size: 1.2rem;
+      color: #fef3c7;
+      font-weight: bold;
+    }
+    .split-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .split-section {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .list-section {
+      background-color: rgba(30, 41, 59, 0.8);
+      border-radius: 0.25rem;
+      overflow: hidden;
+    }
+    .list-title {
+      background-color: rgba(217, 119, 6, 0.2);
+      padding: 0.5rem 1rem;
+      color: #fef3c7;
+      font-weight: bold;
+      margin: 0;
+    }
+    .list-items {
+      padding: 0.75rem 1rem;
+    }
+    .list-item {
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .list-item:last-child {
+      margin-bottom: 0;
+    }
+    .ability-name {
+      font-weight: bold;
+      color: #e5e7eb;
+    }
+    .ability-spec {
+      color: #9ca3af;
+      font-style: italic;
+      font-size: 0.9em;
+    }
+    .ability-score {
+      color: #fef3c7;
+      font-weight: bold;
+    }
+    .techniques-grid, .forms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+    th {
+      text-align: left;
+      padding: 0.5rem;
+      background-color: rgba(217, 119, 6, 0.2);
+      color: #fef3c7;
+    }
+    td {
+      padding: 0.5rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    .virtue-label, .flaw-label {
+      font-weight: bold;
+      color: #e5e7eb;
+    }
+    .virtue-type, .flaw-type {
+      color: #9ca3af;
+      font-style: italic;
+      font-size: 0.9em;
+    }
+    .personal-detail {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.1);
+      padding-bottom: 0.5rem;
+    }
+    .personal-label {
+      font-weight: bold;
+      color: #e5e7eb;
+    }
+    .personal-value {
+      color: #fef3c7;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-text">
+        <h1>Arsenia <span>"Sagoskärvan"</span> Merinita</h1>
+        <p>Illusionsarkitekt & Sagotids-Magiker av House Merinita</p>
+      </div>
+      <div class="portrait" style="background-image: url('arseniastats.png');" onclick="openModal('arseniastats.png')"></div>
+    </header>
+    
+    <nav class="nav-bar">
+      <a href="index.html" class="nav-link">Hem</a>
+      <a class="nav-link" href="bakgrund.html">Bakgrund</a>
+      <a href="grimoire.html" class="nav-link">Grimoire</a>
+      <a href="alain.html" class="nav-link">Alain</a>
+      <a href="stats.html" class="nav-link active">Karaktärsblad</a>
+      <a href="stories.html" class="nav-link">Berättelser</a>
+	  <a href="journaler.html" class="nav-link">Journaler</a>
+    </nav>
+    
+    <section class="section">
+      <h2>Persondata</h2>
+      <div class="grid-container" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+        <div class="personal-detail">
+          <span class="personal-label">Födelseår:</span>
+          <span class="personal-value">1194 AD</span>
+        </div>
+        <div class="personal-detail">
+          <span class="personal-label">Födelseplats:</span>
+          <span class="personal-value">Höjderna i norra Provence/Savojen</span>
+        </div>
+        <div class="personal-detail">
+          <span class="personal-label">Kronologisk ålder:</span>
+          <span class="personal-value">30</span>
+        </div>
+        <div class="personal-detail">
+          <span class="personal-label">Apparent Age:</span>
+          <span class="personal-value">30</span>
+        </div>
+        <div class="personal-detail">
+          <span class="personal-label">Warping:</span>
+          <span class="personal-value">Score 2 (5p)</span>
+        </div>
+        <div class="personal-detail">
+          <span class="personal-label">Confidence:</span>
+          <span class="personal-value">1 (3)</span>
+        </div>
+        <div class="personal-detail">
+          <span class="personal-label">Size:</span>
+          <span class="personal-value">0</span>
+        </div>
+        <div class="personal-detail">
+          <span class="personal-label">Covenant:</span>
+          <span class="personal-value">Pendlande sökare</span>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2>Characteristics</h2>
+      <div class="grid-container">
+        <div class="stat-box">
+          <span class="stat-label">Intelligence (Int)</span>
+          <span class="stat-value">+3</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Perception (Per)</span>
+          <span class="stat-value">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Presence (Pre)</span>
+          <span class="stat-value">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Communication (Com)</span>
+          <span class="stat-value">+2</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Strength (Str)</span>
+          <span class="stat-value">-1</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Stamina (Sta)</span>
+          <span class="stat-value">+2</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Dexterity (Dex)</span>
+          <span class="stat-value">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Quickness (Qik)</span>
+          <span class="stat-value">+2</span>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2>Virtues & Flaws</h2>
+      <div class="split-section">
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">Virtues</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="virtue-label">Faerie Magic</div>
+                  <div class="virtue-type">Major, Hermetic – House</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="virtue-label">Glamour</div>
+                  <div class="virtue-type">Major, Hermetic Mystery</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="virtue-label">Faerie-Raised Magic</div>
+                  <div class="virtue-type">Major, Hermetic</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="virtue-label">Spell Timing</div>
+                  <div class="virtue-type">Minor, Hermetic Mystery</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="virtue-label">Subtle Magic</div>
+                  <div class="virtue-type">Minor</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="virtue-label">Puissant Imaginem</div>
+                  <div class="virtue-type">Minor</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="virtue-label">Improved Characteristics</div>
+                  <div class="virtue-type">Minor</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">Flaws</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="flaw-label">Major Debt</div>
+                  <div class="flaw-type">Story – skyldig hierofant 24p vis + 6 säsongers tjänst</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flaw-label">Greater Malediction</div>
+                  <div class="flaw-type">Sun‑Shadow‑Bound – direkt solljus ger –6 på alla totals</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flaw-label">Driven</div>
+                  <div class="flaw-type">Major Personality – Måste söka Seraphinas öde</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flaw-label">Faerie Upbringing</div>
+                  <div class="flaw-type">Minor Story</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flaw-label">Vulnerable Magic</div>
+                  <div class="flaw-type">Minor Hermetic</div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flaw-label">Haunted</div>
+                  <div class="flaw-type">Minor Story – drömmar och syner av Seraphina</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2>Abilities</h2>
+      <div class="split-section">
+        <div class="list-section">
+          <h3 class="list-title">Languages & Academic</h3>
+          <div class="list-items">
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Native: Occitan</span>
+              </div>
+              <span class="ability-score">5</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Latin</span>
+                <span class="ability-spec">Hermetic</span>
+              </div>
+              <span class="ability-score">4</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Artes Liberales</span>
+                <span class="ability-spec">Ceremonial</span>
+              </div>
+              <span class="ability-score">2</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Philosophiae</span>
+                <span class="ability-spec">Ceremonial</span>
+              </div>
+              <span class="ability-score">2</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="list-section">
+          <h3 class="list-title">Arcane & Supernatural</h3>
+          <div class="list-items">
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Faerie Lore</span>
+                <span class="ability-spec">Arcadia Roads</span>
+              </div>
+              <span class="ability-score">4</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Magic Theory</span>
+                <span class="ability-spec">Imaginem</span>
+              </div>
+              <span class="ability-score">4</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Parma Magica</span>
+                <span class="ability-spec">Imaginem</span>
+              </div>
+              <span class="ability-score">3</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Finesse</span>
+                <span class="ability-spec">Glamour shaping</span>
+              </div>
+              <span class="ability-score">3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="split-section" style="margin-top: 1.5rem;">
+        <div class="list-section">
+          <h3 class="list-title">Social & General</h3>
+          <div class="list-items">
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Folk Ken</span>
+                <span class="ability-spec">Nobles</span>
+              </div>
+              <span class="ability-score">2</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Guise</span>
+                <span class="ability-spec">Faerie roles</span>
+              </div>
+              <span class="ability-score">3</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Intrigue</span>
+                <span class="ability-spec">Rumours</span>
+              </div>
+              <span class="ability-score">1</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Charm</span>
+                <span class="ability-spec">Gentle speech</span>
+              </div>
+              <span class="ability-score">2</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Storytelling</span>
+                <span class="ability-spec">Saga-weaving</span>
+              </div>
+              <span class="ability-score">1</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="list-section">
+          <h3 class="list-title">Practical</h3>
+          <div class="list-items">
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Ride</span>
+                <span class="ability-spec">Travel</span>
+              </div>
+              <span class="ability-score">1</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Survival</span>
+                <span class="ability-spec">Forest</span>
+              </div>
+              <span class="ability-score">1</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span class="ability-name">Swim</span>
+              </div>
+              <span class="ability-score">1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <h2>Arts</h2>
+      <h3 style="color: #fef3c7; margin-top: 0;">Techniques</h3>
+      <div class="techniques-grid">
+        <div class="stat-box">
+          <span class="stat-label">Creo</span>
+          <span class="stat-value">7</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Intellego</span>
+          <span class="stat-value">4</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Muto</span>
+          <span class="stat-value">6</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Perdo</span>
+          <span class="stat-value">4</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Rego</span>
+          <span class="stat-value">6</span>
+        </div>
+      </div>
+      
+      <h3 style="color: #fef3c7; margin-top: 1.5rem;">Forms</h3>
+      <div class="forms-grid">
+        <div class="stat-box">
+          <span class="stat-label">Animal</span>
+          <span class="stat-value">2</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Aquam</span>
+          <span class="stat-value">2</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Auram</span>
+          <span class="stat-value">1</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Corpus</span>
+          <span class="stat-value">1</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Herbam</span>
+          <span class="stat-value">1</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Ignem</span>
+          <span class="stat-value">1</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Imaginem</span>
+          <span class="stat-value">12*</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Mentem</span>
+          <span class="stat-value">9</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Terram</span>
+          <span class="stat-value">1</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Vim</span>
+          <span class="stat-value">4</span>
+        </div>
+      </div>
+      <p style="font-size: 0.9rem; color: #9ca3af; margin-top: 1rem;">* Effektivt 15 med Puissant Imaginem (+3). Totalt 234 XP i Arts.</p>
+    </section>
+    
+    <section class="section">
+      <h2>Magiska Föremål</h2>
+      <div class="split-section">
+        <div style="background-color: rgba(30, 41, 59, 0.8); padding: 1rem; border-radius: 0.25rem;">
+          <h3 style="color: #fef3c7; margin-top: 0; font-size: 1.2rem;">Thread of Shared Breath</h3>
+          <div style="font-size: 0.9rem;">
+            <p><strong style="color: #e5e7eb;">Typ:</strong> InCo/InMe 10, Arcane Connection-bound</p>
+            <p><strong style="color: #e5e7eb;">Effekt:</strong> När Arsenia fokuserar i stillhet, känner hon om Seraphina är "borta", "nära" eller "förlorad". Används en gång per vecka. Fungerar via symboliskt eko, ej exakt lokalisering.</p>
+            <p><strong style="color: #e5e7eb;">Aktivering:</strong> Hålla tråden och viska systerns namn vid solnedgång eller gryning.</p>
+          </div>
+        </div>
+        
+        <div style="background-color: rgba(30, 41, 59, 0.8); padding: 1rem; border-radius: 0.25rem;">
+          <h3 style="color: #fef3c7; margin-top: 0; font-size: 1.2rem;">Shroud of the Ever‑True Sister</h3>
+          <div style="font-size: 0.9rem;">
+            <p><strong style="color: #e5e7eb;">Typ:</strong> Enchanted Shawl – CrIm/Glamour, Item Level 24</p>
+            <p><strong style="color: #e5e7eb;">Effekt:</strong> Skapar en fysisk nunneförklädnad som aktiveras när sjalen sveps runt axlarna. Tändas vid gryning eller skymning, varar till nästa solväxling.</p>
+            <p><strong style="color: #e5e7eb;">Konstruktion:</strong> Lesser Enchanted Device. Öppnad med 1 pawn vis; effekten investeras med 3 pawn.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <footer>
+      <p style="text-align: center; color: #fef3c7; font-style: italic; margin-top: 3rem; margin-bottom: 2rem;">
+        "Bakom varje sann illusion finns en ännu sannare verklighet. Min konst är inte att ljuga, utan att visa det sanningen själv inte vågar avslöja."
+      </p>
+      <p style="text-align: center; margin-top: 1rem;">
+        <a href="index.html" style="color: #9ca3af; text-decoration: none;">Tillbaka till huvudsidan</a>
+      </p>
+    </footer>
+  </div>
+  
+  <!-- Modal för bildvisning -->
+  <div id="imageModal" class="modal">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
+
+  <script>
+    // Funktioner för bildmodalen
+    function openModal(imgPath) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modal.style.display = "block";
+      modalImg.src = imgPath;
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = "none";
+    }
+
+    // Stäng modalen om användaren klickar utanför bilden
+    window.onclick = function(event) {
+      const modal = document.getElementById('imageModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

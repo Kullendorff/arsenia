@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arsenia "Sagoskärvan" Merinita - Grimoire</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 2rem;
+    }
+    .header-text {
+      flex: 1;
+    }
+    
+    /* Typografi för rubriker */
+    h1, h2, h3,
+    .section-title,
+    .spell-category,
+    .spell-name {
+      font-family: 'Inconsolata', 'Courier New', monospace;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    h1 {
+      color: #fef3c7;
+      font-size: 2.75rem;
+      margin: 0;
+      position: relative;
+      display: inline-block;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(245, 158, 11, 0.5), transparent);
+    }
+    h1 span {
+      font-size: 1.75rem;
+      font-weight: normal;
+    }
+    header p {
+      color: rgba(254, 243, 199, 0.8);
+      font-style: italic;
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
+    .portrait {
+      width: 200px;
+      height: 200px;
+      border-radius: 0.5rem;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .portrait:hover {
+      transform: scale(1.05);
+    }
+    .nav-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+      padding-bottom: 1rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+    }
+    .nav-link:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    .nav-link.active {
+      background-color: rgba(217, 119, 6, 0.2);
+      font-weight: bold;
+    }
+    
+    /* Introduktion */
+    .intro-text {
+      margin-bottom: 2rem;
+      font-style: italic;
+      color: #e2e8f0;
+      border-left: 3px solid rgba(217, 119, 6, 0.3);
+      padding-left: 1.5rem;
+    }
+
+    /* Spell Categories */
+    .categories {
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .category-button {
+      padding: 0.5rem 1.25rem;
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      border-radius: 2rem;
+      color: #fef3c7;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .category-button:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.4);
+    }
+    .category-button.active {
+      background-color: rgba(217, 119, 6, 0.2);
+      border-color: rgba(217, 119, 6, 0.5);
+    }
+    .category-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Spell Display */
+    .section-title {
+      color: #fef3c7;
+      font-size: 1.8rem;
+      margin: 2.5rem 0 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, rgba(217, 119, 6, 0.5), transparent);
+    }
+    
+    .category-heading {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    .category-heading h2 {
+      color: #fef3c7;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    .category-heading .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(217, 119, 6, 0.5), transparent);
+    }
+    .category-heading .icon {
+      font-size: 1.5rem;
+      color: #fef3c7;
+    }
+    .category-description {
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      color: #9ca3af;
+    }
+    
+    /* Spell tables */
+    .spell-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      background-color: rgba(30, 41, 59, 0.5);
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    .spell-table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      background-color: rgba(30, 41, 59, 0.8);
+      color: #fef3c7;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+    }
+    .spell-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.8);
+    }
+    .spell-table tr:hover {
+      background-color: rgba(30, 41, 59, 0.7);
+    }
+    .spell-table tr:last-child td {
+      border-bottom: none;
+    }
+    .spell-name {
+      color: #fef3c7;
+      font-weight: bold;
+    }
+    .spell-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+      background-color: rgba(217, 119, 6, 0.2);
+      color: #fef3c7;
+    }
+    
+    /* Spell Details Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      overflow: auto;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-text {
+      position: relative;
+      margin: auto;
+      padding: 2rem;
+      width: 80%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      background-color: #1e293b;
+      border-radius: 0.5rem;
+      color: #f8fafc;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    /* Spell Cards grid */
+    .spell-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .spell-card {
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .spell-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      border-color: rgba(217, 119, 6, 0.4);
+    }
+    .spell-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .spell-level {
+      background-color: rgba(217, 119, 6, 0.3);
+      color: #fef3c7;
+      padding: 0.3rem 0.6rem;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    .spell-card h3 {
+      color: #fef3c7;
+      margin: 0 0 0.75rem 0;
+      font-size: 1.2rem;
+    }
+    .spell-details {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+    .spell-details span {
+      color: #fef3c7;
+      font-weight: bold;
+    }
+    .spell-description {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+    
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      .portrait {
+        width: 150px;
+        height: 150px;
+      }
+      .spell-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      }
+    }
+    @media (max-width: 480px) {
+      .spell-grid {
+        grid-template-columns: 1fr;
+      }
+      .categories, .nav-bar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      .spell-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-text">
+        <h1>Arsenias <span>Grimoire</span></h1>
+        <p>Samlade besvärjelser av ljus, dimma och berättelser</p>
+      </div>
+      <div class="portrait" id="portraitImageDiv" style="background-image: url('arsenia-grimoire.png');" data-img-src="arsenia-grimoire.png" data-img-alt="Arsenia med en besvärjelse"></div>
+    </header>
+    
+    <nav class="nav-bar">
+      <a href="index.html" class="nav-link">Hem</a>
+      <a href="bakgrund.html" class="nav-link">Bakgrund</a>
+      <a href="alain.html" class="nav-link">Alain</a>
+      <a href="stats.html" class="nav-link">Karaktärsblad</a>
+      <a href="grimoire.html" class="nav-link active">Grimoire</a>
+      <a href="stories.html" class="nav-link">Berättelser</a>
+    </nav>
+    
+    <div class="intro-text">
+      <p>För Arsenia är magi inte bara formler och beräkningar, utan berättelser som vävs till verkliga ting. Hennes besvärjelser existerar i gränslandet mellan illusion och substans. Ett löv format av månsken blir ett brev; en viskning blir en bro mellan dröm och verklighet – särskilt när Alains närvaro förankrar hennes magi i den fysiska världen.</p>
+    </div>
+    
+    <div class="categories">
+      <button class="category-button active" data-category="all">
+        <span class="category-icon">✨</span>
+        <span>Alla besvärjelser</span>
+      </button>
+      <button class="category-button" data-category="formalized">
+        <span class="category-icon">📖</span>
+        <span>Formaliserade</span>
+      </button>
+      <button class="category-button" data-category="spontaneous">
+        <span class="category-icon">🌙</span>
+        <span>Spontana</span>
+      </button>
+      <button class="category-button" data-category="ceremonial">
+        <span class="category-icon">🔮</span>
+        <span>Ceremoniella</span>
+      </button>
+      <button class="category-button" data-category="items">
+        <span class="category-icon">💎</span>
+        <span>Magiska föremål</span>
+      </button>
+    </div>
+    
+    <!-- Formaliserade besvärjelser -->
+    <div class="category-heading" id="formalized">
+      <span class="icon">📖</span>
+      <h2>Formaliserade Besvärjelser</h2>
+      <div class="line"></div>
+    </div>
+    <p class="category-description">Dessa formaliserade besvärjelser har Arsenia memorerat och kan kasta utan risk för botch eller fatigue under normala omständigheter.</p>
+    
+    <table class="spell-table">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Teknik/Form</th>
+          <th>Besvärjelse</th>
+          <th>Casting Total</th>
+        </tr>
+      </thead>
+      <tbody>
+	  <tr data-spell-id="bridge-day">
+		<td>25</td>
+		<td>CrIm<span class="spell-badge">Glamour</span></td>
+		<td class="spell-name">Bridge of One-Third Day – 20 m solid illusion (8 h)</td>
+		<td>24 + Aura</td>
+	  </tr>
+	  <tr data-spell-id="mantle-moonlight">
+		<td>20</td>
+		<td>CrIm<span class="spell-badge">Glamour</span></td>
+		<td class="spell-name">Mantle of Living Moonlight – fysisk kappa Soak +3</td>
+		<td>24 + Aura</td>
+	  </tr>
+	  <tr data-spell-id="dancer-step">
+		<td>20</td>
+		<td>ReIm<span class="spell-badge">Glamour</span></td>
+		<td class="spell-name">Dancer’s Deceptive Step – fysisk ”sidestep”</td>
+		<td>23 + Aura</td>
+	  </tr>
+	  <tr data-spell-id="veil-stolen-hours">
+		<td>15</td>
+		<td>CrIm<span class="spell-badge">Glamour</span></td>
+		<td class="spell-name">Veil of Stolen Hours – komplett förklädnad</td>
+		<td>24 + Aura</td>
+	  </tr>
+	  <tr data-spell-id="echo-forgotten-twin">
+		<td>15</td>
+		<td>InMe<span class="spell-badge">Faerie Magic</span></td>
+		<td class="spell-name">Echo of the Forgotten Twin – spårar emotionella avtryck</td>
+		<td>15 + Aura</td>
+	  </tr>
+	  <tr data-spell-id="loss-moment-memory">
+		<td>15</td>
+		<td>PeMe</td>
+		<td class="spell-name">Loss of But a Moment’s Memory – raderar minne</td>
+		<td>15 + Aura</td>
+	  </tr>
+	  <tr data-spell-id="seraphinas-whisper">
+		<td>10</td>
+		<td>MuIm<span class="spell-badge">Glamour</span></td>
+		<td class="spell-name">Seraphina’s Whisper – ändrar röst</td>
+		<td>23 + Aura</td>
+	  </tr>
+	  <tr data-spell-id="veil-poppies">
+		<td>25</td>
+		<td>CrMe<span class="spell-badge">Spell Timing</span></td>
+		<td class="spell-name">Veil of Poppies – söver grupp tills tuppen galer</td>
+		<td>15 + Aura</td>
+	  </tr>
+	  <tr data-spell-id="call-slumber">
+		<td>10</td>
+		<td>ReMe</td>
+		<td class="spell-name">Call to Slumber – söver en person, D: Mom</td>
+		<td>14 + Aura</td>
+	  </tr>
+	</tbody>
+    </table>
+    
+    <!-- Spontana besvärjelser -->
+    <div class="category-heading" id="spontaneous">
+      <span class="icon">🌙</span>
+      <h2>Spontana Besvärjelser</h2>
+      <div class="line"></div>
+    </div>
+    <p class="category-description">Improviserade men kraftfulla besvärjelser som Arsenia kan kasta i ögonblickets hetta, särskilt i självförsvar eller för att lösa oväntade situationer.</p>
+    
+    <div class="spell-grid">
+      <div class="spell-card" data-spell-id="shimmering-cloak">
+        <div class="spell-card-header">
+          <span class="spell-level">Level 10</span>
+        </div>
+        <h3>Shimmering Cloak of the Vanishing Moon</h3>
+        <div class="spell-details">
+          <p><span>Arts:</span> MuIm (Glamour)</p>
+          <p><span>Casting Total:</span> 23 + Stress Die</p>
+          <p><span>Fast Cast:</span> ≥ 0 på tärning</p>
+        </div>
+        <div class="spell-description">
+          Skapar en illusion av att Arsenia befinner sig några decimeter från sin faktiska position, vilket gör henne svårare att träffa i strid.
+        </div>
+      </div>
+      
+      <div class="spell-card" data-spell-id="shadow-cup">
+        <div class="spell-card-header">
+          <span class="spell-level">Level 4</span>
+        </div>
+        <h3>Shadow‑Cup Chill</h3>
+        <div class="spell-details">
+          <p><span>Arts:</span> PeIg</p>
+          <p><span>Casting Total:</span> 9 + Stress Die</p>
+          <p><span>Non-Fatiguing:</span> Ja</p>
+        </div>
+        <div class="spell-description">
+          Skapar en kylande skugga som tillfälligt lindrar Arsenias sol-malediction och skyddar mot solens brännande strålar.
+        </div>
+      </div>
+      
+      <div class="spell-card" data-spell-id="thread-story">
+        <div class="spell-card-header">
+          <span class="spell-level">Level 4</span>
+        </div>
+        <h3>Thread of Story</h3>
+        <div class="spell-details">
+          <p><span>Arts:</span> InIm<span class="spell-badge">Faerie Magic</span></p>
+          <p><span>Casting Total:</span> 22 + Stress Die</p>
+          <p><span>Non-Fatiguing:</span> Ja</p>
+        </div>
+        <div class="spell-description">
+          Skapar en glödande tråd som leder mot nästa narrativa nod i en pågående berättelse – perfekt för att navigera i faerie-regios.
+        </div>
+      </div>
+      
+      <div class="spell-card" data-spell-id="glimmer-memory">
+        <div class="spell-card-header">
+          <span class="spell-level">Level 4</span>
+        </div>
+        <h3>Glimmer of Shared Memory</h3>
+        <div class="spell-details">
+          <p><span>Arts:</span> CrMe</p>
+          <p><span>Casting Total:</span> 23 + Stress Die</p>
+          <p><span>Non-Fatiguing:</span> Nästan (kräver 4+ på tärning)</p>
+        </div>
+        <div class="spell-description">
+          Skapar en delad minnesupplevelse mellan Arsenia och målet. Den gemensamma upplevelsen leder till en känsla av förtrolighet och acceptans (+1 till sociala slag).
+        </div>
+      </div>
+    </div>
+    
+    <!-- Ceremoniella besvärjelser -->
+    <div class="category-heading" id="ceremonial">
+      <span class="icon">🔮</span>
+      <h2>Ceremoniella Besvärjelser</h2>
+      <div class="line"></div>
+    </div>
+    <p class="category-description">Tidskrävande men kraftfulla besvärjelser som Arsenia utför med omsorg och rituell precision när tid finns.</p>
+    
+    <table class="spell-table">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Teknik/Form</th>
+          <th>Besvärjelse</th>
+          <th>Casting Total</th>
+          <th>Tid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-spell-id="sanctuary">
+          <td>4</td>
+          <td>CrIm<span class="spell-badge">Glamour</span></td>
+          <td class="spell-name">Sanctuary of Bound Shadows</td>
+          <td>30 + Stress Die</td>
+          <td>15 min</td>
+        </tr>
+        <tr data-spell-id="silver-rein">
+          <td>10</td>
+          <td>ReAn</td>
+          <td class="spell-name">Silver Rein of the Slumbering Steed</td>
+          <td>19 + Stress Die</td>
+          <td>10 min</td>
+        </tr>
+        <tr data-spell-id="thread-lost-twin">
+          <td>10</td>
+          <td>InVi</td>
+          <td class="spell-name">Thread of the Lost Twin</td>
+          <td>17 + Stress Die</td>
+          <td>15 min</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- Magiska föremål -->
+    <div class="category-heading" id="items">
+      <span class="icon">💎</span>
+      <h2>Magiska Föremål</h2>
+      <div class="line"></div>
+    </div>
+    <p class="category-description">Arsenias mest betydelsefulla magiska skapelser och föremål.</p>
+    
+    <div class="spell-grid">
+      <div class="spell-card" data-spell-id="thread-breath">
+        <div class="spell-card-header">
+          <span class="spell-level">Item</span>
+        </div>
+        <h3>Thread of Shared Breath</h3>
+        <div class="spell-details">
+          <p><span>Effect Level:</span> InCo/InMe 10</p>
+          <p><span>Arcane Connection</span> till Seraphina</p>
+        </div>
+        <div class="spell-description">
+          Ett armband av tvinnat hår som låter Arsenia känna om Seraphina är "borta", "nära" eller "förlorad" när hon fokuserar i stillhet. Fungerar en gång per vecka.
+        </div>
+      </div>
+      
+      <div class="spell-card" data-spell-id="shroud-sister">
+        <div class="spell-card-header">
+          <span class="spell-level">Item</span>
+        </div>
+        <h3>Shroud of the Ever‑True Sister</h3>
+        <div class="spell-details">
+          <p><span>Effect Level:</span> CrIm (Glamour) 24</p>
+          <p><span>Enchanted Item</span></p>
+        </div>
+        <div class="spell-description">
+          En sjal som när den sveps om axlarna skapar en konstant fysisk nunneförklädnad. Aktiveras vid soluppgång eller solnedgång och varar tills nästa solväxling.
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      <p><a href="index.html" style="color: #9ca3af; text-decoration: none;">Tillbaka till huvudsidan</a></p>
+    </footer>
+  </div>
+  
+  <!-- Spell details modal -->
+  <div id="spellModal" class="modal">
+    <div class="modal-text" id="spellModalContent"></div>
+    <span class="modal-close" id="closeSpellModalBtn">&times;</span>
+  </div>
+  
+  <script>
+    // För klick-event och filtrering
+    document.addEventListener('DOMContentLoaded', () => {
+      // Filtrera spells baserat på kategori
+      document.querySelectorAll('.category-button').forEach(button => {
+        button.addEventListener('click', function() {
+          const category = this.dataset.category;
+          document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Visa/dölj relevanta kategorier baserat på vald kategori
+          if (category === 'all') {
+            document.querySelectorAll('.category-heading, .spell-table, .spell-grid').forEach(el => {
+              el.style.display = 'block';
+            });
+          } else {
+            document.querySelectorAll('.category-heading, .spell-table, .spell-grid').forEach(el => {
+              if (el.id === category || el.closest(`#${category}`)) {
+                el.style.display = 'block';
+              } else {
+                el.style.display = 'none';
+              }
+            });
+          }
+        });
+      });
+      
+      // Modal för spell-detaljer (enkel version)
+      const spellModal = document.getElementById('spellModal');
+      const spellModalContent = document.getElementById('spellModalContent');
+      const closeSpellModalBtn = document.getElementById('closeSpellModalBtn');
+      
+      // Öppna modal när spells klickas
+      document.querySelectorAll('.spell-card, [data-spell-id]').forEach(element => {
+        element.addEventListener('click', function() {
+          const spellId = this.dataset.spellId;
+          // Här skulle man normalt hämta spell-data från en JS-objekt
+          spellModalContent.innerHTML = `<h2>${this.querySelector('h3').textContent || this.querySelector('.spell-name').textContent}</h2>
+          <p>Detaljerad information om besvärjelsen skulle visas här.</p>`;
+          spellModal.style.display = 'flex';
+        });
+      });
+      
+      // Stäng modal
+      closeSpellModalBtn.addEventListener('click', () => {
+        spellModal.style.display = 'none';
+      });
+      
+      // Klick utanför modal stänger den
+      window.addEventListener('click', (event) => {
+        if (event.target === spellModal) {
+          spellModal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

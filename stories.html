@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arsenia "Sagoskärvan" Merinita - Berättelser</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 2rem;
+    }
+    .header-text {
+      flex: 1;
+    }
+	
+	/* Typografi för rubriker och korttitlar */
+	h1, h2, h3,
+	.section-title,
+	.featured-title,
+	.story-title {
+	  font-family: 'Inconsolata', 'Courier New', monospace;
+	  font-weight: 600;
+	  letter-spacing: 0.03em; /* liten luftighet */
+	}
+
+    h1 {
+      color: #fef3c7;
+      font-size: 2.75rem;
+      margin: 0;
+      position: relative;
+      display: inline-block;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(245, 158, 11, 0.5), transparent);
+    }
+    h1 span {
+      font-size: 1.75rem;
+      font-weight: normal;
+    }
+    header p {
+      color: rgba(254, 243, 199, 0.8);
+      font-style: italic;
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
+    .portrait {
+      width: 200px;
+      height: 200px;
+      border-radius: 0.5rem;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .portrait:hover {
+      transform: scale(1.05);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      overflow: auto;
+      align-items: center; /* For vertical centering of modal-text */
+      justify-content: center; /* For horizontal centering of modal-text */
+    }
+    .modal-content { /* For image modal */
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      margin-top: 2%; /* Keep some space from top */
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal-text { /* For story modal */
+      position: relative;
+      margin: auto; /* Centers horizontally */
+      padding: 2rem;
+      width: 80%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      background-color: #1e293b;
+      border-radius: 0.5rem;
+      color: #f8fafc;
+    }
+    .nav-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+      padding-bottom: 1rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+    }
+    .nav-link:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    .nav-link.active {
+      background-color: rgba(217, 119, 6, 0.2);
+      font-weight: bold;
+    }
+    .featured-story {
+      position: relative;
+      height: 300px;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: flex-end;
+    }
+    .featured-content {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+      width: 100%;
+      padding: 2rem;
+    }
+    .featured-title {
+      color: #fef3c7;
+      font-size: 1.8rem;
+      margin: 0 0 0.5rem 0;
+    }
+    .featured-excerpt {
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .categories {
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .category-button {
+      padding: 0.5rem 1.25rem;
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      border-radius: 2rem;
+      color: #fef3c7;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .category-button:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.4);
+    }
+    .category-button.active {
+      background-color: rgba(217, 119, 6, 0.2);
+      border-color: rgba(217, 119, 6, 0.5);
+    }
+    .category-icon {
+      font-size: 1.2rem;
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .story-card {
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .story-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    .story-image {
+      height: 150px;
+      background-size: cover;
+      background-position: center;
+    }
+    .story-content {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .story-category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #9ca3af;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .story-title {
+      color: #fef3c7;
+      font-size: 1.2rem;
+      margin: 0 0 0.75rem;
+    }
+    .story-excerpt {
+      color: #e2e8f0;
+      font-size: 0.9rem;
+      flex: 1;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    .section-title {
+      color: #fef3c7;
+      font-size: 1.8rem;
+      margin: 2rem 0 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, rgba(217, 119, 6, 0.5), transparent);
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+    .story-content-full {
+      padding: 1.5rem;
+      line-height: 1.8;
+    }
+    .story-content-full p {
+      margin-bottom: 1.5rem;
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(217, 119, 6, 0.3);
+      color: #fef3c7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s, background-color 0.2s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .back-to-top:hover {
+      background-color: rgba(217, 119, 6, 0.5);
+    }
+    .back-to-top.visible {
+      opacity: 1;
+    }
+    .category-heading {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    .category-heading h2 {
+      color: #fef3c7;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    .category-heading .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(217, 119, 6, 0.5), transparent);
+    }
+    .category-heading .icon {
+      font-size: 1.5rem;
+      color: #fef3c7;
+    }
+    .category-description {
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      color: #9ca3af;
+    }
+    .visually-hidden { /* For screen readers */
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    
+    /* Responsivitet */
+    @media (max-width: 768px) {
+      .story-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      .featured-story {
+        height: 250px;
+      }
+      .featured-title {
+        font-size: 1.5rem;
+      }
+      .featured-excerpt {
+        font-size: 1rem;
+      }
+      header { /* Corrected from .header */
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      .portrait {
+        width: 150px;
+        height: 150px;
+      }
+    }
+    @media (max-width: 480px) {
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+      .categories {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      .category-button {
+        white-space: nowrap;
+      }
+      .nav-bar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-text">
+        <h1>Arsenias <span>Berättelser</span></h1>
+        <p>Fragment av upplevelser, minnen och ögonblick</p>
+      </div>
+      <div class="portrait" id="portraitImageDiv" style="background-image: url('arsenia-stories.png');" data-img-src="arsenia-stories.png" data-img-alt="Porträtt av Arsenia"></div>
+    </header>
+    
+    <nav class="nav-bar">
+      <a href="index.html" class="nav-link">Hem</a>
+	  <a class="nav-link" href="bakgrund.html">Bakgrund</a>
+      <a href="grimoire.html" class="nav-link">Grimoire</a>
+      <a href="alain.html" class="nav-link">Alain</a>
+      <a href="stats.html" class="nav-link">Karaktärsblad</a>
+      <a href="stories.html" class="nav-link active">Berättelser</a>
+	  <a href="journaler.html" class="nav-link">Journaler</a>
+    </nav>
+    
+    <div class="featured-story" style="background-image: url('featured-story.png');" data-story-id="nattens-tak">
+      <div class="featured-content">
+        <h2 class="featured-title">Nattens tak</h2>
+        <p class="featured-excerpt">Skymningen föll snabbt över skogen, klibbig som halvtorkat blod. Jag hade redan samlat grenar till ett bål som aldrig skulle tändas. Gammal vana...</p>
+      </div>
+    </div>
+    
+    <div class="categories">
+      <button class="category-button active" data-category="all">
+        <span class="category-icon">✨</span>
+        <span>Alla berättelser</span>
+      </button>
+      <button class="category-button" data-category="glimpses">
+        <span class="category-icon">🔥</span>
+        <span>Glimtar från vägen</span>
+      </button>
+      <button class="category-button" data-category="shadows">
+        <span class="category-icon">🌙</span>
+        <span>I skuggans famn</span>
+      </button>
+      <button class="category-button" data-category="magic">
+        <span class="category-icon">✨</span>
+        <span>Magiska ögonblick</span>
+      </button>
+      <button class="category-button" data-category="echo">
+        <span class="category-icon">🌫️</span>
+        <span>Förlorade systerns eko</span>
+      </button>
+    </div>
+    
+    <div class="category-heading" id="glimpses">
+      <span class="icon">🔥</span>
+      <h2>Glimtar från vägen</h2>
+      <div class="line"></div>
+    </div>
+    <p class="category-description">Korta ögonblick och vardagliga scener mellan Arsenia och Alain, små fönster in i deras gemensamma vardag.</p>
+    
+    <div class="story-grid">
+      <div class="story-card" data-category="glimpses" data-story-id="brodet-i-koket">
+        <div class="story-image" style="background-image: url('glimpse-1.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🔥</span><span>Glimtar från vägen</span></div>
+          <h3 class="story-title">Brödet i köket var fortfarande varmt</h3>
+          <p class="story-excerpt">Det låg kvar på skärbrädan, inlindat i trasan hon brukade använda för att hålla värmen. Hon sa alltid att bröd som kallnar för snabbt smakar ensamhet...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="glimpses" data-story-id="morgonritual">
+        <div class="story-image" style="background-image: url('glimpse-2.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🔥</span><span>Glimtar från vägen</span></div>
+          <h3 class="story-title">Morgonritual med eld och skam</h3>
+          <p class="story-excerpt">Det började med eld. Inte den majestätiska sortens eld som tämjs i laboratorier och får sig att dansa under hermetiska formler. Nej. Det här var simpel, vedeldad eld...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="glimpses" data-story-id="brod-gryta">
+        <div class="story-image" style="background-image: url('glimpse-3.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🔥</span><span>Glimtar från vägen</span></div>
+          <h3 class="story-title">En gryta för mycket</h3>
+          <p class="story-excerpt">De blev bjudna på mat av en lokal lord. En soppa så tråkig att Arsenia frågade om den var ett straff. "Den är kokt på duva och löften," svarade Alain...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="glimpses" data-story-id="tvatten">
+        <div class="story-image" style="background-image: url('glimpse-4.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🔥</span><span>Glimtar från vägen</span></div>
+          <h3 class="story-title">Tvätten i regnet</h3>
+          <p class="story-excerpt">Jag vaknade till ljudet på taket. Inget dunder, inget våldsamt – bara det mjuka, ihållande regnet som piskar som skuld. Tvätten...</p>
+        </div>
+      </div>
+	  <!-- Berättelse 5 -->
+		<div class="story-card" data-category="glimpses" data-story-id="vin-aska-sanning">
+		  <div class="story-image" style="background-image: url('glimpse-5.png');"></div>
+		  <div class="story-content">
+			<div class="story-category">
+			  <span class="category-icon">🔥</span>
+			  <span>Glimtar från vägen</span>
+			</div>
+			<h3 class="story-title">Vin, aska, sanning</h3>
+			<p class="story-excerpt">De satt i ett raserat hus. Alain drack. Arsenia bläddrade i en bok vars sidor ibland viskade tillbaka…</p>
+		  </div>
+		</div>
+      </div>
+    
+    <div class="category-heading" id="shadows">
+      <span class="icon">🌙</span>
+      <h2>I skuggans famn</h2>
+      <div class="line"></div>
+    </div>
+    <p class="category-description">Mörkare reflektioner och djupare samtal mellan Arsenia och Alain, stunder av sårbarhet och styrka.</p>
+    <div class="story-grid">
+      <div class="story-card" data-category="shadows" data-story-id="träningen">
+        <div class="story-image" style="background-image: url('shadow-1.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🌙</span><span>I skuggans famn</span></div>
+          <h3 class="story-title">Träningen med den unge vapendragaren</h3>
+          <p class="story-excerpt">Han föll i sanden med ett ljud som blandade damm och förnärmad stolthet. Svärdet låg fortfarande i hans hand, men viljan hade redan lämnat kroppen...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="shadows" data-story-id="brev">
+        <div class="story-image" style="background-image: url('shadow-2.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🌙</span><span>I skuggans famn</span></div>
+          <h3 class="story-title">Ett simpelt brev hem</h3>
+          <p class="story-excerpt">Pergamentet var strävt, billigt. Bläcket klibbade på gåspennan som om det redan visste att jag skulle tveka. Jag satt i skenet från ett vaxljus som brann för långt ner...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="shadows" data-story-id="bok">
+        <div class="story-image" style="background-image: url('shadow-3.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🌙</span><span>I skuggans famn</span></div>
+          <h3 class="story-title">En lånad bok</h3>
+          <p class="story-excerpt">Jag hittade den bland hennes saker, mellan kartor och pressade växter. En tunn samling pergamentsidor, bundna med snöre, skyddade av läder som burits så länge att det blivit lent som hud...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="shadows" data-story-id="sanningar">
+        <div class="story-image" style="background-image: url('shadow-4.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🌙</span><span>I skuggans famn</span></div>
+          <h3 class="story-title">Sanningens lukt</h3>
+          <p class="story-excerpt">De förhörde en bonde i ett ruckel som luktade råttlort och jäst. "Han ljuger," sa Alain. Arsenia nickade. "Jag vet. Men det är inte det som är intressant."</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="category-heading" id="magic">
+      <span class="icon">✨</span>
+      <h2>Magiska ögonblick</h2>
+      <div class="line"></div>
+    </div>
+    <p class="category-description">Scener med tydlig magisk/faerie-anknytning, stämningsfulla ögonblick där illusioner väcks till liv.</p>
+    <div class="story-grid">
+      <div class="story-card" data-category="magic" data-story-id="nattens-tak">
+        <div class="story-image" style="background-image: url('magic-1.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">✨</span><span>Magiska ögonblick</span></div>
+          <h3 class="story-title">Nattens tak</h3>
+          <p class="story-excerpt">Skymningen föll snabbt över skogen, klibbig som halvtorkat blod. Jag hade redan samlat grenar till ett bål som aldrig skulle tändas. Gammal vana...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="magic" data-story-id="ljuslös">
+        <div class="story-image" style="background-image: url('magic-2.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">✨</span><span>Magiska ögonblick</span></div>
+          <h3 class="story-title">Dagen med inget ljus</h3>
+          <p class="story-excerpt">Solen gick inte upp. Inte på riktigt. Mörkret låg som ett lås över dalen. "Solskuggens förbannelse," viskade hon...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="magic" data-story-id="blodrosen">
+        <div class="story-image" style="background-image: url('magic-3.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">✨</span><span>Magiska ögonblick</span></div>
+          <h3 class="story-title">Blodrosen i Viscerna</h3>
+          <p class="story-excerpt">De sägs ha slaktat tolv innan de nådde trappan. Rövarna. Inte Alain och Arsenia. Men det var de som slutade historien...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="magic" data-story-id="sista-ord">
+        <div class="story-image" style="background-image: url('magic-4.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">✨</span><span>Magiska ögonblick</span></div>
+          <h3 class="story-title">Sista ord i en stuga</h3>
+          <p class="story-excerpt">De fann stugan övergiven. En gryta i härden. Doften av något nyligen dött. För mycket askfärg på väggarna...</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="category-heading" id="echo">
+      <span class="icon">🌫️</span>
+      <h2>Förlorade systerns eko</h2>
+      <div class="line"></div>
+    </div>
+    <p class="category-description">Berättelser där Seraphina-temat är centralt, minnen och ekon av Arsenias försvunna syster.</p>
+    <div class="story-grid">
+      <div class="story-card" data-category="echo" data-story-id="lång-dag"> 
+        <div class="story-image" style="background-image: url('echo-1.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🌫️</span><span>Förlorade systerns eko</span></div>
+          <h3 class="story-title">Lång dag, kort kniv</h3>
+          <p class="story-excerpt">Karavanen de vaktade var sen. Regnet slog mot marken som straff. "Vet du vad som är värre än att dö i regn?" frågade Alain...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="echo" data-story-id="drömmen"> 
+        <div class="story-image" style="background-image: url('echo-2.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🌫️</span><span>Förlorade systerns eko</span></div>
+          <h3 class="story-title">Drömmen de delade</h3>
+          <p class="story-excerpt">De vaknade samtidigt. Svettiga, skakande, tysta. "Fåglar utan huvuden den här gången?" frågade hon...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="echo" data-story-id="bakgrund"> 
+        <div class="story-image" style="background-image: url('echo-3.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🌫️</span><span>Förlorade systerns eko</span></div>
+          <h3 class="story-title">En oväntad bekännelse</h3>
+          <p class="story-excerpt">De gamla träbalkarna i värdshussalen bågnade under årens tyngd, liksom de satt fast i en djup suck som aldrig tycktes ta slut...</p>
+        </div>
+      </div>
+      <div class="story-card" data-category="echo" data-story-id="tre-barn"> 
+        <div class="story-image" style="background-image: url('echo-4.png');"></div>
+        <div class="story-content">
+          <div class="story-category"><span class="category-icon">🌫️</span><span>Förlorade systerns eko</span></div>
+          <h3 class="story-title">Tre barn och en grav</h3>
+          <p class="story-excerpt">De fann barnen i ruinerna. Inga tårar kvar. Bara våta kläder och smutsiga blickar...</p>
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      <p><a href="index.html" style="color: #9ca3af; text-decoration: none;">Tillbaka till huvudsidan</a></p>
+    </footer>
+  </div>
+  
+  <div class="back-to-top" id="backToTop">↑</div>
+  
+  <div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="imageModalTitle">
+    <h2 id="imageModalTitle" class="visually-hidden">Förstorad bild</h2>
+    <span class="modal-close" id="closeImageModalBtn">&times;</span>
+    <img class="modal-content" id="modalImage" alt="">
+  </div>
+  
+  <div id="storyModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="storyModalTitleContainer">
+     <div id="storyModalTitleContainer" class="visually-hidden">Berättelse</div>
+     <div class="modal-text" id="storyContent" tabindex="-1">
+      </div>
+     <span class="modal-close" id="closeStoryModalBtn">&times;</span>
+  </div>
+
+  <script>
+    const stories = {
+      "brodet-i-koket": {
+        title: "Brödet i köket var fortfarande varmt",
+        category: "glimpses",
+        content: `<h2>Brödet i köket var fortfarande varmt</h2>
+          <p>Det låg kvar på skärbrädan, inlindat i trasan hon brukade använda för att hålla värmen. Hon sa alltid att bröd som kallnar för snabbt smakar ensamhet.</p>
+          <p>Jag rörde inte det först. Stod bara där, med handen vilande mot dörrposten, och såg på hur ångan fortfarande steg från snittytan. Hon hade bakat under gryningen. Jag hade inte hört henne.</p>
+          <p>Det var ett grovt kornbröd, bakat på säckarna vi fått som betalning för att skydda kvarnen i byn nedanför. Hon hade klagat över kvaliteten på mjölet, men ändå använt det. Ett beslut jag inte visste hur jag skulle tolka.</p>
+          <p>Två skivor var avskurna. En halvt uppäten, tuggad med den där lilla slitna tuggan i kanten som alltid gjorde mig förvånad över hur verklig hon var. Den andra – orörd. Med smöret redan smält över. Så som hon visste att jag ville ha det.</p>
+          <p>Eller trodde att jag ville ha det.</p>
+          <p>Jag åt den orörda skivan först. Inte för smaken, inte för hungern. För att den fortfarande var varm, som om något av henne var kvar i köket.</p>
+          <p>Hon hade lämnat sitt lerkrus vid spisen. Doften av bitterört låg kvar i botten. Hennes favorit. För stark för mig. Jag lyfte kruset. Det fanns fortfarande värme kvar.</p>
+          <p>Och där, mellan den uppätna skivan och hennes tomma plats vid bordet, satt jag. Höll hennes krus i båda händerna som om jag höll fast vid ett avtryck. Som om jag inte vågade ställa det ifrån mig.</p>`
+      },
+      "träningen": {
+        title: "Träningen med den unge vapendragaren",
+        category: "shadows",
+        content: `<h2>Träningen med den unge vapendragaren</h2>
+          <p>Han föll i sanden med ett ljud som blandade damm och förnärmad stolthet. Svärdet låg fortfarande i hans hand, men viljan hade redan lämnat kroppen.</p>
+          <p>Jag gick inte fram. Såg bara på honom medan han reste sig, borstade av sig, och försökte se oberörd ut. Det gick dåligt.</p>
+          <p>"Vad gjorde jag fel, herre?" frågade han, med den där ton som unga män har när de fortfarande tror att fel kan förklaras som siffror i ett bokföringsark.</p>
+          <p>"Du väntade på rätt tillfälle," sa jag. "Och du visste inte vad det såg ut som."</p>
+          <p>Han såg på mig som om jag borde ha sagt mer. Jag gjorde inte det.</p>
+          <p>Han var inte oäven. Hade ett visst sinne för rörelse, för räckvidd. Men han lyssnade för mycket på sitt blod, och för lite på sina ben. Så vi fortsatte. Jag lät honom tro att han ledde. Lät honom få in en stöt, en träff mot min vad, tillräcklig för att tända en glimt av triumf i ögonen.</p>
+          <p>Sedan sänkte jag honom. Inget brutalt. En avväpning, ett knä i buken, inget mer. Men den sortens rörelse som får en yngling att undra om han någonsin kommer att vara värd sin sköld.</p>
+          <p>Vi vilade i skuggan. Han drog in luft som en fisk kastad på land. Jag ville säga något lindrande. Jag gjorde det inte. Han behövde inte lindring. Han behövde tystnad.</p>
+          <p>"Ni är stark," sa han efter en stund. "Jag trodde inte ni var så stark."</p>
+          <p>"Styrka är inte det du tror det är," sa jag. "Det är hur mycket du bär innan du låter någon se att det tynger."</p>
+          <p>Han förstod inte. Det var bra. Han skulle minnas det just därför.</p>
+          <p>När han gick sin väg vinkade han inte. Han bugade som en som lärt sig rörelsen men inte meningen.</p>
+          <p>Jag såg efter honom en stund. Sedan reste jag mig och drog mitt svärd igen. Bara för att känna vikten.</p>`
+      },
+      "brev": {
+        title: "Ett simpelt brev hem",
+        category: "shadows",
+        content: `<h2>Ett simpelt brev hem</h2>
+          <p>Pergamentet var strävt, billigt. Bläcket klibbade på gåspennan som om det redan visste att jag skulle tveka. Jag satt i skenet från ett vaxljus som brann för långt ner – flackande, nervöst.</p>
+          <p>Jag skrev: "Mor."</p>
+          <p>Sedan… ingenting. Bara det ordet. Som om det var tillräckligt.</p>
+          <p>Det var över ett decennium sedan jag såg henne. Hennes händer var alltid i rörelse – knåda, bära, laga – men aldrig i beröring. Jag mindes dem tydligare än hennes ansikte. En gång rörde hon vid min kind när jag var sjuk. Jag minns inte hur det kändes, bara att jag trodde det var ett misstag.</p>
+          <p>Jag ville skriva: "Jag saknar dig." Men det kändes som att ljuga för både mig och henne. Jag saknade något – kanske hennes godkännande, kanske bara tanken att hon en gång velat mig.</p>
+          <p>Jag försökte: "Jag lever. Jag gör mitt arbete. Jag bär mitt stål hederligt." Men det lät som en försvarsplädering. Som om jag redan stod inför domen.</p>
+          <p>Jag rev sönder arket. Började om. Skrev ett nytt:</p>
+          <p>"Jag är inte ond."</p>
+          <p>Det var sant, men bara i brist på alternativ. Jag rev även det.</p>
+          <p>Till slut skrev jag:</p>
+          <p>"Jag är fortfarande din son. Det är allt jag vet."</p>
+          <p>Jag lade det åt sidan. Inte i ett kuvert, inte med något sigill. Bara vikta rader av tvekan.</p>
+          <p>Jag skickade det aldrig. Vem skulle ha burit det? Vem skulle ha förstått?</p>`
+      },
+      "tvatten": {
+        title: "Tvätten i regnet",
+        category: "glimpses",
+        content: `<h2>Tvätten i regnet</h2>
+          <p>Jag vaknade till ljudet på taket. Inget dunder, inget våldsamt – bara det mjuka, ihållande regnet som piskar som skuld.</p>
+          <p>Tvätten.</p>
+          <p>Jag svor lågt medan jag drog på mig rocken. Inte för att jag var rädd om plaggen. De kunde tvättas om. Men hon hade tvättat dem. Och det kändes fel att låta hennes arbete gå till spillo.</p>
+          <p>Gården var öde. Regnet föll så som det gör när det inte är något straff, bara ett konstaterande.</p>
+          <p>Linorna höll skjortor och underplagg som hängde som långsamma andedrag. En skjorta var hennes. Den med broderade mönster vid halslinningen. Hon bar den när hon ville verka ofarlig. Det var aldrig sant.</p>
+          <p>Jag tog ner plaggen ett efter ett, vek dem så gott jag kunde. Fingrarna var kalla. Vattnet rann från mina armar, in under kragen.</p>
+          <p>Jag började tala med henne där ute, tyst, som om hon fanns i regnet eller i tvätten. Frågade: "Varför hängde du ut dem om du inte tänkte stanna kvar?"</p>
+          <p>"Eller var det just därför du gjorde det?"</p>
+          <p>Jag stod kvar under takskägget med famnen full av plagg. Blöta bevis på något som nyss var hennes närvaro.</p>
+          <p>Och kanske var det just det regnet gjorde. Tvättade bort det som inte höll.</p>
+          <p>Jag gick in. Inget mer.</p>`
+      },
+      "bok": {
+        title: "En lånad bok",
+        category: "shadows",
+        content: `<h2>En lånad bok</h2>
+          <p>Jag hittade den bland hennes saker, mellan kartor och pressade växter. En tunn samling pergamentsidor, bundna med snöre, skyddade av läder som burits så länge att det blivit lent som hud. Ingen titel, bara en anteckning i marginalen: "Ur Elaria av Solenne. Sammanställd av broder N."</p>
+          <p>Jag kände inte till namnet. Varken hennes eller hans. Ingen stämpel från kloster, inget sigill. Bara ord, och en röst som var så stillsam att den knappt verkade vilja bli läst.</p>
+          <p>Jag trodde först det var fromma betraktelser. Sedelärande stycken. Men det var inte så. Hon skrev om stilla handlingar – en kvinna som gav vatten till sin gamla mor varje dag utan att någon bad henne. En yngling som grät i skogen så att inte hans fader skulle se. En man som bar sin hustrus skor i bältet som skydd mot ensamhet.</p>
+          <p>Hon skrev utan dom. Inga instruktioner. Inga straff. Bara förvarade gärningar, som om de var smycken.</p>
+          <p>Jag visste inte varför Arsenia bar på den. Hon var inte sentimental. Inte i sökandet efter tröst.</p>
+          <p>Jag läste den i hemlighet. Höll andan. Och lade tillbaka den exakt som jag funnit den.</p>
+          <p>Men jag mindes varje rad.</p>`
+      },
+      "morgonritual": {
+        title: "Morgonritual med eld och skam",
+        category: "glimpses",
+        content: `<h2>Morgonritual med eld och skam</h2>
+          <p>Det började med eld. Inte den majestätiska sortens eld som tämjs i laboratorier och får sig att dansa under hermetiska formler. Nej. Det här var simpel, vedeldad eld, stinkande av harts och blött barr. Alain hade fått fyr på något. Igen.</p>
+          <p>"Tänd inte eld på något jag tänker sova i," morrade Arsenia, yrvaken, med kåpan halvt fastbrunnen vid ärmen.</p>
+          <p>"Du sa du frös," svarade han.</p>
+          <p>"Jag sa att världen är kall, Alain. Det är inte samma sak."</p>
+          <p>Ingen av dem bad om ursäkt. Ingen av dem log. Och ändå satte hon sig nära honom i glödljuset när han erbjöd det sista av bränvinet. Bara för att deras tystnad skulle brinna längre än elden.</p>`
+      },
+      "sanningar": {
+        title: "Sanningens lukt",
+        category: "shadows",
+        content: `<h2>Sanningens lukt</h2>
+          <p>De förhörde en bonde i ett ruckel som luktade råttlort och jäst.</p>
+          <p>"Han ljuger," sa Alain.</p>
+          <p>Arsenia nickade. "Jag vet. Men det är inte det som är intressant."</p>
+          <p>Bonden grät nu. Skor av bast på för stora fötter, rösten som krossat glas.</p>
+          <p>"Vad är det då?" frågade Alain.</p>
+          <p>"Att han tror att han ljuger," sa hon. "Men hans minne är en fågelskrämma - uppbyggd av andras historier."</p>
+          <p>Alain klev fram och såg mannen i ögonen. "Så vi låter honom gå?"</p>
+          <p>"Vi låter honom minnas fel," sa hon, och reste sig. "Det är ett värre straff."</p>`
+      },
+      "drömmen": {
+        title: "Drömmen de delade",
+        category: "echo",
+        content: `<h2>Drömmen de delade</h2>
+          <p>De vaknade samtidigt. Svettiga, skakande, tysta.</p>
+          <p>"Fåglar utan huvuden den här gången?" frågade hon.</p>
+          <p>"En fältlägerplats. Blod i regnet. Din syster stod mitt i det."</p>
+          <p>Arsenia sa inget.</p>
+          <p>"Hon kallade mig vid namn. Inte Alain. Hon sa 'den siste som ska minnas henne'."</p>
+          <p>Tystnad, igen. Glamouren i rummet började fläcka. Speglarna sprack i kanterna. Hon reste sig och gick.</p>
+          <p>Alain satt kvar, höll en kniv mellan fingrarna som om det var ett altarskålp.</p>`
+      },
+      "lång-dag": {
+        title: "Lång dag, kort kniv",
+        category: "echo",
+        content: `<h2>Lång dag, kort kniv</h2>
+          <p>Karavanen de vaktade var sen. Regnet slog mot marken som straff.</p>
+          <p>"Vet du vad som är värre än att dö i regn?" frågade Alain.</p>
+          <p>"Att överleva i det," svarade Arsenia.</p>
+          <p>Han log snett. "Tog orden ur munnen på mig."</p>
+          <p>De såg två ryttare på avstånd. Båda reste sig. Alain lade handen på sitt svärd. Arsenia på sitt hjärta. Det var så de brukade göra: han parerade våld, hon parerade verklighet.</p>
+          <p>Ingen av dem ville förstå vad det sa om dem.</p>`
+      },
+      "vin-aska-sanning": {
+        title: "Vin, aska, sanning",
+        category: "glimpses", 
+        content: `<h2>Vin, aska, sanning</h2>
+          <p>De satt i ett raserat hus. Alain drack. Arsenia bläddrade i en bok vars sidor ibland viskade tillbaka.</p>
+          <p>"Minns du flickan i Tarnoc?" frågade han.</p>
+          <p>"Nej."</p>
+          <p>"Tur för dig. Hon var som du, fast utan hemligheter."</p>
+          <p>Arsenia höll upp ett finger. "Det där är inte en komplimang."</p>
+          <p>"Nej. Det är ett hot."</p>
+          <p>Hon stängde boken. "Vi håller oss till sanningar i natt."</p>
+          <p>"Då måste du sluta prata först."</p>
+          <p>Hon log. För första gången på veckor. Men hon slutade prata.</p>`
+      },
+      "blodrosen": {
+        title: "Blodrosen i Viscerna",
+        category: "magic",
+        content: `<h2>Blodrosen i Viscerna</h2>
+          <p>De sägs ha slaktat tolv innan de nådde trappan. Rövarna. Inte Alain och Arsenia. Men det var de som slutade historien.</p>
+          <p>"Jag ska prata med dem." sa hon.</p>
+          <p>"De har satt eld på ett kloster."</p>
+          <p>"De kanske ångrar sig."</p>
+          <p>"De dansade i askan."</p>
+          <p>Men hon gick dit. Själv. Lämnade honom i regnet. Han väntade trettio hjärtslag innan han följde efter.</p>
+          <p>Han kom fram när hon viskade något i ledarens öra. Mannens ögon blev tomma. Alain hann fånga upp honom när han ramlade.</p>
+          <p>"Vad sa du till honom?"</p>
+          <p>"Bara en saga," svarade hon, "med ett mer passande slut". </p>`
+      },
+      "brod-gryta": {
+        title: "En gryta för mycket",
+        category: "glimpses",
+        content: `<h2>En gryta för mycket</h2>
+          <p>De blev bjudna på mat av en lokal lord. En soppa så tråkig att Arsenia frågade om den var ett straff.</p>
+          <p>"Den är kokt på duva och löften," svarade Alain. "Mördande på båda vis."</p>
+          <p>Vid bordet satt någon som ville förgifta henne. Det kände hon på smaken. En bitter underton. En historia som ville skrivas om med hennes blod.</p>
+          <p>Hon reste sig. Vred om en fras ur luften och lät det regna på dem. Bara i sinnet. Alla skrek. Lorden kissade ner sig.</p>
+          <p>Alain fortsatte äta. "Bra soppa nu."</p>`
+      },
+      "tre-barn": {
+        title: "Tre barn och en grav",
+        category: "echo",
+        content: `<h2>Tre barn och en grav</h2>
+          <p>De fann barnen i ruinerna. Inga tårar kvar. Bara våta kläder och smutsiga blickar.</p>
+          <p>"Vi kan inte ta dem med oss," sa Alain.</p>
+          <p>"Då får vi lägga världen på deras axlar och hoppas de inte sjunker," sa hon. "Det är det vi alltid gör."</p>
+          <p>Hon gjorde ingen illusion för dem. Inga glamours, inga lekar. Bara bröd, filtar, och sagan om de tre barnen som överlevde ett rike av aska.</p>
+          <p>Ingen av dem visste hur den slutade.</p>`
+      },
+      "ljuslös": {
+        title: "Dagen med inget ljus",
+        category: "magic",
+        content: `<h2>Dagen med inget ljus</h2>
+          <p>Solen gick inte upp. Inte på riktigt. Mörkret låg som ett lås över dalen.</p>
+          <p>"Solskuggens förbannelse," viskade hon.</p>
+          <p>"Trevligt," sa Alain. "Som om din vanliga morgonpersonlighet inte räckte."</p>
+          <p>De gick utan att se. Han höll henne i armen. När hon ramlade tog han emot. När han snubblade svor hon högt nog att få fladdermöss att dö.</p>
+          <p>De log inte en enda gång. Men de höll fast. Och det var det som bröt förbannelsen.</p>`
+      },
+      "sista-ord": {
+        title: "Sista ord i en stuga",
+        category: "magic",
+        content: `<h2>Sista ord i en stuga</h2>
+          <p>De fann stugan övergiven. En gryta i härden. Doften av något nyligen dött. För mycket askfärg på väggarna.</p>
+          <p>"Någon dog här," sa Alain.</p>
+          <p>"Många gõr det. Men få låter det hänga kvar."</p>
+          <p>Hon viskade en ramsa. Vinden stannade. De hörde något i väggarna. Inte ett skrik. Ett beslut.</p>
+          <p>De satt kvar tills glöden dog.</p>
+          <p>"Om jag dör här," sa hon, "ska du bränna mig med mina böcker."</p>
+          <p>"Om du dör här," sa han, "bränner jag hela jävla dalen."</p>
+          <p>Hon log.</p>
+          <p>Förstås log hon.</p>`
+      },
+      "nattens-tak": {
+        title: "Nattens tak",
+        category: "magic",
+        content: `<h2>Nattens tak</h2>
+          <p>Skymningen föll snabbt över skogen, klibbig som halvtorkat blod. Jag hade redan samlat grenar till ett bål som aldrig skulle tändas. Gammal vana. I krig lär man sig att överleva, eller så dör man. Enkelt.</p>
+          <p>"Du behöver inte," sa Arsenia när jag dumpade grenarna i en ordnad hög. Hennes röst lät skör i skymningen, tunnare än vanligt efter dagen på vägarna.</p>
+          <p>Jag svarade inte. Hon behövde min hög av grenar lika lite som jag behövde hennes magi. Men vi bar båda våra bördor. Min börda var enkel – ett svärd, en vakt, en stark rygg. Hennes börda gick djupare, formade av ekon jag inte kunde höra.</p>
+          <p>Jag granskade platsen med vana ögon. En glänta precis stor nog, varken för nära vägen där stigmän kunde finna oss eller för djupt i vildmarken där annat vaktade. Jag hade lärt mig välja lägerplatser som dessa under mina år med Arsenias solkänslighet. Varje dag var en strid mot ljuset, mot dess obarmhärtiga fingrar på hennes hud.</p>
+          <p>Hon knäböjde nu och började rita en perfekt cirkel i den mjuka jorden. Hennes fingrar arbetade metodiskt, stannade ibland för att justera en kurva eller fördjupa en linje. Efter cirkeln kom runorna – märkliga tecken som hon ristade i jord och luft med samma noggrannhet. De påminde mig om märken jag sett i gamla stenblock vid gränsen till skotska högländerna, men jag visste att dessa var äldre, menade för ögon som inte längre vandrade bland människor.</p>
+          <p>Sedan kom orden – inte ett namn på en besvärjelse utan en berättelse som vävdes samman med hennes händers rörelse. En historia om skydd och vila, om drömmar som vaktar varandra, om hur gränsen mellan natt och dag en gång vaktades av tvenne systrar – den ena ljus, den andra mörk. Hennes röst var låg, knappt hörbar, men jag lärde mig snart att det fanns makt i denna viskning, mer än i en armés stridsskri.</p>
+          <p>"Bland stjärnors valv där drömmar går, mellan dimma och första ljus, där vakar hemligheten – bortom gryningen, bortom skymningen..."</p>
+          <p>Femton minuter varade denna ritual, denna invävning av ord och tecken i verklighetens väv. För en soldat var femton minuter en evighet – tid nog för en fiende att komma inom spjutlängd tio gånger om. Men jag hade lärt mig att hålla vakt i tystnad, att inte störa flödet med onödiga frågor eller nervösa rörelser.</p>
+          <p>När ceremonin närmade sig sitt slut sträckte hon ut sina händer över cirkeln, och jag såg den där förändringen – det subtila skiftet i hennes blick som berättade att hon nu gick på bryggor som inte var byggda för vanliga dödliga fötter.</p>
+          <p>Bakom henne, runt oss båda, började luften tjockna. Det började alltid så – först en förtätning, sedan en skiftning i ljuset, som om skymningen föll snabbare inom den cirkel hon dragit. Långsamt reste sig en kupol av nattlig luft omkring oss. Halvt transparent men ändå påtaglig, med en konstant pulserande yta som påminde om stjärnor sedda genom vattenytan.</p>
+          <p>Tyget i kupolen var inte som något jag kunde namnge. Ibland tedde det sig som dimmor vävda till fast form, ibland som något som kunde vara tunt siden flätat av månsken. Det var det närmaste jag kunde komma – månsken, förtätat till skyddande duk, stark nog att hålla regnet ute men ändå så lätt att det knappast tycktes där.</p>
+          <p>När skyddet var färdigt, sjönk Arsenia ihop i tyst utmattning. Den sortens trötthet som kom av ceremoniell magi var annorlunda från vanlig fysisk utmattning. Den lämnade henne inte flåsande utan tömd, som om något vitalt tillfälligt lämnat henne.</p>
+          <p>"Vilken av dem blir det ikväll?" frågade jag medan jag tände en enkel ljusstumpe – inte för värme, vi behövde inget mer än det ljus ceremonin skapat, men för att markera nattens början på ett sätt som gjorde den verklig för mig.</p>
+          <p>"Det vet vi inte förrän..." Hon gjorde en vag gest. "Förrän vi vilar."</p>
+          <p>Det irriterade mig fortfarande, på något underligt vis, att jag aldrig kunde förutse vilken version av kupolen som skulle manifesteras. Ibland var den en intim fristad, där dofter från hemorter jag aldrig besökt svävade i luften, där minnen av skogar och fält från vår barndom tycktes infuserade i väggarna. Andra gånger var den som en fredens ö, tyst och fri från drömmar, där även de mest ihärdiga mardrömmar tycktes förlora sin kraft.</p>
+          <p>"Intimitetens fristad eller fredens ö," mumlade jag. "En soldats vals."</p>
+          <p>Arsenias ögonbryn höjdes lätt. "Du börjar låta som en magiker."</p>
+          <p>"Inte än," svarade jag. "Men jag vet att ditt tält reagerar på oss båda."</p>
+          <p>Hon svarade inte, men jag såg hur hon instinktivt grep om armbandet på sin handled. Den gesten var mer talande än hennes besvärjelser någonsin kunde bli.</p>
+          <p>Utanför väven som skyddade oss sjöng vinden genom träden, och i skogen bortom vårt läger förflyttade sig varelser vars namn jag aldrig skulle lära mig. Men i denna skyddade plats, i detta konstgjorda hem av ljus och skugga, fanns en slags närhet som inte krävde ord.</p>
+          <p>Arsenias magi kunde skapa tak och skydd, men den kunde inte fylla den tomhet som ekon av förlorade själar lämnade efter sig. I vårt delade mörker sökte vi frid på olika vis – hon genom att väva samman det som inte längre fanns, jag genom att hålla vakt över det som ännu bestod.</p>
+          <p>Under nattens tak, varken helt sant eller helt falskt, kunde till och med jag nästan tro på frälsning.</p>`
+      },
+      "bakgrund": { 
+        title: "En oväntad bekännelse", 
+        category: "echo",
+        content: `<h2>En oväntad bekännelse</h2>
+          <p>De gamla träbalkarna i värdshussalen bågnade under årens tyngd, liksom de satt fast i en djup suck som aldrig tycktes ta slut. Regnets rytm mot taket ekade i tystnaden mellan eldsprakningarna, ett långsamt smattrande ackompanjemang till den skymmande dagen. Arsenia Merinita hade inte planerat denna avstickare till värdshuset "Vildgaltens Krona", men regnet som öst ner sedan middag hade gjort bergspasset framför dem närmast oframkomligt.</p>
+          <p>"Vi borde ha varit klokare än att försöka korsa Transsylvaniens utkant i gråmånad," muttrade Alain och drog fingret längs den träkanna ölet kom i. Hans kopparröda skägg dröp fortfarande av regnvatten.</p>
+          <p>"Vi följer vägen som är beredd för oss," svarade Arsenia, och ett matt silverskimmer flimrade i det bleka skenet från hennes hår. "Min syster väntade inte på sitt öde - jag väntar inte på bättre väderlek."</p>
+          <p>Alain log snett. Hans blick vandrade sedan längs värdshussalens väggar, kartlade varje vrå, varje möjlig flyktväg. En gammal vana som följt honom sedan Reconquista-dagarna. Salen var halvfylld, mest bönder och ett par handelsmän. I den bortre änden, isolerad från de andra gästerna, satt en mager man i en sliten mörkgrön mantel. Hans hår, en gång måhända svart, var nu strimmigt i grått, och hans ansikte tycktes ihopsjunket, som om något gnagde sönder honom inifrån.</p>
+          <p>"Ölen är inte så dålig som värdshusets yttre antyder," sa Alain och tog en klunk. "En sak jag lärt mig – ju fulare krogen, desto—"</p>
+          <p>Han avbröts av ett plötsligt högt skratt från den grånade mannen. Flera gäster kastade irriterade blickar i hans riktning när mannen lyfte sin bägare mot en inbillad skål.</p>
+          <p>"---sjunde dagen utan mat, mina vänner..." mannens röst sjönk och steg i osammanhängande fragment. "En soldat vet, en riktig soldat förstår vad som händer med en mans själ när hungern tar över..."</p>
+          <p>Arsenia kände förändringen i Alains hållning innan hon såg den – som en kopparros stelnad i en vintermorgon. Hans ögon hade fastnat vid den berusade mannen, hans andning blivit grund.</p>
+          <p>"Vi borde gå upp till vårt rum," sa han plötsligt, med en röst som verkade komma långt bortifrån. "Vädret blir inte bättre imorgon om vi sitter uppe hela natten."</p>
+          <p>Men i samma ögonblick som orden lämnade hans läppar, steg den berusade mannen upp på ostadiga ben och satte sig tungt vid ett grannbord. Hans röst höjdes till den gradvisa besvikelsen hos de andra gästerna.</p>
+          <p>"En berättelse, mina vänner. En berättelse från Languedoc, från de dagar då hunger var vår enda lärare. Jag var med dem, förstår ni... ryttarhorden från södern, den som leddes av rödskägget från Carcassonne."</p>
+          <p>Arsenias blick drogs tillbaka till Alain, vars ansikte nu tycktes hugget ur sten. Men det var inte uttrycket i hans ansikte som fångade hennes uppmärksamhet – det var skiftningen i luften mellan dem, den subtila förvrängningen som alltid uppstod när deras känslor råkade ur balans.</p>
+          <p>"Det var sant vad de sa om honom," fortsatte den berusade mannen. "Rödstäv, kallade de honom, för att hans vapen alltid kom hem dränkta i rött. Men det jag ska berätta... det handlar inte om någon ärofylld strid."</p>
+          <p>Ett krus föll ur Alains hand och slog i jordgolvet med en dov duns. Vätskan bredde ut sig som en mörk bläckfläck. Ansiktet, som Arsenia lärt sig läsa likt en trollformel, skiftade – först till kyla, sedan till något så sällsynt att hon nästan inte kände igen det – rädsla.</p>
+          <p>Mannen i den gröna manteln verkade inte märka. Han tog en djup klunk ur sin bägare och fortsatte, rösten nu grötig av dryck.</p>
+          <p>"En liten by, förstår ni. Vi hade ridit under Murets fana och krigets gudar hade vänt oss ryggen. Vi hade förlorat allt... Sju dagar utan mat, och vi följde Rödstäv mot den där byn – en handfull hus i en dalgång, inte mer. De hade så lite, men Rödstäv sa... han sa att vi skulle bara..."</p>
+          <p>I ett ögonblick av kristallklar insikt förstod Arsenia. Det träverk som alltid suttit inspärrat i Alains bröstkorg, det som tyngt hans blick varje gång hans förgångna nämndes, det som hon bara kunnat ana konturerna av – nu stod det framför dem, i form av en berusad mans berättelse. Och som för att bekräfta hennes tanke, hade det lilla träkrucifix som Alain alltid bar under skjortan, glidit fram och var nu synligt i halslinningen.</p>
+          <p>"Alain," viskade hon, men hans namn tycktes försvinna in i stormen som nu tilltog utanför väggarna.</p>
+          <p>Mannen i den gröna manteln höjde rösten. "Vi lovade att bara ta mat... men pojken, han stod i vägen, ville skydda sin syster... och Rödstäv..."</p>
+          <p>Arsenias fingrar rörde instinktivt vid armbandet av tvinnat hår vid handleden, den tunnaste länken till hennes förlorade syster. Hon såg på Alain och insåg att hon aldrig sett honom så avklädd – inte bara fysiskt, utan som om själva hans väsen plötsligt låg blottat.</p>
+          <p>Med en rörelse som verkade långsammare än verkligheten tillät, reste sig Alain. Hans ögon var fixerade på den berusade mannen, men han talade till Arsenia, med en röst så tyst att hon nästan kunde inbilla sig att den kommit inifrån hennes eget huvud.</p>
+          <p>"Nu vet du. Min största skuld. Pojken med högaffeln. Hans syster. Jag har aldrig... jag har aldrig kunnat..."</p>
+          <p>Och för att göra det än värre tycktes luften mellan dem fyllas av det fenomen som alltid uppstod när deras känslor skiftade mot svårare tillstånd – de subtila sprickorna i Arsenias besvärjelser. Det vackra skimmer som alltid omgav hennes konturer när Alain var i närheten, den tyngd och substans hennes illusiomani normalt fick av hans närvaro, förvandlades nu till något skarpare, mer sprucket.</p>
+          <p>Ljuset från eldstaden reflekterades i tårar som Arsenia aldrig sett i hans ögon förut. Men innan hon kunde svara, hade Alain vänt sig mot dörren. Med raska steg gick han mot utgången, hans axlar spända under de våta klädernas tyngd.</p>
+          <p>Timmar senare, när stormen övergått till ett stadigt duggregn, hittade Arsenia honom på verandan på värdhusets baksida. Han stod med händerna hårt knutna kring träräcket, blicken fäst på de dimmiga konturerna av bergen i fjärran. Det lilla träkorset från högaffelpojkens hals låg i hans öppna handflata.</p>
+          <p>Hon stannade tre steg ifrån honom, osäker på om hon skulle närma sig. Detta var en del av hans historia hon bara hört antydningar om – det mörker som alltid fanns där men aldrig artikulerades.</p>
+          <p>"Du har sökt din syster sedan den dag hon togs från dig," sade han utan att vända sig om. "Jag har flytt mitt förflutna sedan den dag jag tog honom från sin syster."</p>
+          <p>Mellan dem föll regnet svagt, i droppar så fina att de knappt tycktes röra vid marken innan de upplöstes. Och i dessa droppar såg Arsenia det som alltid band dem samman, tydligare än någonsin tidigare: deras förbrytelser mot systerskap. Hon, som förhandlat bort sin egen syster för makt hon inte förstod. Han, som i hunger och desperation blivit ett verktyg för förlust.</p>
+          <p>"Varje seger kostar mig mer än jag kan betala," fortsatte Alain, hans ord nästan sväljs av mörkret. "Det är min förbannelse. Min första verkliga seger var att överleva hungersnöden, och priset var en pojkes liv. Hans systers förlust. Hennes blick har följt mig..."</p>
+          <p>"Tror du verkligen att våra vägar korsades av en slump?" frågade Arsenia slutligen. "Att det inte finns någon koppling mellan min syster i dimman och din flicka med brödet?"</p>
+          <p>Alain vände sig halvt mot henne. I hans ansikte stod något skrivet som hon sällan sett förut – en öppenhet som skavde mot hans vanliga rustning.</p>
+          <p>"Det är därför jag följer dig," sade han enkelt. "För att din historia ger mig hopp om ett slut som inte bara upprepar samma fel. Men nu... nu vet du vad som verkligen driver mig."</p>
+          <p>När hon mötte hans blick fanns där en fråga, outtalad men tydlig: Skulle hon vända sig bort från honom nu? Skulle hon, som själv visste vad det innebar att förråda ett systerskap, döma honom för hans egna sår?</p>
+          <p>Arsenia rörde sig framåt, som om hon drevs av en kraft utanför henne själv. Hennes fingrar nådde fram till hans knutna hand där träkorset vilade, och hon lät sin hand vila över hans. I samma ögonblick föll något in i plats – illusionstråden dem emellan, som spruckit tidigare under kvällen, tycktes återfå sin lyster och styrka.</p>
+          <p>"Du och jag," sade hon, "vi söker samma sak. Förlåtelse. Återförening. Ett sätt att läka något som slitits sönder."</p>
+          <p>Han såg på henne, den råe soldaten vars blick nu rymde något så naket att det nästan var outhärdligt att bevittna. Hon förstod att detta var ögonblicket då de verkligen såg varandra – bortom nödvändigheten, bortom fysisk tröst, bortom beskyddarrollen och den beskyddade, bortom syster-sökaren och den skuldtyngde.</p>
+          <p>"Det finns en besvärjelse," fortsatte hon, "inom mitt hus, bland merinita, som kallas 'Vägen som Korsar Brott'. Den används för att följa ett brotts verkningar genom tid och rum, för att se dess fullständiga natur..."</p>
+          <p>Han spände käken, men höll kvar hennes blick.</p>
+          <p>"Med den skulle du kunna... jag skulle kunna..." hon tvekade, väl medveten om vidden av det hon föreslog. "Jag skulle kunna hjälpa dig se vad som blev av flickan. Vad ditt 'borttagande' av hennes broder verkligen ledde till."</p>
+          <p>Mörkret mellan dem tycktes sjunga, som en låg ton från en okänd stränginstrument.</p>
+          <p>"Och om jag säger ja?" frågade han till slut. "Om jag säger ja till att se vad jag gjorde... vad får du ut av det, Arsenia Sagoskärvan?"</p>
+          <p>Daggdroppar samlades i hennes silvervita ögonfransar när hon svarade, orden långsamma och tydliga, som om hon först i detta ögonblick förstod sin egen bevekelsegrunder.</p>
+          <p>"Jag får se om förlust kan göras ogjord. Om systerskap kan återställas. Om berättelsen... om berättelsen kan få ett annat slut."</p>
+          <p>Han nickade sakta, och en tyngd tycktes lämna hans axlar, som om något länge buret äntligen togs emot av andra händer. Men samtidigt såg hon hur han rätade på ryggen, som om beslutet att möta sin mörka sanning krävde all den styrka han en gång använt på slagfältet.</p>
+          <p>Och som för att besegla deras överenskommelse föll en silverglänsande dimma över gårdsplanen, nästan omärklig för ett otränat öga, men för dem båda ett tecken – kanske från Arsenias syster, kanske från pojken med högaffeln – att deras öden nu var mer sammanvävda än någonsin.</p>`
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const imageModal = document.getElementById('imageModal');
+      const storyModal = document.getElementById('storyModal');
+      const modalImage = document.getElementById('modalImage');
+      const storyContentEl = document.getElementById('storyContent');
+      const closeImageModalBtn = document.getElementById('closeImageModalBtn');
+      const closeStoryModalBtn = document.getElementById('closeStoryModalBtn');
+      const portraitDiv = document.getElementById('portraitImageDiv');
+      
+      let lastFocusedElement = null;
+
+      function openImageModal(imgPath, imgAlt) {
+        lastFocusedElement = document.activeElement;
+        modalImage.src = imgPath;
+        modalImage.alt = imgAlt || "Förstorad bild";
+        imageModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        if(closeImageModalBtn) closeImageModalBtn.focus(); 
+      }
+
+      function closeImageModal() {
+        imageModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        if (lastFocusedElement) lastFocusedElement.focus();
+      }
+
+      function openStoryModal(storyId) {
+        if (stories[storyId]) {
+          lastFocusedElement = document.activeElement;
+          storyContentEl.innerHTML = stories[storyId].content;
+          storyModal.style.display = 'flex'; 
+          document.body.style.overflow = 'hidden';
+          if(storyContentEl) storyContentEl.focus(); 
+        }
+      }
+
+      function closeStoryModal() {
+        storyModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        if (lastFocusedElement) lastFocusedElement.focus();
+      }
+
+      if (portraitDiv) {
+        portraitDiv.addEventListener('click', () => {
+          openImageModal(portraitDiv.dataset.imgSrc, portraitDiv.dataset.imgAlt);
+        });
+      }
+
+      document.querySelectorAll('[data-story-id]').forEach(element => {
+        if (element.classList.contains('story-card') || element.classList.contains('featured-story')) {
+            element.addEventListener('click', (event) => {
+                if (event.target.closest('button')) return; 
+                openStoryModal(element.dataset.storyId);
+            });
+        }
+      });
+      
+      document.querySelectorAll('.category-button').forEach(button => {
+        button.addEventListener('click', function() {
+          const category = this.dataset.category;
+          document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          document.querySelectorAll('.story-card').forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      if(closeImageModalBtn) closeImageModalBtn.addEventListener('click', closeImageModal);
+      if(closeStoryModalBtn) closeStoryModalBtn.addEventListener('click', closeStoryModal);
+
+      window.addEventListener('click', (event) => {
+        if (event.target === imageModal) closeImageModal();
+        if (event.target === storyModal) closeStoryModal();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          if (imageModal.style.display === 'flex') closeImageModal();
+          if (storyModal.style.display === 'flex') closeStoryModal();
+        }
+      });
+
+      const backToTop = document.getElementById('backToTop');
+      if (backToTop) {
+        window.onscroll = function() {
+          if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            backToTop.classList.add('visible');
+          } else {
+            backToTop.classList.remove('visible');
+          }
+        };
+        backToTop.addEventListener('click', function() {
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+      }
+    });
+  </script>
+</body>
+</html>

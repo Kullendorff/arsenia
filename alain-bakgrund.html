@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alain "Rödstäv" - Bakgrund</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+      padding-bottom: 1rem;
+    }
+    h1 {
+      color: #fef3c7;
+      font-size: 2.5rem;
+      margin: 0;
+      font-family: 'Inconsolata', monospace;
+      font-weight: 700;
+    }
+    h1 span {
+      font-size: 2rem;
+      font-weight: normal;
+      font-style: italic;
+    }
+    h2 {
+      color: #fef3c7;
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-family: 'Inconsolata', monospace;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+      padding-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: rgba(254, 243, 199, 0.8);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+      margin-bottom: 0.5rem;
+      font-family: 'Inconsolata', monospace;
+    }
+    .nav-link:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    .chapter-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    .chapter-button {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+      cursor: pointer;
+      font-size: 0.9rem;
+      border: 1px solid rgba(217, 119, 6, 0.2);
+    }
+    .chapter-button:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+      border-color: rgba(217, 119, 6, 0.4);
+    }
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .nav-button {
+      background-color: rgba(30, 41, 59, 0.6);
+      color: #fef3c7;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 0.25rem;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-button:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.6);
+    }
+    .text-content {
+      margin-bottom: 2rem;
+      background-color: rgba(30, 41, 59, 0.3);
+      padding: 2rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    .text-content p {
+      margin-bottom: 1rem;
+    }
+    .quote {
+      border-left: 3px solid rgba(217, 119, 6, 0.5);
+      padding-left: 1rem;
+      margin-left: 1rem;
+      font-style: italic;
+      color: #fef3c7;
+    }
+    .image-wrapper {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: rgba(254, 243, 199, 0.5);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+    .chapter {
+      display: none;
+    }
+    .chapter.active {
+      display: block;
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background-color: rgba(30, 41, 59, 0.8);
+      color: #fef3c7;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    @media (max-width: 640px) {
+      .container {
+        padding: 1rem;
+      }
+      .text-content {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      h1 span {
+        font-size: 1.6rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Alain <span>"Rödstäv"</span></h1>
+      <p class="subtitle">En poetisk saga</p>
+      <img src="alain_hero.jpg" alt="Alain i stridsljus" class="hero-image">
+      <div class="nav-bar">
+        <a class="nav-link" href="index.html">Hem</a>
+        <a class="nav-link" href="grimoire.html">Grimoire</a>
+        <a class="nav-link" href="alain.html">Alain</a>
+        <a class="nav-link" href="stats.html">Karaktärsblad</a>
+        <a class="nav-link" href="bakgrund.html">Bakgrund</a>
+        <a class="nav-link" href="stories.html">Berättelser</a>
+		<a href="journaler.html" class="nav-link">Journaler</a>
+      </div>
+    </header>
+    
+    <div class="chapter-nav">
+      <button class="chapter-button" onclick="showChapter('ch1')">Den förste broderns fall</button>
+      <button class="chapter-button" onclick="showChapter('ch2')">Svärdets väg</button>
+      <button class="chapter-button" onclick="showChapter('ch3')">Plundrarnas välsignelse</button>
+      <button class="chapter-button" onclick="showChapter('ch4')">Duellanterne</button>
+      <button class="chapter-button" onclick="showChapter('ch5')">Kvinnan av månljus</button>
+      <button class="chapter-button" onclick="showChapter('ch6')">Vägens natt</button>
+    </div>
+    
+    <div class="text-content">
+      <div id="ch1" class="chapter active">
+        <h2>Den förste broderns fall</h2>
+        <p>I gryningsljuset utanför Carcassonne stod en pojke med kopparfärgat hår och såg sin äldre broder rida mot kriget. Adelsvapen glimmade i soluppgången, sköldar bar ätters stolthet, och ärofylld död lovade evigt rykte.</p>
+        
+        <p>"Jag ska återvända täckt av ära," lovade brodern. "Och en dag ska du vandra i mina fotspår, lille Alain."</p>
+        
+        <p>Men brodern återvände i en vagn av enkelt trä. Inga fanfarer. Inget rykte. Bara en kropp som redan börjat förvandlas till jord.</p>
+        
+        <p>Modern grät i fyrtio dagar och fyrtio nätter. Fadern sade ingenting, men hans ögon blev grå som vintern, och när han såg på sin andre son var det som om han blickade genom ett spöke.</p>
+        
+        <p>"Du kommer inte att försvinna," sade fadern slutligen, och lade sin hand på Alains axel. "Du tillhör marken, fästningen, ätten."</p>
+        
+        <p>Men pojken hade redan sett hur lätt ära förvandlades till stoft, hur löften sveptes bort av vinden, och hans hjärta var fyllt av törst som ingen adelsman kunde släcka.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextChapter()">Nästa kapitel</button>
+        </div>
+      </div>
+      
+      <div id="ch2" class="chapter">
+        <h2>Svärdets väg</h2>
+        <p>Vid tolv års ålder red Alain som page i baronens följe. Vid femton drog han sitt första blod som legoknekt i södern. Solen förvandlade hans hud till läder, och slagfältet lärde honom sanningar som inga riddarromantiker vågar nämna.</p>
+        
+        <p>När han stod vid Las Navas de Tolosa, bland pilregnet som förmörkade himlen, kände han äntligen livet strömma genom sin kropp. En morisk ryttare störtade mot honom. Alains spjut brast i handen, men dess spets bäddades in i den anfallandes bröst, och blodet som flöt var varmt som ett löfte.</p>
+        
+        <p>"Rödstäv!", ropade männen när han återvände till lägret. "Rödstäv", för att hans vapen alltid bars tillbaka röda av fiendens livskraft.</p>
+        
+        <p>Han lärde sig att kasta bort rädslan med ett skratt, att finna sömnen på marken med dolken i stöveln, att veta vilka män som skulle leva och vilka som skulle dö innan de själva visste om det.</p>
+        
+        <p>Men varje seger krävde ett offer. Vän efter vän föll, och i deras ögon såg han alltid samma slutgiltiga sanning: ingen död bär mening.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextChapter()">Nästa kapitel</button>
+        </div>
+      </div>
+      
+      <div id="ch3" class="chapter">
+        <h2>Plundrarnas välsignelse</h2>
+        <p>När den sista av hans barndomsvänner föll under ett arbalestskott i Valencias hetta, svor Alain att aldrig mer binda sitt liv till någon herres flagga. Men ett knappt år senare stod han i Languedocs kullar med svälten som enda herre och flydde undan slaktfältet vid Muret.</p>
+        
+        <p>Tolv utmärglade soldater utan sold, utan framtid.</p>
+        
+        <p>De fann byn i en dalgång, just som nattens första skuggor föll. Bönderna hade redan gömt undan det lilla de ägde; svältande män med svärd var ett alltför bekant fenomen i dessa dagar av korståg och ketteri.</p>
+        
+        <p>"Vi behöver bara mat," sade Alain till de andra. "Inget mer."</p>
+        
+        <p>Men hunger och förnedring är dåliga rådgivare. När byns män gjorde motstånd, när en yngling lyfte en högaffel för att försvara sin syster, drogs svärd från slidor, och väven mellan civilisation och barbari brast på ett ögonblick.</p>
+        
+        <p>Alains svärd klöv luften, fann kött, ben, sänkte sig i en kropp som föll. Flickans ansikte, skräckslaget, förvrängdes i hans minne till en mask av anklagelse.</p>
+        
+        <p>När stormen bedarrat vände sig Alain tyst bort från sina kamrater, från deras byten. I hans kupa av händer vilade en död ynglings medalj, en enkel träcirkel med inristat kors.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextChapter()">Nästa kapitel</button>
+        </div>
+      </div>
+      
+      <div id="ch4" class="chapter">
+        <h2>Duellanterne</h2>
+        <p>Åren förde honom till städer där hans svärd köptes av köpmän och hantverksgillen. Här fick hans rykte ett nytt tycke. Rödstäv: oövervinnelig i envig, men farlig att ha i sitt följe. Segern följdes alltid av bråk, sår, böter eller brända broar.</p>
+        
+        <p>I Marseille drog han i sin livs viktigaste duell: utvald att avgöra en fejd mellan två handelshus, med en andalusisk kapten som motståndare. Ett enkelt uppdrag – "första blod" skulle fälla avgörandet.</p>
+        
+        <p>Hans perfektion var hans fall. Ett lårstöt så exakt placerat att blodet knappt syntes, men såret visade sig djupare än någon anat. Kaptenen dog av infektionen tre dagar senare.</p>
+        
+        <p>En seger som stank av svek. Handelshuset vägrade betala hela summan; den dödes släkt färdades ända från Córdoba för att posta sin förbannelse utanför Alains dörr.</p>
+        
+        <p>Han återvände hem för första gången på nio år, till fästningen som en gång varit hans, väggar som nu kändes främmande.</p>
+        
+        <p>Hans mor tog emot honom med ögon som inte längre såg, händer som inte kunde vidröra hans.</p>
+        
+        <p>"Hedra och måtta är ett svärds tvillingegg," sade hon utan att möta hans blick. "Du har glömt båda."</p>
+        
+        <p>I den stunden föddes förbannelsen han bär: varje triumf ska kosta mer än den smakar. Varje vinst följs av en större förlust. Hans öde satt i händer som blodfläckats för länge sedan.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextChapter()">Nästa kapitel</button>
+        </div>
+      </div>
+      
+      <div id="ch5" class="chapter">
+        <h2>Kvinnan av månljus</h2>
+        <p>Årens ringar växte. Alain åldrades, men hans rykte gjorde honom tidlös – en svärdens legend vars blick aldrig riktigt lyckades dölja de spöken som förföljde honom.</p>
+        
+        <p>En regntung kväll i Provences skogar hörde han skrik från stigen. Stråtrövare omringade en kvinna vars hår lyste som silver i skymningen – en eterisk gestalt som påminde mer om eld än kött.</p>
+        
+        <p>Alains svärd sjöng en bekant melodi, men denna gång kändes rytmen annorlunda. För första gången på många år kände han varken triumf eller förakt när motståndarna föll – bara en underlig, oväntad frid.</p>
+        
+        <p>Den silverhåriga kvinnan, insvept i sin enkla klostersjal, såg på honom med ögon som verkade se rakt igenom hans skydd. Hon sade något, men orden var som silvertrådar, obegripliga men omöjliga att glömma.</p>
+        
+        <p>När gryningen kom var hans händer fläckade av blod igen. Men rövarna visade sig bära adelsfärger från en närliggande provins – och plötsligt var det Rödstäv som blev jagad, åter en gång bortom lagens skydd.</p>
+        
+        <p>Så fann Alain sig vid Arsenias sida, som skuggan följer ljuset. Hans stolta gestalt, ett huvud högre än de flesta, med axlar som ekstockar och det kopparröda skägget som ett baner, blev ett levande varningstecken för dem som hotade kvinnan av månljus.</p>
+        
+        <p>För Arsenia blev han både modell och mardröm, ett blodigt epos som hon inte kunde låta bli att skriva vidare. För honom blev hon något han aldrig vunnit i kriget: en saga som kanske, bara kanske, kunde göra även en förlorad segrare hel.</p>
+        
+        <p>Men i drömmen kom alltid systern från den plundrade byn, med sin brors medalj i handen, och viskade den sanning han inte kunde fly:</p>
+        
+        <p class="quote">Segrar kan aldrig återlösa blod. Endast blodet självt kan det.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextChapter()">Nästa kapitel</button>
+        </div>
+      </div>
+      
+      <div id="ch6" class="chapter">
+        <h2>Vägens natt</h2>
+        <p>Nu reser han vid sidan av en kvinna vars magi gör verkligheten töjbar, vars kamp är mot krafter bortom hans värld. Han känner hur hennes berättelse drar i honom, som om han alltid varit ämnad att vandra just denna väg.</p>
+        
+        <p>Alain dricker hårt, skrattar högt och kämpar som om han vore immun mot döden, men i nattens tysta timmar viskar han soldaternas böner och gnider det träskurna rosenkranskorset mot bröstet. Han försöker inte längre förstå ödets nycker, bara acceptera dem.</p>
+        
+        <p>När de sover åtskilda, drömmer han samma dröm som Arsenia – ett slagfält av ljus och dimma, där en silverskimrande gestalt viskar ett namn: <i>Seraphina</i>.</p>
+        
+        <p>Han vet inte varför hans väg korsat denna saga, vet inte vad priset kommer att bli för denna sista seger, men för första gången är han redo att betala det – om det betyder att någon annans berättelse kan få ett lyckligt slut.</p>
+        
+        <p>Svärdet vid hans sida är slitet nu, nästan lika ärrat som hans händer, men det glimmar fortfarande i skymningsljuset, redo att ännu en gång färgas rött för någon annans skull.</p>
+        
+        <p>De förbannades väg i saga och verklighet är ofta samma stig.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextChapter()">Nästa kapitel</button>
+        </div>
+      </div>
+    
+    <footer>
+      <p>Skåror i hästrygg och svärdsfäste, nedtecknat av okänd hand.</p>
+    </footer>
+  </div>
+  
+  <a href="#" class="back-to-top" id="backToTop">↑</a>
+  
+  <script>
+    // Visa endast ett kapitel i taget
+    function showChapter(chapterId) {
+      // Hitta index för detta kapitel
+      currentChapterIndex = chapters.indexOf(chapterId);
+      
+      // Dölj alla kapitel
+      const chaptersElements = document.querySelectorAll('.chapter');
+      chaptersElements.forEach(chapter => {
+        chapter.classList.remove('active');
+      });
+      
+      // Visa valt kapitel
+      document.getElementById(chapterId).classList.add('active');
+      
+      // Scrolla till toppen av textsektionen
+      document.querySelector('.text-content').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Visa/dölj "tillbaka till toppen"-knappen
+    window.onscroll = function() {
+      const backToTopButton = document.getElementById('backToTop');
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    };
+    
+    let currentChapterIndex = 0;
+    const chapters = ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6'];
+
+    function showNextChapter() {
+      currentChapterIndex = (currentChapterIndex + 1) % chapters.length;
+      showChapter(chapters[currentChapterIndex]);
+    }
+    
+    // Skrolla tillbaka till toppen när knappen klickas
+    document.getElementById('backToTop').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

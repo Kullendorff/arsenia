@@ -1,0 +1,2423 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arsenia "Sagoskärvan" Merinita - Grimoire</title>
+  <!-- Google Fonts från grimoire.html -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ---- Grimoire-header & grundstilar ---- */
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 2rem;
+    }
+    .header-text {
+      flex: 1;
+    }
+    h1 {
+      color: #fef3c7;
+      font-size: 2.5rem;
+      margin: 0;
+      position: relative;
+      display: inline-block;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(245, 158, 11, 0.5), transparent);
+    }
+    h1 span {
+      color: #f97316;
+    }
+    header p {
+      margin: 0.5rem 0 0;
+      color: #fcd34d;
+    }
+    /* ---- Klickbar porträttbild-stil från grimoire.html ---- */
+    .portrait {
+      width: 200px;
+      height: 200px;
+      border-radius: 0.5rem;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .portrait:hover {
+      transform: scale(1.05);
+    }
+    /* ---- Befintliga stilar från test.html för spells, modaler etc ---- */
+    h2, h3, .section-title, .spell-category, .spell-name {
+      font-family: 'Inconsolata', 'Courier New', monospace;
+    }
+    .intro-text {
+      margin-bottom: 1.5rem;
+    }
+    .filter-button {
+      background-color: #1e40af;
+      color: #f8fafc;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      border-radius: 0.25rem;
+    }
+    .filter-button.active {
+      background-color: #2563eb;
+    }
+    .spell-table, .spells-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    th, td {
+      border: 1px solid #334155;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    .spell-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .spell-card {
+      background-color: #1e293b;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .spell-card:hover {
+      background-color: #334155;
+    }
+    /* ---- Modal-stilar ---- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      overflow: auto;
+    }
+    .modal-container {
+      position: relative;
+      background-color: #0f172a;
+      margin: 5% auto;
+      padding: 2rem;
+      border: 1px solid rgba(217, 119, 6, 0.5);
+      width: 80%;
+      max-width: 800px;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: #f8fafc;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .rules-notes {
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      background-color: rgba(30, 41, 59, 0.5);
+      border-left: 3px solid rgba(217, 119, 6, 0.6);
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+    .rules-notes h3 { color: #fef3c7; margin-top: 0; font-size: 1rem; }
+    .check-icon { color: #10b981; font-weight: bold; }
+    .dash-icon { color: #9ca3af; }
+    @media (max-width: 480px) {
+      .spell-grid { grid-template-columns: 1fr; }
+      .categories, .nav-bar { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.5rem; }
+      .spell-table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-text">
+        <h1>Arsenias <span>Grimoire</span></h1>
+        <p>Samlade besvärjelser av ljus, dimma och berättelser</p>
+      </div>
+      <div class="portrait" id="portraitImageDiv" style="background-image: url('arsenia-grimoire.png');" data-img-src="arsenia-grimoire.png" data-img-alt="Arsenia med en besvärjelse"></div>
+    </header>
+
+    
+    <nav class="nav-bar">
+      <a href="index.html" class="nav-link">Hem</a>
+      <a href="bakgrund.html" class="nav-link">Bakgrund</a>
+      <a href="grimoire.html" class="nav-link active">Grimoire</a>
+      <a href="alain.html" class="nav-link">Alain</a>
+      <a href="stats.html" class="nav-link">Karaktärsblad</a>
+      <a href="stories.html" class="nav-link">Berättelser</a>
+    </nav>
+    
+    <!-- Filterknappar -->
+    <div class="filter-buttons">
+      <button class="filter-button" data-filter="all">
+        <span class="icon">⚔️</span> Alla besvärjelser
+      </button>
+      <button class="filter-button" data-filter="formalized">
+        <span class="icon">📖</span> Formaliserade
+      </button>
+      <button class="filter-button" data-filter="spontaneous">
+        <span class="icon">🌙</span> Spontana
+      </button>
+      <button class="filter-button" data-filter="ceremonial">
+        <span class="icon">🏮</span> Ceremoniella
+      </button>
+      <button class="filter-button" data-filter="items">
+        <span class="icon">💎</span> Magiska föremål
+      </button>
+    </div>
+    
+    <!-- Formaliserade besvärjelser -->
+    <section class="spell-section section" data-type="formalized">
+      <h2 class="section-title">📖 Formaliserade Besvärjelser</h2>
+      <p class="section-description">Dessa formaliserade besvärjelser har Arsenia memorerat och kan kasta utan risk för botch eller fatigue under normala omständigheter.</p>
+      
+      <table class="spells-table">
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Teknik/Form</th>
+            <th>Besvärjelse</th>
+            <th>Casting Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onclick="openSpellDetails('bridge-of-one-third-day')">
+            <td>25</td>
+            <td>CrIm <span class="tag">Glamour</span></td>
+            <td>Bridge of One-Third Day - 20 m solid illusion (8 h)</td>
+            <td>24 + Aura</td>
+          </tr>
+		 <tr onclick="openSpellDetails('garment-of-moonlight-and-lies')">
+		  <td>25</td>
+		  <td>MuIm <span class="tag">Glamour</span></td>
+		  <td>Garment of Moonlight and Lies – diskret månvävt tyg (D: Moon)</td>
+		  <td>23 + Aura</td>
+		</tr>
+          <tr onclick="openSpellDetails('mantle-of-living-moonlight')">
+            <td>20</td>
+            <td>CrIm <span class="tag">Glamour</span></td>
+            <td>Mantle of Living Moonlight - fysisk kappa Soak +3</td>
+            <td>24 + Aura</td>
+          </tr>
+          <tr onclick="openSpellDetails('dancers-deceptive-step')">
+            <td>20</td>
+            <td>ReIm <span class="tag">Glamour</span></td>
+            <td>Dancer's Deceptive Step - fysisk "sidestep"</td>
+            <td>23 + Aura</td>
+          </tr>
+          <tr onclick="openSpellDetails('veil-of-stolen-hours')">
+            <td>15</td>
+            <td>CrIm <span class="tag">Glamour</span></td>
+            <td>Veil of Stolen Hours - komplett förklädnad</td>
+            <td>24 + Aura</td>
+          </tr>
+          <tr onclick="openSpellDetails('echo-of-the-forgotten-twin')">
+            <td>15</td>
+            <td>InMe <span class="tag">Faerie Magic</span></td>
+            <td>Echo of the Forgotten Twin - spårar emotionella avtryck</td>
+            <td>15 + Aura</td>
+          </tr>
+          <tr onclick="openSpellDetails('loss-of-but-a-moments-memory')">
+            <td>15</td>
+            <td>PeMe</td>
+            <td>Loss of But a Moment's Memory - raderar minne</td>
+            <td>15 + Aura</td>
+          </tr>
+          <tr onclick="openSpellDetails('seraphinas-whisper')">
+            <td>10</td>
+            <td>MuIm <span class="tag">Glamour</span></td>
+            <td>Seraphina's Whisper - ändrar röst</td>
+            <td>23 + Aura</td>
+          </tr>
+          <tr onclick="openSpellDetails('call-to-slumber')">
+            <td>10</td>
+            <td>ReMe</td>
+            <td>Call to Slumber - söver en person, D: Mom</td>
+            <td>17 + Aura</td>
+          </tr>
+          <tr onclick="openSpellDetails('shadow-sheath')">
+            <td>5</td>
+            <td>PeIg</td>
+            <td>Shadow-Sheath - lokal skugga mot Malediction</td>
+            <td>7 + Aura</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    
+    <!-- Spontana besvärjelser -->
+    <section class="spell-section section" data-type="spontaneous">
+      <h2 class="section-title">🌙 Spontana Besvärjelser</h2>
+      <p class="section-description">Improviserade men kraftfulla besvärjelser som Arsenia kan kasta i ögonblickets hetta, särskilt i självförsvar eller för att lösa oväntade situationer.</p>
+      
+	<!-- Spontana besvärjelser med ny Die≥ kolumn -->
+	<!-- Spontana besvärjelser med kategorier -->
+<table class="spells-table">
+  <thead>
+    <tr>
+      <th>Nivå</th>
+      <th>Arts</th>
+      <th>Besvärjelse</th>
+      <th>CT</th>
+      <th>Die≥</th>
+      <th>Fast Cast</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="category-header">
+      <td colspan="6">🛡️ Försvarsbesvärjelser & Stridstaktik</td>
+    </tr>
+    <tr onclick="openSpellDetails('shimmering-cloak')">
+      <td>10</td>
+      <td>MuIm <span class="tag">Glamour</span></td>
+      <td>Shimmering Cloak of the Vanishing Moon</td>
+      <td>23</td>
+      <td>0</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('glittering-veil')">
+      <td>10</td>
+      <td>CrIm <span class="tag">Glamour</span></td>
+      <td>Glittering Veil of Thorns</td>
+      <td>24</td>
+      <td>0</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('silver-path')">
+      <td>10</td>
+      <td>ReIm <span class="tag">Glamour</span></td>
+      <td>Silver Path to Nowhere</td>
+      <td>23</td>
+      <td>0</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('moonbeam-step')">
+      <td>10</td>
+      <td>ReIm(Co) <span class="tag">Glamour</span></td>
+      <td>Moonbeam Step (Short Leap)</td>
+      <td>23</td>
+      <td>0</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('crimson-echo')">
+      <td>15</td>
+      <td>CrIm <span class="tag">Glamour</span></td>
+      <td>Crimson Echo of the Broken Duel</td>
+      <td>24</td>
+      <td>6</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('glimmer-of-fading-ashes')">
+      <td>15</td>
+      <td>MuIm + Vi <span class="tag">Glamour</span></td>
+      <td>Glimmer of Fading Ashes</td>
+      <td>23</td>
+      <td>7</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('song-of-the-sleeping-thorns')">
+      <td>15</td>
+      <td>MuIm + Vi <span class="tag">Glamour</span></td>
+      <td>Song of the Sleeping Thorns</td>
+      <td>23</td>
+      <td>7</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('silver-song-of-fading-arrows')">
+      <td>15</td>
+      <td>MuIm + Vi <span class="tag">Glamour</span></td>
+      <td>Silver Song of Fading Arrows</td>
+      <td>23</td>
+      <td>7</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('bloom-of-the-false-harvest')">
+      <td>15</td>
+      <td>MuIm + Vi <span class="tag">Glamour</span></td>
+      <td>Bloom of the False Harvest</td>
+      <td>23</td>
+      <td>7</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('husk-of-the-chittering-plague')">
+      <td>15</td>
+      <td>MuIm + Vi <span class="tag">Glamour</span></td>
+      <td>Husk of the Chittering Plague</td>
+      <td>23</td>
+      <td>7</td>
+      <td><span class="check-icon">✓</span></td>
+    </tr>
+    
+    <tr class="category-header">
+      <td colspan="6">🩸 Skador & Läkning</td>
+    </tr>
+    <tr onclick="openSpellDetails('thread-of-the-binding-loom')">
+      <td>5</td>
+      <td>CrCo</td>
+      <td>Thread of the Binding Loom</td>
+      <td>10</td>
+      <td>0</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('whisper-of-the-sleeping-seed')">
+      <td>5</td>
+      <td>ReCo</td>
+      <td>Whisper of the Sleeping Seed</td>
+      <td>9</td>
+      <td>2</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    
+    <tr class="category-header">
+      <td colspan="6">🎭 Illusion, Rörelse & Påverkan</td>
+    </tr>
+    <tr onclick="openSpellDetails('moon-dust-smile')">
+      <td>1</td>
+      <td>CrIm <span class="tag">Glamour</span></td>
+      <td>Moon-Dust Smile</td>
+      <td>24</td>
+      <td>0</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('gossamer-veil')">
+      <td>3</td>
+      <td>MuIm <span class="tag">Glamour</span></td>
+      <td>Gossamer Veil</td>
+      <td>25</td>
+      <td>2</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('silver-tongued-lie')">
+      <td>1</td>
+      <td>CrIm <span class="tag">Glamour</span></td>
+      <td>Silver-Tongued Lie</td>
+      <td>24</td>
+      <td>2</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('quill-of-whispered-ink')">
+      <td>1</td>
+      <td>CrIm <span class="tag">Glamour</span></td>
+      <td>Quill of Whispered Ink</td>
+      <td>24</td>
+      <td>2</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('borrowed-heartbeat')">
+      <td>3</td>
+      <td>ReIm <span class="tag">Glamour</span></td>
+      <td>Borrowed Heartbeat</td>
+      <td>27</td>
+      <td>0</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('shadow-puppet-ambush')">
+      <td>3</td>
+      <td>CrIm <span class="tag">Glamour</span></td>
+      <td>Shadow-Puppet Ambush</td>
+      <td>28</td>
+      <td>3</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    
+    <tr class="category-header">
+      <td colspan="6">🏕️ Skydd & Kamouflage</td>
+    </tr>
+    <tr onclick="openSpellDetails('solitary-twilight-veil')">
+      <td>15</td>
+      <td>CrIm <span class="tag">Glamour</span></td>
+      <td>Solitary Twilight Veil</td>
+      <td>28</td>
+      <td>0</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('sealed-by-silver-dew')">
+      <td>2</td>
+      <td>CrIm(Aq)</td>
+      <td>Sealed by Silver Dew</td>
+      <td>24</td>
+      <td>0</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('shadow-cup-chill')">
+      <td>4</td>
+      <td>PeIg</td>
+      <td>Shadow-Cup Chill</td>
+      <td>9</td>
+      <td>0</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    
+    <tr class="category-header">
+      <td colspan="6">🔍 Utforskning & Perception</td>
+    </tr>
+    <tr onclick="openSpellDetails('thread-of-story')">
+      <td>4</td>
+      <td>InIm <span class="tag">Faerie</span></td>
+      <td>Thread of Story</td>
+      <td>22</td>
+      <td>0</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('echo-amplification')">
+      <td>5</td>
+      <td>InIm</td>
+      <td>Echo Amplification</td>
+      <td>17</td>
+      <td>3</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+    <tr onclick="openSpellDetails('mirror-skin-pool')">
+      <td>4</td>
+      <td>MuAq(Im)</td>
+      <td>Mirror-Skin Pool</td>
+      <td>10</td>
+      <td>0</td>
+      <td><span class="dash-icon">—</span></td>
+    </tr>
+	<tr onclick="openSpellDetails('mirror-of-momentary-truth')">
+  <td>3</td>
+  <td>InVi</td>
+  <td>Mirror of Momentary Truth</td>
+  <td>7</td>
+  <td>0</td>
+  <td><span class="dash-icon">—</span></td>
+</tr>
+
+	<!-- 🌧️  VÄDER & AQUAM -->
+	<tr class="category-header"><td colspan="6">🌧️ Väder, Aquam & Värme</td></tr>
+	<tr onclick="openSpellDetails('silver-skim-droplet')">
+	  <td>2</td><td>ReAq</td><td>Silver‑Skim Droplet</td><td>10</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('silent-tear')">
+	  <td>2</td><td>ReAq</td><td>Silent Tear</td><td>6</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('dancer-on-the-dew')">
+	  <td>1</td><td>ReAq</td><td>Dancer on the Dew</td><td>6</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('touch-of-the-clear-cup')">
+	  <td>2</td><td>PeAq</td><td>Touch of the Clear Cup</td><td>2</td><td>2</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('snap-freeze')">
+	  <td>4</td><td>MuAq</td><td>Snap‑Freeze </td><td>6</td><td>2</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('skim-the-oil')">
+	  <td>2</td><td>ReAq</td><td>Skim the Oil</td><td>6</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('test-of-sweet-and-sour')">
+	  <td>2</td><td>InAq</td><td>Test of Sweet &amp; Sour</td><td>8</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('identify-the-ink')">
+	  <td>3</td><td>InAq</td><td>Identify the Ink</td><td>8</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('thirst-quenching-drop')">
+	  <td>3</td><td>CrAq</td><td>Thirst‑Quenching Drop</td><td>7</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('ward-of-the-dripping-cloak')">
+	  <td>3</td><td>ReAq</td><td>Ward of the Dripping Cloak</td><td>6</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('phantasmal-ripple')">
+	  <td>2</td><td>CrIm(Aq) <span class="tag">Glamour</span></td><td>Phantasmal Ripple</td><td>24</td><td>0</td><td><span class="check-icon">✓</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('touch-of-the-dry-woven-verse')">
+	  <td>4</td><td>PeAq</td><td>Touch of the Dry‑Woven Verse </td><td>8</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('erase-the-muddy-trace')">
+	  <td>3</td><td>ReAq</td><td>Erase the Muddy Trace</td><td>6</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('momentary-drying-gust')">
+	  <td>3</td><td>PeAq</td><td>Momentary Drying Gust </td><td>2</td><td>4</td><td><span class="dash-icon">—</span></td>
+	</tr>
+
+	<!-- 🐾  DJUR & VILDHET -->
+	<tr class="category-header"><td colspan="6">🐾 Djur, Faerie &amp; Vildhet</td></tr>
+	<tr onclick="openSpellDetails('feather-light-touch')">
+	  <td>3</td><td>ReAn</td><td>Feather‑Light Touch</td><td>10</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('whisper-of-the-beast')">
+	  <td>4</td><td>InAn</td><td>Whisper of the Beast</td><td>8</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('whisker-sense')">
+	  <td>4</td><td>MuAn(Im)</td><td>Whisker‑Sense</td><td>10</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('hidden-trail-glow')">
+	  <td>4</td><td>InTe</td><td>Hidden Trail Glow</td><td>9</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('call-of-the-soft-pawed-watcher')">
+	  <td>4</td><td>ReAn</td><td>Call of the Soft‑Pawed Watcher</td><td>10</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('glamour-of-feather-and-claw')">
+	  <td>3</td><td>CrIm(An) <span class="tag">Glamour</span></td><td>Glamour of Feather and Claw</td><td>26</td><td>0</td><td><span class="check-icon">✓</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('chorus-of-chirps')">
+	  <td>3</td><td>CrIm(An) <span class="tag">Glamour</span></td><td>Chorus of Chirps</td><td>24</td><td>0</td><td><span class="check-icon">✓</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('eyes-of-the-mouse')">
+	  <td>4</td><td>InAn(Im)</td><td>Eyes of the Mouse</td><td>10</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('footsteps-among-the-flock')">
+	  <td>4</td><td>MuAn</td><td>Footsteps Among the Flock</td><td>10</td><td>0</td><td><span class="dash-icon">—</span></td>
+	</tr>
+	<tr onclick="openSpellDetails('still-the-shiver-of-the-hound')">
+	  <td>6</td><td>ReAn</td><td>Still the Shiver of the Hound </td><td>10</td><td>2</td><td><span class="dash-icon">—</span></td>
+	</tr>
+  </tbody>
+</table>
+    </section>
+    
+    <!-- Ceremoniella besvärjelser -->
+    <section class="spell-section section" data-type="ceremonial">
+      <h2 class="section-title">🏮 Ceremoniella Besvärjelser</h2>
+      <p class="section-description">Tidskrävande men kraftfulla besvärjelser som Arsenia utför med omsorg och rituell precision när tid finns.</p>
+      
+      <!-- Ceremoniella besvärjelser med ny Die≥ kolumn -->
+	<table class="spells-table">
+	  <thead>
+		<tr>
+		  <th>Nivå</th>
+		  <th>Arts</th>
+		  <th>Besvärjelse</th>
+		  <th>CT</th>
+		  <th>Die≥</th>
+		  <th>Tid</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr onclick="openSpellDetails('lullaby-for-the-hidden-seed')">
+		  <td>10</td>
+		  <td>ReCo</td>
+		  <td>Lullaby for the Hidden Seed</td>
+		  <td>20</td>
+		  <td>0</td>
+		  <td>30 min</td>
+		</tr>
+		<tr onclick="openSpellDetails('silver-rein')">
+		  <td>10</td>
+		  <td>ReAn</td>
+		  <td>Silver Rein of the Slumbering Steed</td>
+		  <td>19</td>
+		  <td>2</td>
+		  <td>30 min</td>
+		</tr>
+		<tr onclick="openSpellDetails('sanctuary-of-bound-shadows')">
+		  <td>20</td>
+		  <td>CrIm <span class="tag">Glamour</span></td>
+		  <td>Sanctuary of Bound Shadows</td>
+		  <td>33</td>
+		  <td>0</td>
+		  <td>60 min</td>
+		</tr>
+		<tr onclick="openSpellDetails('dreamfire-mantle')">
+		  <td>15</td>
+		  <td>CrIg</td>
+		  <td>Dreamfire Mantle</td>
+		  <td>19</td>
+		  <td>11</td>
+		  <td>45 min</td>
+		</tr>
+	  </tbody>
+	</table>
+    </section>
+    
+    <!-- Magiska föremål -->
+    <section class="spell-section section" data-type="items">
+      <h2 class="section-title">💎 Magiska Föremål</h2>
+      <p class="section-description">Arsenias mest betydelsefulla magiska skapelser och föremål.</p>
+      
+      <table class="spells-table">
+        <thead>
+          <tr>
+            <th>Typ</th>
+            <th>Föremål</th>
+            <th>Effekt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onclick="openSpellDetails('thread-of-shared-breath')">
+            <td>Arcane Connection</td>
+            <td>Thread of Shared Breath</td>
+            <td>Känner systerns närvarotillstånd en gång per vecka</td>
+          </tr>
+          <tr onclick="openSpellDetails('shroud-of-the-ever-true-sister')">
+            <td>Enchanted Item</td>
+            <td>Shroud of the Ever-True Sister</td>
+            <td>Nunneförklädnad aktiveras vid solnedgång/uppgång</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    
+    <footer>
+      <a href="index.html">Tillbaka till huvudsidan</a>
+    </footer>
+    
+       <!-- Spell Modal -->
+    <div id="spellModal" class="modal">
+      <div class="modal-container">
+        <span class="close-button" onclick="closeSpellModal()">&times;</span>
+        <div id="spellModalContent" class="modal-content"></div>
+      </div>
+    </div>
+
+    <!-- Image Modal för porträtt -->
+    <div id="imageModal" class="modal">
+      <div class="modal-container">
+        <span class="close-button" onclick="closeImageModal()">&times;</span>
+        <div id="imageModalContent" class="modal-content"></div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Filter-funktionalitet (oförändrat)
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const spellSections = document.querySelectorAll('.spell-section');
+        filterButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            const filter = this.getAttribute('data-filter');
+            spellSections.forEach(section => {
+              section.style.display = (filter === 'all' || section.getAttribute('data-type') === filter) ? 'block' : 'none';
+            });
+          });
+        });
+        document.querySelector('[data-filter="all"]').click();
+
+        // Porträtt-lightbox
+        const portraitDiv = document.getElementById('portraitImageDiv');
+        if (portraitDiv) {
+          portraitDiv.addEventListener('click', function() {
+            const imageUrl = portraitDiv.dataset.imgSrc ||
+              portraitDiv.style.backgroundImage.match(/url\("?([^\"]*)"?\)/)[1];
+            openImageModal(imageUrl);
+          });
+        }
+      });
+
+      // Spell Lightbox
+      function openSpellDetails(spellId) {
+        const modal = document.getElementById('spellModal');
+        const modalContent = document.getElementById('spellModalContent');
+        const spellDetails = getSpellDetails(spellId);
+        modalContent.innerHTML = spellDetails;
+        modal.style.display = 'block';
+      }
+      function closeSpellModal() {
+        document.getElementById('spellModal').style.display = 'none';
+      }
+
+      // Image Lightbox-funktioner
+      function openImageModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalContent = document.getElementById('imageModalContent');
+        const portraitDiv = document.getElementById('portraitImageDiv');
+        if (modal && modalContent) {
+          modalContent.innerHTML = `
+            <img src="${imageSrc}" alt="${portraitDiv.dataset.imgAlt || ''}" \
+              style="max-width:100%; max-height:85vh; display:block; margin:auto; border-radius:5px;">
+          `;
+          modal.style.display = 'block';
+        }
+      }
+      function closeImageModal() {
+        document.getElementById('imageModal').style.display = 'none';
+      }
+
+      // Stäng modaler när man klickar utanför
+      window.onclick = function(event) {
+        const spellModal = document.getElementById('spellModal');
+        const imageModal = document.getElementById('imageModal');
+        if (event.target === spellModal) { spellModal.style.display = 'none'; }
+        if (event.target === imageModal) { imageModal.style.display = 'none'; }
+      }
+      
+      // Besvärjelsedatabasen
+      function getSpellDetails(spellId) {
+        // Databasen med fullständiga beskrivningar
+        const spellDatabase = {
+          'bridge-of-one-third-day': `
+            <h2>Bridge of One-Third Day</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 25</p>
+                <p><strong>Teknik/Form:</strong> Creo Imaginem (Glamour)</p>
+                <p><strong>Range:</strong> Touch</p>
+                <p><strong>Duration:</strong> Special (8 timmar)</p>
+                <p><strong>Target:</strong> Individual</p>
+                <p><strong>Casting Total:</strong> 24 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Skapar en solid bro av ren Glamour, cirka 20 meter lång, som framstår och fungerar helt övertygande under en tredjedel av en dag (8 timmar). Den känns verklig, stödjer vikt och klarar lättare belastning, men kan inte förstöras på normalt vis eftersom den är illusionär.</p>
+                <p>Bron framträder i skimrande silver och månljus, med subtila ekon av Arsenias sinnesstämning vävda i dess struktur. Vid beröring känns materialet svalt och fast, perfekt balanserat mellan substans och dröm.</p>
+                <h3>Tillämpning:</h3>
+                <p>Perfekt för att snabbt skapa säker passage över raviner eller hinder. Mycket användbar i snabba flykter eller för att skapa tillfälliga strategiska fördelar. Kan anpassas visuellt för att smälta in i omgivningen eller stå ut som ett magiskt landmärke.</p>
+                <h3>Resonansmanifestationer:</h3>
+                <p><strong>Vid Vänskap/Trygghet:</strong> Bron glöder i varmt silverskimmer med inslag av guld och rosenrött; strukturen känns stadig och inbjudande.</p>
+                <p><strong>Vid Konflikt/Misstro:</strong> Bron blir kallare, med blågrå toner och sprickor som ständigt läker sig själva; ytan känns hal och osäker.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Creo Imaginem Base 10 (glamour), +1 Touch, +2 Duration (special), +0 Target = Level 25. Base 10 för en substantiell Glamour. No botch risk under normala omständigheter.</p>
+                </div>
+              </div>
+            </div>
+          `,
+          'mantle-of-living-moonlight': `
+            <h2>Mantle of Living Moonlight</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 20</p>
+                <p><strong>Teknik/Form:</strong> Creo Imaginem (Glamour)</p>
+                <p><strong>Range:</strong> Touch</p>
+                <p><strong>Duration:</strong> Sun</p>
+                <p><strong>Target:</strong> Individual</p>
+                <p><strong>Casting Total:</strong> 24 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Skapar en mantel av skimrande månsken som känns sval och mjuk vid beröring, men samtidigt ger ett märkligt robust skydd mot fysiska hot. Glamourens natur gör manteln tydlig och övertygande för alla sinnen, med ett subtilt, nästan hypnotiskt ljus.</p>
+                <p>Manteln ger +3 Soak mot fysiska attacker och förändras subtilt efter bärarens sinnesstämning. Den väger ingenting men känns tung och betryggande på axlarna.</p>
+                <h3>Tillämpning:</h3>
+                <p>Idealiskt som diskret skydd i farliga situationer, särskilt på natten eller i skymningen där dess utseende är som mest trovärdigt. Fungerar väl vid diplomatiska möten där avsaknaden av synlig rustning är viktig, samtidigt som det ger ett psykologiskt övertag genom sitt övernaturliga utseende.</p>
+                <h3>Resonansmanifestationer:</h3>
+                <p><strong>Vid Vänskap/Trygghet:</strong> Manteln får varma, guldfärgade inslag och pulserar svagt i takt med bärarens hjärtslag.</p>
+                <p><strong>Vid Konflikt/Misstro:</strong> Manteln blir mer intensivt vit med kalla blåa skiftningar och små elektriska urladdningar vid rörelser.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Creo Imaginem Base 10 (glamour), +1 Touch, +2 Sun, +1 complexity (ger fysiskt skydd) = Level 20. Glamour kan ge konkreta defensiva bonusar, i detta fall +3 Soak.</p>
+                </div>
+              </div>
+            </div>
+          `,
+          'dancers-deceptive-step': `
+            <h2>Dancer's Deceptive Step</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 20</p>
+                <p><strong>Teknik/Form:</strong> Rego Imaginem (Glamour)</p>
+                <p><strong>Range:</strong> Personal</p>
+                <p><strong>Duration:</strong> Concentration</p>
+                <p><strong>Target:</strong> Individual</p>
+                <p><strong>Casting Total:</strong> 23 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Arsenias variant av den klassiska Wizard's Sidestep, men förstärkt genom Glamourens fysiska natur. Besvärjelsen skapar en subtil förflyttning av Arsenias visuella illusion, vilket gör att angripare tenderar att missa henne.</p>
+                <p>Till skillnad från en vanlig illusionär sidestep förstärker glamouren illusionen så att angriparnas rörelser faktiskt leds åt fel håll, vilket ger en konkret defensiv fördel (+3 på Defense under koncentration).</p>
+                <h3>Tillämpning:</h3>
+                <p>Extremt användbar i strid och vid hastiga reträtter, eller när Arsenia behöver undvika uppmärksamhet eller förföljare. Den fysiska kvaliteten gör att även varelser med viss magisk resistans kan påverkas, då effekten inte är rent illusorisk utan delvis fysisk.</p>
+                <h3>Resonansmanifestationer:</h3>
+                <p><strong>Vid Vänskap/Trygghet:</strong> Illusionen framstår som en elegant efterbild i guldrosa, lik en dansörs graciösa skugga.</p>
+                <p><strong>Vid Konflikt/Misstro:</strong> Skarpa, hackiga efterbilder i kallt blått och grått, likt en sprucken spegel i rörelse.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Rego Imaginem Base 10 (glamour), +0 Personal, +1 Concentration, +0 Individual, +1 complexity = Level 20. Baserad på Wizard's Sidestep men med Glamour som gör den fysiskt effektiv.</p>
+                </div>
+              </div>
+            </div>
+          `,
+		  // 2) Detaljerade beskrivningar – lägg in i spellDatabase
+	'thread-of-story': `
+	  <h2>Thread of Story</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Intellego Imaginem (Faerie)</p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 22</p>
+		  <p><strong>Die:</strong> ≥ 0</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Manifesterar en glödande, skimrande tråd som endast Arsenia kan se. Tråden leder inte mot en specifik fysisk plats utan mot nästa narrativt betydelsefulla element i den berättelse hon befinner sig i. Beroende på berättelsens karaktär framträder tråden i olika färger och texturer - guldtråd för storslagna sagor, rödrosa för kärleks- eller offerhistorier, fjäderlätt ljusdun för drömliknande berättelser, blekblå för sorgfyllda sagor, eller silvrig för faerie-centrerade narrativ. </p> 
+	      <p>Tråden reagerar på berättelseanknutna objekt, personer och platser, och blir starkare när den närmar sig punkter av narrativ betydelse. Om det inte finns någon meningsfull "nästa nod" i närheten kan tråden framstå som svag, splittrad eller förvirrande förgrenad. </p>
+		  <p>Besvärjelsen påverkar endast Arsenias perception, men hon kan beskriva trådens riktning och kvalitet för andra. Tråden "slutar" vid varje narrativ nod, och måste kastas igen för att fortsätta följa berättelsen. I konkurrerande narrativ (t.ex. när en faerie försöker manipulera en berättelse) kan tråden dela sig eller fluktuera, vilket avslöjar manipulation.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Används för att navigera i komplexa berättelser, särskilt i faerie-regios där rummet följer narrativa snarare än fysiska lagar. Perfekt för att identifiera personer som bär på viktiga hemligheter, objekt med magisk eller symbolisk betydelse, eller platser där viktiga händelser har ägt rum eller kommer att ske. </p> 
+		  <p>I sökandet efter Seraphina är besvärjelsen ett ovärderligt verktyg för att identifiera platser där hennes berättelse fortfarande lever kvar eller där hennes närvaro har lämnat spår i den narrativa strukturen. Den fungerar bäst i områden med tillräcklig "narrativ vikt" – faerie-regios, mytologiskt laddade platser, eller i närheten av starka emotionella avtryck.</p>
+		  
+		  <h3>Viktigt att notera:</h3>
+		  <p>Besvärjelsen talar i ett faerie-språk för narrativ logik, och leder inte till vad magikern personligen önskar utan till vad berättelsen kräver att hon ska möta härnäst.</p>
+		</div>
+	  </div>
+	`,
+	'shadow-cup-chill': `
+  <h2>Shadow-Cup Chill</h2>
+  <div class="spell-details">
+    <div class="spell-basics">
+      <p><strong>Nivå:</strong> 4</p>
+      <p><strong>Teknik/Form:</strong> Perdo Ignem</p>
+      <p><strong>Range:</strong> Touch</p>
+      <p><strong>Duration:</strong> Diameter</p>
+      <p><strong>Target:</strong> Individual</p>
+      <p><strong>Casting Total:</strong> 9</p>
+      <p><strong>Die ≥:</strong> 0</p>
+    </div>
+
+    <div class="spell-description">
+      <p>Skapar en kylande skugga (≈ 30 cm i diameter) som dämpar solvärme och
+         ljusstyrka. Användbar för att lindra Arsenias solljus-förbannelse,
+         kyla drycker, skydda känsliga material eller skapa behaglig svalka vid
+         förhandlingar under het sol.</p>
+
+      <div class="rules-notes">
+        <h3>Rules Notes (ArM5)</h3>
+        <p>PeIg Base 2 (dämpa värme), +1 Touch, +1 Diameter ⇒ <strong>Level 4</strong>.  
+           Effekten riktas mot solvärmen, så den behöver inte penetrera MR
+           på bäraren.</p>
+      </div>
+    </div>
+  </div>
+`,
+	'echo-amplification': `
+	  <h2>Echo Amplification</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 5</p>
+		  <p><strong>Teknik/Form:</strong> Intellego Imaginem</p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 17</p>
+		  <p><strong>Die:</strong> ≥ 3</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Förstärker harmoniska toner och gör varje viskning eller fotsteg klarare och skarpare än vanligt.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Perfekt för att upptäcka dolda röster eller rörelsemönster på avstånd.</p>
+		  <h3>Limitations:</h3>
+		  <p>Bakgrundsljud kan bli överväldigande om flera ljudkällor finns.</p>
+		</div>
+	  </div>
+	`,
+	'moon-dust-smile': `
+	  <h2>Moon-Dust Smile</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 1</p>
+		  <p><strong>Teknik/Form:</strong> Creo Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 24</p>
+		  <p><strong>Die:</strong> ≥ 0</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Ger målet ett varmt, roségult gnistrande leende, likt månljus på sommarkväll, som lugnar och förför.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Används i sociala sammanhang för att ingjuta förtroende eller avleda misstankar.</p>
+		  <h3>Limitations:</h3>
+		  <p>Varar bara en sekund och påverkar inte direkt känslor – handlar om visuell distraktion.</p>
+		  <div class="rules-notes">
+			<ul>
+    <li>Creo Imaginem (Base 1) för enkel visuell effekt på röst – hörbar men utan faktisk ljudmodifiering enligt Imaginem-guidelines.</li>
+    <li>Duration Momentary = en runda – kräver omkastning för varje användning </li>
+    <li>Påverkar bara vad målet ser, inte känslor eller Mentem-tester (ingen Mentem-requisite)</li>
+        </ul>
+		  </div>
+		</div>
+	  </div>
+	`,
+	'gossamer-veil': `
+	  <h2>Gossamer Veil</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 3</p>
+		  <p><strong>Teknik/Form:</strong> Muto Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 25</p>
+		  <p><strong>Die:</strong> ≥ 2</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Slöja målets ansikte i en mjuk, silkeslen hinna som flyter som silvervatten, för enkel förklädnad.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Diskret maskering av ansiktsdrag, särskilt effektiv i svagt ljus.</p>
+		  <h3>Limitations:</h3>
+		  <p>Blir synlig om målet talar högt eller gör snabba ansiktsrörelser.</p>
+		  <div class="rules-notes">
+			<ul>
+		<li>Muto Imaginem (Base 3) för diskret maskering – följer standardmaskerings-guidelines </li>
+		<li>Duration Momentary – varar en runda och släpper vid högljudda rörelser eller tal </li>
+		<li>Finesse-test mot Ease 6 för exakt dölja ansiktsdrag under svagt ljus; miss ger ofullständig maskering </li>
+		<li>Synligt illusionstunt: snabba ansiktsrörelser kan avslöja illusionen utan ytterligare test </li>
+	  </ul>
+		  </div>
+		</div>
+	  </div>
+	`,
+	'silver-tongued-lie': `
+	  <h2>Silver-Tongued Lie</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 1</p>
+		  <p><strong>Teknik/Form:</strong> Creo Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Concentration</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 24</p>
+		  <p><strong>Die:</strong> ≥ 2</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Förvandlar din röst till en silkeslen ton med subtila vibrationer som gör lögner övertygande.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Används för diplomati eller för att manipulera vittnen.</p>
+		  <h3>Limitations:</h3>
+		  <p>Effekten upphör om du höjer rösten eller talar för länge.</p>
+		  <div class="rules-notes">
+			<ul>
+			<li>Creo Imaginem (Base 1) med fokus på ljud – skapar subtila vokala vibrationer i stämman. </li>
+			<li>Duration Concentration – kräver aktiv koncentration varje runda, annars upphör effekten.</li>
+			<li>Finesse-test mot Ease 6 för att bibehålla illusionen vid längre tal; miss ger grova ljudstörningar.</li>
+			<li>Effekten avtar om du höjer rösten över normal nivå, då illusionen spricker helt.</li>
+			<li>Endast en röst åt gången; omladdning krävs för fler mål.</li>
+		  </ul>
+		  </div>
+		</div>
+	  </div>
+	`,
+	'quill-of-whispered-ink': `
+	  <h2>Quill of Whispered Ink</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 1</p>
+		  <p><strong>Teknik/Form:</strong> Creo Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Sun</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 24</p>
+		  <p><strong>Die:</strong> ≥ 2</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Får din text att framträda i skimrande bläck som bara syns i skymningsljus eller månsken.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Perfekt för hemliga anteckningar eller spårning i mörker.</p>
+		  <h3>Limitations:</h3>
+		  <p>Bläcket bleknar helt i fullt dagsljus.</p>
+		  <div class="rules-notes">
+			<ul>
+			<li>Creo Imaginem (Base 5) för synlig bläckförändring på papper – Sun Duration ger kontinuerlig effekt till nästa gryning/skymning.</li>
+			<li>Finesse-test mot Ease 9 för att justera bläckets skimrande mönster i detalj.</li>
+			<li>Bläcket framträder bara i skymnings- eller månsken – bleknar helt i dagsljus.</li>
+			<li>Inga kvarvarande spår efter spellens slut; papperet är oförändrat i fullt ljus.</li>
+			/ul>
+		  </div>
+		</div>
+	  </div>
+	`,
+	'borrowed-heartbeat': `
+	  <h2>Borrowed Heartbeat</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 3</p>
+		  <p><strong>Teknik/Form:</strong> Rego Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Concentration</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 27</p>
+		  <p><strong>Die:</strong> ≥ 0</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Flyttar målets pulsljud till en annan plats – till exempel bakom en vägg – så att de tror att deras följeslagare finns där.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Idealisk för att lura vakter eller lura fiender att gå fel.</p>
+		  <h3>Limitations:</h3>
+		  <p>Tar en koncentrationspoäng; om du tappar fokus upphör effekten.</p>
+		  <div class="rules-notes">
+			 <ul>
+			<li>Rego Imaginem (Base 3) för fjärrstyra pulsljud – följer ljudmanipulerings-guidelines.</li>
+			<li>Range Voice – pulssignalen kan flyttas upp till 15 m bort, förutsatt fri akustisk kanal.</li>
+			<li>Fiender kan genom Intellego Imaginem-test lokalisera den verkliga ljudkällan om de misstänker manipulation.</li>
+		  </ul>
+		  </div>
+		</div>
+	  </div>
+	`,
+	'solitary-twilight-veil': `
+	  <h2>Solitary Twilight Veil</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 15</p>
+		  <p><strong>Teknik/Form:</strong> Creo Imaginem</p>
+		  <p><strong>Range:</strong> Touch</p>
+		  <p><strong>Duration:</strong> Sun</p>
+		  <p><strong>Target:</strong> Ind</p>
+		  <p><strong>Casting Total:</strong> 28</p>
+		  <p><strong>Die:</strong> ≥ 2</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p> Skapar ett litet, verkligt tält av mjukt ljus och tyglik illusion – precis lagom för Arsenia själv. Som Glamour är tältet fysiskt påtagligt, kan hålla regn ute och skydda mot lätt vind. Känns som mjukt tyg vid beröring och ger faktisk avskildhet.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Skapar en faktisk tillfällig viloplats som erbjuder konkret skydd. Glamour-naturen gör att det inte bara är en illusion utan faktiskt håller elementen ute.</p>
+		  <div class="rules-notes">
+			 <ul>
+			<li>Base 10 (grundläggande Glamour-illusion), +1 touch, +2 Sun (standardduration istället för Spell Timing), +2 magnitudes för komplexitet/påtaglighet = lvl 15 </li>
+			<li>Fullständigt skydd mot lätt nederbörd  </li>
+			<li>Dämpar omgivande ljud märkbart </li>
+		  </ul>
+		  </div>
+		</div>
+	  </div>
+	`,
+	'sealed-by-silver-dew': `
+	  <h2>Sealed by Silver Dew</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 2</p>
+		  <p><strong>Teknik/Form:</strong> Creo Imaginem (Aquam)</p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Object</p>
+		  <p><strong>Casting Total:</strong> 24</p>
+		  <p><strong>Die:</strong> ≥ 0</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Skapar en tunn, klar hinna likt silverdewdroppar som täcker ett brev eller dokument och förseglar det tills månsken bleker filmen.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Perfekt som sköld mot insyn eller fukt tills du vill avslöja innehållet.</p>
+		  <h3>Limitations:</h3>
+		  <p>Varar bara en natt; dagssluttningen smälter hinnen.</p>
+		</div>
+	  </div>
+	`,
+	'shadow-puppet-ambush': `
+	  <h2>Shadow-Puppet Ambush</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 3</p>
+		  <p><strong>Teknik/Form:</strong> Creo Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Concentration</p>
+		  <p><strong>Target:</strong> Area</p>
+		  <p><strong>Casting Total:</strong> 28</p>
+		  <p><strong>Die:</strong> ≥ 3</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Framkallar dansande silhuetter i skuggorna som rusar fram och distraherar alla i området.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Använd för att bryta fiendens formation eller för att skapa förvirring i trånga utrymmen.</p>
+		  <h3>Limitations:</h3>
+		  <p>Behöver sammankopplade skuggor (väggar, träd) för att fungera.</p>
+		  <div class="rules-notes">
+			<ul>
+			<li>Creo Imaginem (Base 2) – skapar enkla silhuett-illusioner (ett sinne, upp till en fot från verklig position)</li>
+			<li>Räckvidd Voice (+2 magnitudes) för att täcka mål på avstånd; Duration Concentration kräver ett Concentration-test vid kast och ett per runda för att bibehålla effekten.</li>
+			<li>Målet måste lyckas med ett Perception + Finesse-stresstest mot Ease 6 för att motstå distraktionen; misslyckande ger –2 på Attack och Defense under illusionens varaktighet (stress ≥ 3 på tärningen)</li>
+		  </ul>
+		  </div>
+		</div>
+	  </div>
+	`,
+	'mirror-skin-pool': `
+	  <h2>Mirror-Skin Pool</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Muto Aquam (Imaginem)</p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Water</p>
+		  <p><strong>Casting Total:</strong> 10</p>
+		  <p><strong>Die:</strong> ≥ 0</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Förvandlar all stående vatten i en meter i taget till en glänsande, reflekterande spegelyta.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>En spegel helt enkelt</p>
+		  <h3>Limitations:</h3>
+		  <p>Effekten varar en sekund och vattnet återgår till normalt när det rörs.</p>
+		 		</div>
+	  </div>
+	`,
+	'whisper-of-the-sleeping-seed': `
+	  <h2>Whisper of the Sleeping Seed</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 5</p>
+		  <p><strong>Teknik/Form:</strong> Rego Corpus</p>
+		  <p><strong>Range:</strong> Touch</p>
+		  <p><strong>Duration:</strong> Sun</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 9</p>
+		  <p><strong>Die:</strong> ≥ 2</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Ger målet en fridfull sömn (dagligt preventiv) där stress och smärta dämpas samtidigt.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Perfekt mot sömnlöshet eller för att ge vila efter strapatser.</p>
+		  <h3>Limitations:</h3>
+		  <p>Måste kastas före vila; påverkar inte magiska störningar.</p>
+		</div>
+	  </div>
+	`,
+	'thread-of-the-binding-loom': `
+	  <h2>Thread of the Binding Loom</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 5</p>
+		  <p><strong>Teknik/Form:</strong> Creo Corpus</p>
+		  <p><strong>Range:</strong> Touch</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Wound</p>
+		  <p><strong>Casting Total:</strong> 10</p>
+		  <p><strong>Die:</strong> ≥ 0</p>
+		  <p><strong>Fast Cast:</strong> —</p>
+		</div>
+		<div class="spell-description">
+		  <p>Skapar en fin, glänsande tråd som snabbt syr ihop ytliga sår, stoppar blödning och stabiliserar skadan.</p>
+		  <h3>Tillämpning:</h3>
+		  <p>Snabb första hjälpen i fält; ersätter ett Ease Factor 6 stygntagningstest.</p>
+		  <h3>Limitations:</h3>
+		  <p>Verkar inte på djupa eller komplexa skador.</p>
+		  <div class="rules-notes">
+			<p><em>Enligt fältmanualens skad- &amp; läkningsavsnitt</em></p>
+		  </div>
+		</div>
+	  </div>
+	`,
+	
+	'phantasmal-ripple': `
+  <h2>Phantasmal Ripple</h2>
+  <div class="spell-details">
+    <div class="spell-basics">
+      <p><strong>Nivå:</strong> 5</p>
+      <p><strong>Teknik/Form:</strong> Creo&nbsp;Imaginem (Aquam)&nbsp;<span class="tag">Glamour</span></p>
+      <p><strong>Range:</strong> Voice</p>
+      <p><strong>Duration:</strong> Diameter</p>
+      <p><strong>Target:</strong> Individual (vattenyta)</p>
+      <p><strong>Casting Total:</strong> 24</p>
+      <p><strong>Die ≥:</strong> 0   <strong>Fast Cast:</strong> ✓</p>
+    </div>
+    <div class="spell-description">
+      <p>Skapar illusoriska vattenkrusningar på en yta där inget vatten finns eller över en osynlig struktur. Med Glamour får krusningarna en subtil fysisk kvalitet - de reflekterar faktiskt ljus, och om man sträcker ut handen kan man känna en svag fuktighet eller köld från dem.  </p>
+	   <p>Perfekt för att "avslöja" osynliga broar, dolda stigar eller faerie-strukturer i en berättelse. Kan subtilt indikera närvaron av magiska fenomen eller användas för att förstärka en berättelse där Arsenia behöver påvisa en väg framåt. I faerie-kontakt kan det tjäna som bekräftelse på att "sagan godkänner" ett vägval eller beslut.</p>
+      <div class="rules-notes">
+        <h3>Rules Notes (ArM5)</h3>
+        <p>CrIm Base 1 (bild för ett sinne) +2 Voice +1 Diameter +1 Glamour
+           ⇒ <strong>Level 5</strong></p>
+      </div>
+    </div>
+  </div>`,
+		'touch-of-the-dry-woven-verse': `
+	  <h2>Touch of the Dry-Woven Verse</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Perdo&nbsp;Aquam</p>
+		  <p><strong>Range:</strong> Personal</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Ind (fukten)</p>
+		  <p><strong>Casting Total:</strong> 8</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Den fukt som riskerar att sudda bläck eller buckla pergament
+			 förintas; bladet lämnas knastertorrt och skrivvänligt.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes (ArM5)</h3>
+			<p>PeAq Base 4 (torka föremål helt) +0 Pers ⇒ <strong>Level 4</strong>
+			   (kräver att pergamentet hålls i handen)</p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'erase-the-muddy-trace': `
+	  <h2>Erase the Muddy Trace</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 3</p>
+		  <p><strong>Teknik/Form:</strong> Rego&nbsp;Aquam</p>
+		  <p><strong>Range:</strong> Touch</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Part</p>
+		  <p><strong>Casting Total:</strong> 6</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Styr vätan i ytlig lera att jämna ut fotspår på ett par hjärtslag.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes (ArM5)</h3>
+			<p>ReAq Base 1 (mild kontroll) +1 Touch +1 Part
+			   ⇒ <strong>Level 3</strong></p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'momentary-drying-gust': `
+	  <h2>Momentary Drying Gust</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 3</p>
+		  <p><strong>Teknik/Form:</strong> Perdo&nbsp;Aquam</p>
+		  <p><strong>Range:</strong> Personal</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Ind (vattnet på kläder)</p>
+		  <p><strong>Casting Total:</strong> 2</p>
+		  <p><strong>Die ≥:</strong> 4</p>
+		</div>
+		<div class="spell-description">
+		  <p>Ett knappt synligt drag av varm luft får droppar att dunsta från
+			 Arsenias kläder – hon är torr på ett ögonblick.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes (ArM5)</h3>
+			<p>PeAq Base 4 men objektet är litet och Range Pers ⇒
+			   SG kan godta <strong>Level 3</strong> som husregel</p>
+		  </div>
+		</div>
+	  </div>`,
+
+	/* -----  Animal, Faerie & Wilderness  ----- */
+
+	'feather-light-touch': `
+	  <h2>Feather-Light Touch</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 3</p>
+		  <p><strong>Teknik/Form:</strong> Rego&nbsp;Animal</p>
+		  <p><strong>Range:</strong> Touch</p>
+		  <p><strong>Duration:</strong> Diameter</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 10</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Gör ett litet djur helt passivt i två minuter; det kan lyftas utan
+			 motstånd – populärt knep för att plocka upp fågelungar.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes (ArM5)</h3>
+			<p>ReAn Base 1 (manipulera djurprodukt) +1 Touch +1 Diam
+			   ⇒ <strong>Level 3</strong></p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'whisper-of-the-beast': `
+	  <h2>Whisper of the Beast</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Intellego&nbsp;Animal</p>
+		  <p><strong>Range:</strong> Touch</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 8</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Genom ögonkontakt snappas en enkel känsla eller impuls från ett
+			 djur (rädsla, hunger, ilska).</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes (ArM5)</h3>
+			<p>InAn Base 4 (läs enkel känsla) +1 Touch ⇒ <strong>Level 4</strong></p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'whisker-sense': `
+	  <h2>Whisker-Sense</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Muto&nbsp;Animal (Imaginem)</p>
+		  <p><strong>Range:</strong> Personal</p>
+		  <p><strong>Duration:</strong> Diameter</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 10</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Förstärker Arsenias sinnen genom att låna känsliga egenskaper från katter – morrhårens förmåga att känna luftrörelser, nattseendets skärpa och det finkalibrade hörselsinnets precision. Hon blir inte synligt förändrad, men hennes pupiller vidgas subtilt och hennes rörelser blir mer flytande. </p>
+		 <p> Perfekt för navigering i mörker, upptäcka dolda närvaron utan ljus, eller känna av förändringar i luftströmmar som kan indikera dolda passager. Särskilt användbar i faerie-regios där fysiska rum kan vara förrädiska.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes</h3>
+			<p>MuAn Base 2 (förändra egenskap) +1 Diam +1 complex
+			   ⇒ <strong>Level 4</strong> </p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'hidden-trail-glow': `
+	  <h2>Hidden Trail Glow</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Intellego&nbsp;Terram</p>
+		  <p><strong>Range:</strong> Touch</p>
+		  <p><strong>Duration:</strong> Sun</p>
+		  <p><strong>Target:</strong> Part</p>
+		  <p><strong>Casting Total:</strong> 9</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Spår i jord och grus lyser svagt silverblått för Arsenias ögon och
+			 avslöjar färdväg även i mörker.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes (ArM5)</h3>
+			<p>InTe Base 2 (urskilja form) +1 Touch +2 Sun +1 Part
+			   ⇒ <strong>Level 4</strong> </p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'call-of-the-soft-pawed-watcher': `
+	  <h2>Call of the Soft-Pawed Watcher</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Rego&nbsp;Animal</p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Diameter</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 10</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Kallar på ett litet djur (vanligen en katt) inom 15 meter och får det
+			 att sitta vakt under två minuter.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes</h3>
+			<p>ReAn Base 2 (lägga enkel impuls) +2 Voice +1 Diam
+			   ⇒ <strong>Level 4</strong></p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'glamour-of-feather-and-claw': `
+	  <h2>Glamour of Feather and Claw</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 3</p>
+		  <p><strong>Teknik/Form:</strong> Creo&nbsp;Imaginem (Animal)&nbsp;<span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Touch</p>
+		  <p><strong>Duration:</strong> Diameter</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 26</p>
+		  <p><strong>Die ≥:</strong> 0   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Skapar en liten, fysisk illusion av en rovfågel som kan sitta på
+			 Arsenias arm och hota motståndare (Soak +2, inga skador).</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes</h3>
+			<p>CrIm Base 2 (två sinnen) +1 Touch +1 Diameter +1 Glamour
+			   ⇒ <strong>Level 3</strong></p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'chorus-of-chirps': `
+	  <h2>Chorus of Chirps</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 3</p>
+		  <p><strong>Teknik/Form:</strong> Creo&nbsp;Imaginem (Animal)&nbsp;<span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Diameter</p>
+		  <p><strong>Target:</strong> Group (ljud)</p>
+		  <p><strong>Casting Total:</strong> 24</p>
+		  <p><strong>Die ≥:</strong> 0   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>En kakofoni av illusoriska fågelkvitter fyller området – utmärkt
+			 för att maskera samtal eller förvilla vakter.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes</h3>
+			<p>CrIm Base 1 (enklare ljud) +2 Voice +1 Diameter +1 Group
+			   +1 Glamour ⇒ <strong>Level 3</strong> </p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'eyes-of-the-mouse': `
+	  <h2>Eyes of the Mouse</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Intellego&nbsp;Animal (Imaginem)</p>
+		  <p><strong>Range:</strong> Personal</p>
+		  <p><strong>Duration:</strong> Concentration</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 10</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Arsenia ser genom ögonen på en liten gnagare hon rör vid,
+			 men hör fortfarande sin omgivning.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes</h3>
+			<p>InAn Base 2 (dela en sinne) +1 Conc +1 Complexity
+			   ⇒ <strong>Level 4</strong></p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'footsteps-among-the-flock': `
+	  <h2>Footsteps Among the Flock</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 4</p>
+		  <p><strong>Teknik/Form:</strong> Muto&nbsp;Animal</p>
+		  <p><strong>Range:</strong> Personal</p>
+		  <p><strong>Duration:</strong> Sun</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 10</p>
+		  <p><strong>Die ≥:</strong> 0</p>
+		</div>
+		<div class="spell-description">
+		  <p>Förvandlar Arsenias doft och kroppsljud till dem av ett harmlöst
+			 lamm; boskap reagerar inte när hon passerar.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes</h3>
+			<p>MuAn Base 3 (förändra ytliga detaljer) +2 Sun
+			   ⇒ <strong>Level 4</strong> </p>
+		  </div>
+		</div>
+	  </div>`,
+
+	'still-the-shiver-of-the-hound': `
+	  <h2>Still the Shiver of the Hound</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 6</p>
+		  <p><strong>Teknik/Form:</strong> Rego&nbsp;Animal</p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Diameter</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 10</p>
+		  <p><strong>Die ≥:</strong> 2</p>
+		</div>
+		<div class="spell-description">
+		  <p>En hotfull hund stelnar och faller till lugn i två minuter; ett
+			 Stamina + Stress 9+ bryter effekten.</p>
+		  <div class="rules-notes">
+			<h3>Rules Notes (ArM5)</h3>
+			<p>ReAn Base 4 (lugna djur) +2 Voice ⇒ <strong>Level 6</strong>
+			   </p>
+		  </div>
+		</div>
+	  </div>`,
+          'veil-of-stolen-hours': `
+            <h2>Veil of Stolen Hours</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 15</p>
+                <p><strong>Teknik/Form:</strong> Creo Imaginem (Glamour)</p>
+                <p><strong>Range:</strong> Touch</p>
+                <p><strong>Duration:</strong> Special ("Until cockerel crows")</p>
+                <p><strong>Target:</strong> Part</p>
+                <p><strong>Casting Total:</strong> 24 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Skapar en fullständigt fysiskt påtaglig illusion där Arsenia antar en annan persons fullständiga utseende. Illusionen påverkar alla sinnen – syn, hörsel, känsel, lukt och smak – och inkluderar röst, kroppsspråk, mimik samt personliga detaljer som ärr eller smycken.</p>
+                <p>Besvärjelsen drar nytta av Arsenias mysteriekunskap i Spell Timing, vilket ger den en särskild varaktighet: "tills tuppen gal". Detta innebär vanligtvis fram till gryningen, men den exakta tiden kan variera beroende på narrativ kontext.</p>
+                <h3>Activation:</h3>
+                <p>Arsenia måste under minst en timmes tid noggrant observera målpersonen, dess rörelser och gester, studera ett porträtt eller hålla i en personlig ägodel för att samla tillräcklig information innan hon aktiverar besvärjelsen.</p>
+                <h3>Limitations:</h3>
+                <p>- Kräver konkret förebild: porträtt, klädesplagg eller noggrann visuell observation.<br>- Illusionen kan inte orsaka direkt fysisk skada, endast vilseleda sinnen.<br>- Mål med magisk resistans (MR) måste misslyckas med en MR-test mot CT för att påverkas av illusionens sinnesbedrägeri.</p>
+                <h3>Resonansmanifestationer:</h3>
+                <p><strong>Vid Vänskap/Trygghet:</strong> Förklädnaden känns naturlig och bekväm, med sömlösa övergångar mellan illusionen och verkligheten.</p>
+                <p><strong>Vid Konflikt/Misstro:</strong> Illusionen glimrar ibland till, visar tillfälliga glipor av Arsenias verkliga form som flimrar fram i speglar eller reflexiva ytor.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Creo Imaginem Base 5, +1 Touch, +2 Special Duration (Spell Timing Mystery), +1 Part = Level 15. Specialdurationen "Until cockerel crows" kommer från Spell Timing Mystery enligt HoH:MC s.100-101.</p>
+                </div>
+              </div>
+            </div>
+			`,
+          'echo-of-the-forgotten-twin': `
+            <h2>Echo of the Forgotten Twin</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 15</p>
+                <p><strong>Teknik/Form:</strong> Intellego Mentem (Faerie Magic)</p>
+                <p><strong>Range:</strong> Personal</p>
+                <p><strong>Duration:</strong> Concentration</p>
+                <p><strong>Target:</strong> Room</p>
+                <p><strong>Casting Total:</strong> 15 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Denna besvärjelse använder <em>Faerie Magic</em> – den söker inte efter rena tankar eller minnen, utan efter narrativ betydelse, symbolik och emotionella eko i miljön. Arsenia fokuserar på rester av emotionella och narrativa spår, ofta i faerie-regios, och söker eko av sin syster Seraphina – hennes närvaro, minnen eller påverkan på platsen.</p>
+                <p>Genom att läsa av faerie-narrativets struktur och emotionella mönster kan Arsenia känna om hennes syster har varit närvarande, i en form eller en annan, och potentiellt även avgöra vilken riktning resan har tagit i den fysiska eller narrativa sfären.</p>
+                <h3>Tillämpning:</h3>
+                <p>Används i Arcadia eller andra sagopräglade miljöer där Seraphina kan ha lämnat avtryck. Effektiv för att spåra henne indirekt eller få förvarning om hennes närhet. Särskilt användbar vid platser med stark faerie-närvaro eller där berättelser om försvunna personer är vanliga.</p>
+                <h3>Narrative Response:</h3>
+                <p>Resultatet av besvärjelsen manifesteras ofta i symboliska former, snarare än direkta svar: en fladdermös i en viss färg, ett eko av en särskild ton, doft av en blomma som bara de två systrar kände till. Storyguide avgör vilken typ av ledtråd som är lämplig baserat på kampanjens utveckling.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Intellego Mentem Base 4, +0 Personal, +1 Concentration, +2 Room = Level 15. Faerie Magic gör att besvärjelsen kan söka efter narrativa ekon snarare än bara faktiska minnen.</p>
+                </div>
+              </div>
+            </div>
+          `,
+		  'lullaby-for-the-hidden-seed': `
+		  <h2>Lullaby for the Hidden Seed</h2>
+		  <div class="spell-details">
+			<div class="spell-basics">
+			  <p><strong>Nivå:</strong> 10</p>
+			  <p><strong>Teknik/Form:</strong> Rego Corpus</p>
+			  <p><strong>Range:</strong> Touch</p>
+			  <p><strong>Duration:</strong> Moon</p>
+			  <p><strong>Target:</strong> Individual</p>
+			  <p><strong>Casting Total:</strong> 15</p>
+			</div>
+			 <div class="spell-description">
+				<p>Besvärjelsen hindrar befruktning genom att stilla kroppens skapande funktioner under en hel månad. Används för att kontrollera fertilitet och skydda mot oönskad befruktning.</p>
+				<h3>Tillämpning:</h3>
+				<p>Ofta använd för att skydda mot oväntade graviditeter eller för att säkerställa att vilande skapande krafter inte stör ritualer.</p>
+				<h3>Limitations:</h3>
+				<p>Effekten är inte retroaktiv och måste utföras före möjlig befruktning.</p>
+				<div class="rules-notes">
+				  <h3>Rules Notes (ArM5)</h3>
+				  <p>Rego Corpus Base 2 (hindra naturlig funktion), +1 Touch, +3 Moon = Level 10.</p>
+				</div>
+			  </div>
+			</div>
+			`,
+			'silver-rein': `
+  <h2>Silver Rein of the Slumbering Steed</h2>
+  <div class="spell-details">
+    <div class="spell-basics">
+      <p><strong>Nivå:</strong> 10</p>
+      <p><strong>Teknik/Form:</strong> Rego Animal</p>
+      <p><strong>Range:</strong> Touch</p>
+      <p><strong>Duration:</strong> Concentration</p>
+      <p><strong>Target:</strong> Individual</p>
+      <p><strong>Casting Total:</strong> 19</p>
+    </div>
+    <div class="spell-description">
+      <p>En glittrande töm av silvertrådar slingrar sig kring djurets hals, vilket får det att lugna sig och stå stilla. Denna besvärjelse är särskilt effektiv på hästar och andra stora djur.</p>
+      <h3>Tillämpning:</h3>
+      <p>Perfekt vid hantering av oroliga hästar eller andra tamdjur under stressiga situationer.</p>
+      <h3>Limitations:</h3>
+      <p>Effekten varar endast så länge Arsenia bibehåller sin koncentration. Djuret kan väckas om det utsätts för plötsliga, starka stimuli.</p>
+      <div class="rules-notes">
+        <h3>Rules Notes (ArM5)</h3>
+        <p>Rego Animal Base 4 (kontrollera naturligt djur), +1 Touch, +1 Concentration = Level 10.</p>
+      </div>
+    </div>
+  </div>
+`,
+'sanctuary-of-bound-shadows': `
+  <h2>Sanctuary of Bound Shadows</h2>
+  <div class="spell-details">
+    <div class="spell-basics">
+      <p><strong>Nivå:</strong> 20</p>
+      <p><strong>Teknik/Form:</strong> Creo Imaginem (Glamour)</p>
+      <p><strong>Range:</strong> Touch</p>
+      <p><strong>Duration:</strong> Sun</p>
+      <p><strong>Target:</strong> Circle</p>
+      <p><strong>Casting Total:</strong> 33</p>
+    </div>
+    <div class="spell-description">
+      <p>Skapar en tältliknande kupol av sammanbundna skuggor och månbelysta berättelser, stor nog för två personer. Inuti flätas ett mjukt golv av mörkblått skimmer med inslag av minnen och drömmar, tillsammans med en liten illusorisk härd vars lågor glimrar i silver och indigo.</p>
+	<p>Tältets väggar känns som mjukt, svalt sammet under fingertopparna och håller effektivt ute väder och vind. De glimrar ibland med scener från berättelser; stjärnor tänds och släcks i mönster över den mörka ytan. I tältets mitt står en liten kristallkaraff med vin vars smak varierar beroende på drickarens sinnesstämning.</p>
+      <h3>Tillämpning:</h3>
+      <p>Används för skydd under nattläger eller för hemliga möten där insyn måste undvikas.</p>
+      <h3>Limitations:</h3>
+      <p>Tältet skyddar inte mot fysiska attacker och är beroende av en korrekt ritad cirkel.</p>
+      <div class="rules-notes">
+        <h3>Rules Notes (ArM5)</h3>
+        <p>Creo Imaginem Base 4 (skapa mörker), +1 Touch, +2 Sun, +1 Circle, +1 Glamour = Level 20.</p>
+      </div>
+    </div>
+  </div>
+`,
+
+          'loss-of-but-a-moments-memory': `
+            <h2>Loss of But a Moment's Memory</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 15</p>
+                <p><strong>Teknik/Form:</strong> Perdo Mentem</p>
+                <p><strong>Range:</strong> Eye</p>
+                <p><strong>Duration:</strong> Momentary</p>
+                <p><strong>Target:</strong> Individual</p>
+                <p><strong>Casting Total:</strong> 15 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Målpersonen glömmer det allra senaste ögonblicket – typiskt en mening, syn, eller handling – oftast 6–10 sekunder. Minnesförlusten är plötslig men känns naturlig för målpersonen, som om tankarna bara flöt iväg i en kort distraktion.</p>
+                <p>Besvärjelsen är subtil i sin verkan och skapar inte ett tydligt "hål" i minnet, utan snarare en naturlig övergång där målpersonen känner som om inget särskilt hände under den korta perioden.</p>
+                <h3>Tillämpning:</h3>
+                <p>Effektiv för att ta bort en avslöjad hemlighet, ett utrop, eller upptäckt av Arsenias närvaro. Kan användas i flykt, infiltration eller för att manipulera sociala förlopp. Särskilt användbar i förhandlingar där Arsenia snabbt behöver "ta tillbaka" något som sagts eller visats.</p>
+                <h3>Limitations:</h3>
+                <p>- Påverkar endast korta ögonblick, inte längre minnen.<br>- Måste kastas omedelbart efter händelsen som ska utplånas.<br>- Magisk resistans gäller som vanligt.<br>- Starka emotionella avtryck (trauma, chock, intensiv glädje) kan vara svårare att helt utplåna och kan lämna en känsla av "något viktigt hände" även om det specifika innehållet är borta.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Perdo Mentem Base 10 (radera ett kort minne), +1 Eye, +0 Momentary, +0 Individual = Level 15. Test: Stamina eller MR enligt standard (<em>Core</em> s. 85).</p>
+                </div>
+              </div>
+            </div>
+          `,
+          'seraphinas-whisper': `
+            <h2>Seraphina's Whisper</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 10</p>
+                <p><strong>Teknik/Form:</strong> Muto Imaginem (Glamour)</p>
+                <p><strong>Range:</strong> Personal</p>
+                <p><strong>Duration:</strong> Concentration</p>
+                <p><strong>Target:</strong> Individual</p>
+                <p><strong>Casting Total:</strong> 23 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Arsenias variant av <em>Mellifluous Echo</em>, som inte bara ändrar hennes röst utan ger den en särskild emotionell kvalitet. Rösten blir fylligare, mer övertygande, och bär på subtila vibrationella egenskaper som påverkar lyssnarens känslor.</p>
+                <p>Glamourens kraft gör rösten extra övertygande och ger den en nästan fysisk närvaro i rummet. Lyssnare kan uppleva att rösten kommer från olika riktningar eller har en mjuk eko-kvalitet, som om den resonerar med rummets själva struktur.</p>
+                <h3>Tillämpning:</h3>
+                <p>Perfekt för social manipulation, diplomatiska möten, eller för att skapa distraktion och förvirring i känsliga situationer. Kan användas för att vinna förtroende, väcka sympati, eller, med rätt emotionell nyans, ingjuta en stunds skräck. Särskilt effektiv när den kombineras med berättelser eller sånger.</p>
+                <h3>Resonansmanifestationer:</h3>
+                <p><strong>Vid Vänskap/Trygghet:</strong> Rösten får en varm klang med subtila harmoniker som framkallar nostalgi och trygghet.</p>
+                <p><strong>Vid Konflikt/Misstro:</strong> Rösten får en skärande kvalitet med underton av ekande dissonans som skapar obehag.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Muto Imaginem Base 1 (förändra ljud), +0 Personal, +1 Concentration, +0 Individual, +1 Complexity = Level 10. Ingen fysisk substans krävs, men glamour ger rösten emotionell tyngd.</p>
+                </div>
+              </div>
+            </div>
+          `,
+          'veil-of-poppies': `
+            <h2>Veil of Poppies</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 25</p>
+                <p><strong>Teknik/Form:</strong> Creo Mentem (Spell Timing)</p>
+                <p><strong>Range:</strong> Voice</p>
+                <p><strong>Duration:</strong> Special ("Until cockerel crows")</p>
+                <p><strong>Target:</strong> Group</p>
+                <p><strong>Casting Total:</strong> 18 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Söver en grupp individer djupt tills första tuppens galande, oavsett hur lång eller kort tiden blir. Besvärjelsen använder Arsenias initiering i <em>Spell Timing</em> för att binda varaktigheten till en narrativ händelse snarare än en fast tidpunkt.</p>
+                <p>De påverkade faller i en djup, naturlig sömn som är svår att väcka dem från. De sover fridfullt och kommer att vakna utvilade, utan minne av hur de somnade. Endast kraftiga störningar som direkta fysiska attacker eller högljudda explosioner i deras omedelbara närhet har en chans att väcka dem före tuppens galande.</p>
+                <h3>Tillämpning:</h3>
+                <p>Används för att neutralisera vakter, motståndare eller vittnen utan att skada dem permanent, samt för att skapa narrativa eller taktiska fördelar i faerie-influerade miljöer. Särskilt kraftfull i områden där tiden kan manipuleras, eftersom "tuppens galande" kan variera betydligt från normala tidscykler.</p>
+                <h3>Limitations:</h3>
+                <p>- För att motstå effekten krävs Stamina-slag mot Ease Factor 9.<br>- Magisk resistans gäller som vanligt.<br>- I vissa miljöer där tuppar är sällsynta eller faerie-inflytandet starkt kan "tuppens galande" tolkas bokstavligt eller metaforiskt, vilket kan förändra varaktigheten avsevärt.<br>- I extrema fall kan sömnen bestå i flera dagar om ingen tupp finns i närheten.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Creo Mentem Base 4 (söva), +2 Voice, +2 Special Duration (tack vare Spell Timing), +1 Group = Level 25. Special Duration från HoH:MC s.100-101, "Until X" duration.</p>
+                </div>
+              </div>
+            </div>
+          `,
+          'call-to-slumber': `
+            <h2>Call to Slumber</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 10</p>
+                <p><strong>Teknik/Form:</strong> Rego Mentem</p>
+                <p><strong>Range:</strong> Voice</p>
+                <p><strong>Duration:</strong> Momentary</p>
+                <p><strong>Target:</strong> Individual</p>
+                <p><strong>Casting Total:</strong> 17 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Söver en enskild individ omedelbart, utan smärta eller motstånd. Effekten är ögonblicklig (D: Momentary) men får målet att falla i djup sömn som varar normalt 5–15 minuter, eller längre beroende på omständigheter såsom trötthet, komfort och omgivande ljud.</p>
+                <p>Till skillnad från många sömnbesvärjelser är denna extremt subtil, utan dramatiska gester eller synliga effekter. Den som utsätts upplever en naturlig trötthet som snabbt övergår i sömn.</p>
+                <h3>Tillämpning:</h3>
+                <p>Idealisk för tyst neutralisering av vakter, vittnen eller aggressiva individer. Används ofta tillsammans med illusioner för att maskera Arsenias närvaro eller handlingar. Effektiv för att undvika konfrontation eller för att skapa tid att fly eller eftersöka information.</p>
+                <h3>Limitations:</h3>
+                <p>- Magisk resistans gäller som vanligt.<br>- Individer kan vakna av kraftiga ljud, skakningar eller smärta.<br>- För att motstå effekten krävs Stamina-slag mot Ease Factor 6.<br>- Extremt alerta, drogpåverkade eller fanatiskt fokuserade individer kan få bonusar till sitt resistansslag.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Rego Mentem Base 4 (kontroll av smärre medvetande-funktion), +2 Voice, +0 Momentary, +0 Individual = Level 10. Ingen ritual, momentär duration men effekten fortsätter naturligt.</p>
+                </div>
+              </div>
+            </div>
+          `,
+		 'garment-of-moonlight-and-lies': `
+		  <h2>Garment of Moonlight and Lies</h2>
+		  <div class="spell-details">
+			<div class="spell-basics">
+			  <p><strong>Nivå:</strong> 25</p>
+			  <p><strong>Teknik/Form:</strong> Muto Imaginem <span class="tag">Glamour</span></p>
+			  <p><strong>Range:</strong> Personal</p>
+			  <p><strong>Duration:</strong> Moon</p>
+			  <p><strong>Target:</strong> Individual</p>
+			  <p><strong>Casting Total:</strong> 23 + Aura</p>
+			  <p><strong>Die:</strong> ≥ 0</p>
+			  <p><strong>Fast Cast:</strong> —</p>
+			</div>
+
+			<div class="spell-description">
+			  <p>Dina kläder får en <em>dämpad</em>, silkeslen glans – som om vävda av tunt
+				 månljus blandat med halvt uttalade sagor. På avstånd ser de ut som
+				 högkvalitativt tyg; först när någon kommer riktigt nära skimrar fibrerna
+				 svagt i silver och avslöjar subtila mönster som förskjuts när betraktaren
+				 blinkar. Glamouren är fysisk nog att röra vid men tyget väger inget extra
+				 och smuts eller väta fastnar inte.</p>
+
+			  <h3>Tillämpning:</h3>
+			  <p>Ger Arsenia en diskret men oförglömlig elegans vid rådslag, banketter eller
+				 resor där hon inte vill dra uppenbar magisk uppmärksamhet. När kläderna
+				 belyses direkt (fackla, solstrimma) får de bara en lätt pärlemorskimrande
+				 kant – inget som skriker magi för den oinvigde.</p>
+
+			  <div class="rules-notes">
+				<ul>
+				  <li><strong>Base 10</strong> – förändra bärarens kläder till full Glamour</li>
+				  <li><strong>+3 Moon</strong> – varar upp till 28 dagar</li>
+				  <li><strong>Total Level 25</strong></li>
+				  <li>Enbart visuell/taktil effekt – ingen Soak eller extra MR-interaktion</li>
+				</ul>
+			  </div>
+			</div>
+		  </div>
+		`,
+
+	'shimmering-cloak': `
+	  <h2>Shimmering Cloak of the Vanishing Moon</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 10</p>
+		  <p><strong>Teknik/Form:</strong> Muto Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Personal</p>
+		  <p><strong>Duration:</strong> Concentration</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 23</p>
+		  <p><strong>Die ≥:</strong> 0   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>En skiftande månglans sveper kring Arsenia och skapar efterbilder som
+			 förskjuter hennes position. Motståndare slår mot illusionen först
+			 (≈ 50 % miss-chans).</p>
+		  <h3>Rules Notes (ArM5)</h3>
+		  <p>
+			• Base 3 “change image of a moving target” 
+			• +1 Conc, +0 Pers, +1 complexity (efterbild), +1 Glamour-mag (HoH:MC p.102)   
+			⇒ Level 10.
+		  </p>
+		</div>
+	  </div>`,
+
+	'glittering-veil': `
+	  <h2>Glittering Veil of Thorns</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 10</p>
+		  <p><strong>Teknik/Form:</strong> Creo Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Diameter</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 24</p>
+		  <p><strong>Die ≥:</strong> 0   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Kastar upp en halvmetertjock, taggig häck av skimrande ljus framför
+			 målet. Som glamour är den <em>solid</em>; försöker någon rusa igenom
+			 räknas den som hinder med +3 Soak.</p>
+		  <h3>Rules Notes (ArM5)</h3>
+		  <p>
+			• Base 1 “create an image that affects a single sense”   
+			• +2 Voice, +1 Diameter, +1 additional senses (hörsel av bräckande taggar)  
+			• +1 Glamour-mag (fysisk substans)  
+			⇒ 5 magn. = Level 10.
+		  </p>
+		</div>
+	  </div>`,
+
+	'silver-path': `
+	  <h2>Silver Path to Nowhere</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 10</p>
+		  <p><strong>Teknik/Form:</strong> Rego Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Part (floor)</p>
+		  <p><strong>Casting Total:</strong> 23</p>
+		  <p><strong>Die ≥:</strong> 0   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>För en blixtrande sekund omvandlas marken under en fiendes fötter
+			 till en speglande avgrund; bilden av golvet flyttas tre meter nedåt och
+			 lurar fienden att snubbla (Dex + Athletics 9+ för att stå kvar).</p>
+		  <h3>Rules Notes (ArM5)</h3>
+		  <p>
+			• Base 2 “move an image slowly” uppgraderat till snabbt (+2 mag) = Base 4  
+			• +2 Voice, +0 Mom, +1 Glamour-mag ⇒ 10.
+		  </p>
+		</div>
+	  </div>`,
+
+	'moonbeam-step': `
+	  <h2>Moonbeam Step (Short Leap)</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 10</p>
+		  <p><strong>Teknik/Form:</strong> Rego Imaginem (ReCo) <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Personal</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Individual</p>
+		  <p><strong>Casting Total:</strong> 23</p>
+		  <p><strong>Die ≥:</strong> 0   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Ett blekt månljus sveper in Arsenia; i samma ögonblick
+			 teleporteras hon upp till 5 meter i valfri riktning och bilden följer
+			 med – det ser ut som en ljusstrimma.</p>
+		  <h3>Rules Notes (ArM5)</h3>
+		  <p>
+			• ReCo Base 10 “transport target instantly up to 5 paces”  
+			• +0 Pers, +0 Mom, +0 Ind, +0 Requisite (bilden)  
+			⇒ Level 10.
+		  </p>
+		</div>
+	  </div>`,
+
+	'crimson-echo': `
+	  <h2>Crimson Echo of the Broken Duel</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 15</p>
+		  <p><strong>Teknik/Form:</strong> Creo Imaginem <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Diameter</p>
+		  <p><strong>Target:</strong> Group (up to 5)</p>
+		  <p><strong>Casting Total:</strong> 24</p>
+		  <p><strong>Die ≥:</strong> 6   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Ett skärande skrik och ett stänk av illusoriskt blod över
+			 slagfältet. Alla inom 5 m gör Brave + Stress 9+ för att inte få –1 på
+			 handlingar under nästa rond.</p>
+		  <h3>Rules Notes (ArM5)</h3>
+		  <p>
+			• Base 3 “create image affecting 3 senses”  
+			• +2 Voice, +1 Diam, +1 Group, +1 complexity, +1 Glamour = 15.
+		  </p>
+		</div>
+	  </div>`,
+
+	'glimmer-of-fading-ashes': `
+	  <h2>Glimmer of Fading Ashes</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 15</p>
+		  <p><strong>Teknik/Form:</strong> Muto Imaginem + Vim <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Spell (Ignem)</p>
+		  <p><strong>Casting Total:</strong> 23</p>
+		  <p><strong>Die ≥:</strong> 7   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Riktas mot en pågående <em>eld-spell</em>; lågan förvandlas direkt till ett
+			 virvlande moln av aska som faller till marken och förlorar all värme.</p>
+		  <h3>Rules Notes (Spell-Glamour)</h3>
+		  <p>
+			• Spell-glamour Base 10 “change a spell into a glamour” (HoH:MC p.102)  
+			• +2 Voice ⇒ 15. Måste följa Muto Vim-reglerna: Fast-cast & penetrera mål-CT.
+		  </p>
+		</div>
+	  </div>`,
+
+	'song-of-the-sleeping-thorns': `
+	  <h2>Song of the Sleeping Thorns</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 15</p>
+		  <p><strong>Teknik/Form:</strong> Muto Imaginem + Vim <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Spell (Corpus/Herbam)</p>
+		  <p><strong>Casting Total:</strong> 23</p>
+		  <p><strong>Die ≥:</strong> 7   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Inkapslar en inkommande Corpus- eller Herbam-effekt i en snårig
+			 törnglamour och hindrar den från att träda i kraft.</p>
+		  <h3>Rules Notes</h3>
+		  <p>Samma matta som ovan: Base 10 +2 Voice = 15</p>
+		</div>
+	  </div>`,
+
+	'silver-song-of-fading-arrows': `
+	  <h2>Silver Song of Fading Arrows</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 15</p>
+		  <p><strong>Teknik/Form:</strong> Muto Imaginem + Vim <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Group (projectiles)</p>
+		  <p><strong>Casting Total:</strong> 23</p>
+		  <p><strong>Die ≥:</strong> 7   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Pilar som närmar sig löses upp i sköra bubblor av silverljus och
+			 spricker harmlöst.</p>
+		  <h3>Rules Notes</h3>
+		  <p>Base 10 +2 Voice +1 Group = 15 (för grupp-modifiering)</p>
+		</div>
+	  </div>`,
+
+	'bloom-of-the-false-harvest': `
+	  <h2>Bloom of the False Harvest</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 15</p>
+		  <p><strong>Teknik/Form:</strong> Muto Imaginem + Vim <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Spell (Terram/Herbam)</p>
+		  <p><strong>Casting Total:</strong> 23</p>
+		  <p><strong>Die ≥:</strong> 7   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Ett vapen- eller stenkast-spell spricker i ett regn av doftande
+			 blommor som dalar mot marken.</p>
+		  <h3>Rules Notes</h3>
+		  <p>Spell-glamour Base 10 +2 Voice = 15</p>
+		</div>
+	  </div>`,
+
+	'husk-of-the-chittering-plague': `
+	  <h2>Husk of the Chittering Plague</h2>
+	  <div class="spell-details">
+		<div class="spell-basics">
+		  <p><strong>Nivå:</strong> 15</p>
+		  <p><strong>Teknik/Form:</strong> Muto Imaginem + Vim <span class="tag">Glamour</span></p>
+		  <p><strong>Range:</strong> Voice</p>
+		  <p><strong>Duration:</strong> Momentary</p>
+		  <p><strong>Target:</strong> Spell (Animal/Terram)</p>
+		  <p><strong>Casting Total:</strong> 23</p>
+		  <p><strong>Die ≥:</strong> 7   <strong>Fast Cast:</strong> ✓</p>
+		</div>
+		<div class="spell-description">
+		  <p>Förvandlar en rustnings- eller sköld-spell till ett skriande skal av
+			 kryp som faller sönder på marken.</p>
+		  <h3>Rules Notes</h3>
+		  <p>Base 10 +2 Voice +1 complex illusion (kryp-beteende) = 15</p>
+		</div>
+	  </div>`
+,
+          'shadow-sheath': `
+            <h2>Shadow-Sheath</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Nivå:</strong> 5</p>
+                <p><strong>Teknik/Form:</strong> Perdo Ignem</p>
+                <p><strong>Range:</strong> Touch</p>
+                <p><strong>Duration:</strong> Sun</p>
+                <p><strong>Target:</strong> Individual</p>
+                <p><strong>Casting Total:</strong> 7 + Aura</p>
+              </div>
+              <div class="spell-description">
+                <p>Dämpar och omdirigerar ljus i en meter stor radie runt Arsenia, vilket skapar lokal skugga som motverkar hennes Greater Malediction (–6 på totals i direkt solljus). Skuggan är subtil och följer hennes rörelser utan att påverka andra ljuskällor markant.</p>
+                <p>Effekten liknar inte total mörker, utan snarare en tät skugga där solljuset har försvagats avsevärt. Detta reducerar hennes Malediction-straffet med ungefär hälften i direkt solljus, med Storyguides bedömning av exakt effekt baserat på miljö.</p>
+                <h3>Tillämpning:</h3>
+                <p>Mycket användbar i dagsljus, vid utomhusresor, eller när Arsenia snabbt måste skydda sig från solens påverkan utan att dra uppmärksamhet. Kan kombineras med faktiska skuggiga miljöer för att nästan helt neutralisera Malediction-effekten.</p>
+                <h3>Limitations:</h3>
+                <p>- Ger inte totalt skydd mot Malediction, endast partiell lindring.<br>- Kan tilldra sig uppmärksamhet i miljöer med starkt, direkt solljus där avsaknaden av skuggor är uppenbar.<br>- Har ingen effekt mot extremt intensivt eller magiskt förstärkt ljus.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Perdo Ignem Base 2 (reducera ljusstyrka), +1 Touch, +2 Sun = Level 5. Reducerar ljusstyrka, Magic Resistance är irrelevant eftersom effekten riktas mot ljuset, inte individen.</p>
+                </div>
+              </div>
+            </div>
+          `,
+		  'dreamfire-mantle': `
+			  <h2>Dreamfire Mantle</h2>
+			  <div class="spell-details">
+				<div class="spell-basics">
+				  <p><strong>Nivå:</strong> 15</p>
+				  <p><strong>Teknik/Form:</strong> Creo Ignem</p>
+				  <p><strong>Range:</strong> Personal</p>
+				  <p><strong>Duration:</strong> Sun</p>
+				  <p><strong>Target:</strong> Individual</p>
+				  <p><strong>Casting Total:</strong> 19</p>
+				</div>
+				<div class="spell-description">
+				  <p>En mantel av skimrande, drömmande eld sveper kring Arsenia, ger värme utan att skada och kastar ett dämpat ljus runtom. Elden verkar mer eterisk än verklig och fladdrar som månljus.</p>
+				  <h3>Tillämpning:</h3>
+				  <p>Används för att skydda mot kyla och skapa ett hypnotiskt sken som kan distrahera motståndare.</p>
+				  <h3>Limitations:</h3>
+				  <p>Manteln ger ingen fysisk skada och kan inte användas offensivt. Den kan avslöja Arsenias position i mörker.</p>
+				  <div class="rules-notes">
+					<h3>Rules Notes (ArM5)</h3>
+					<p>Creo Ignem Base 4 (värme utan skada), +2 Sun, +1 Personal, +0 Individual = Level 15.</p>
+				  </div>
+				</div>
+			  </div>
+			`,
+		    'silver-skim-droplet': `
+    <h2>Silver-Skim Droplet</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 2</p>
+        <p><strong>Teknik/Form:</strong> Rego Aquam</p>
+        <p><strong>Range:</strong> Touch</p>
+        <p><strong>Duration:</strong> Concentration</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 10</p>
+        <p><strong>Die ≥:</strong> 0</p>
+      </div>
+
+      <div class="spell-description">
+        <p>Du lyfter en enskild vattendroppe som svävar dit du pekar – perfekt som diskret
+           markör eller “laserpekare” i sagolika förhandlingar.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>ReAq Base 1 (kontrollera vätska försiktigt) + 1 Touch ⇒ <strong>Level 2</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+		'mirror-of-momentary-truth': `
+		  <h2>Mirror of Momentary Truth</h2>
+		  <div class="spell-details">
+			<div class="spell-basics">
+			  <p><strong>Nivå:</strong> 3</p>
+			  <p><strong>Teknik/Form:</strong> Intellego Vim</p>
+			  <p><strong>Range:</strong> Touch</p>
+			  <p><strong>Duration:</strong> Momentary</p>
+			  <p><strong>Target:</strong> Individual</p>
+			  <p><strong>Casting Total:</strong> 7 + Aura</p>
+			  <p><strong>Die:</strong> ≥ 0</p>
+			  <p><strong>Fast Cast:</strong> —</p>
+			</div>
+
+			<div class="spell-description">
+			  <p>Ett blankt föremål (dolkblad, vattenyta, polerad sten) reflekterar i
+				 ett ögonblick de magiska spår som vilar på ett mål – särskilt sådana av
+				 faerie-ursprung. I spegelbilden glimmar en tunn, pärlgrå aura runt
+				 föremål eller personer som nyligen påverkats av saga-krafter.</p>
+
+			  <h3>Tillämpning:</h3>
+			  <p>Snabb kontroll om ett objekt eller en plats bär faerie-magi: vid fynd i
+				 ruiner, under förhandlingar, eller innan du bryter en sigillförseglad
+				 kista.</p>
+
+			  <div class="rules-notes">
+				<ul>
+				  <li><strong>Base 1</strong> – ”Detect the presence of magic” (ArM5 p.158)</li>
+				  <li><strong>+1 Touch</strong> – du rör den reflekterande ytan</li>
+				  <li><strong>+1 Complexity</strong> – visuellt projicerar magin som glöd i
+					  spegeln</li>
+				  <li><strong>Total = Level 3</strong></li>
+				</ul>
+			  </div>
+			</div>
+		  </div>
+		`,
+
+  'skim-the-oil': `
+    <h2>Skim the Oil</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 2</p>
+        <p><strong>Teknik/Form:</strong> Rego Aquam</p>
+        <p><strong>Range:</strong> Touch</p>
+        <p><strong>Duration:</strong> Concentration</p>
+        <p><strong>Target:</strong> Part</p>
+        <p><strong>Casting Total:</strong> 6</p>
+        <p><strong>Die ≥:</strong> 0</p>
+      </div>
+
+      <div class="spell-description">
+        <p>Får olja och fett att flyta samman till ett skikt som kan skummas bort eller
+           samlas upp, utan att röra vattnet under.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>ReAq Base 1 + 1 Touch (+ 1 Part vid behov) ⇒ <strong>Level 2</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+
+  'test-of-sweet-and-sour': `
+    <h2>Test of Sweet &amp; Sour</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 2</p>
+        <p><strong>Teknik/Form:</strong> Intellego Aquam</p>
+        <p><strong>Range:</strong> Touch</p>
+        <p><strong>Duration:</strong> Momentary</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 8</p>
+        <p><strong>Die ≥:</strong> 0</p>
+      </div>
+
+      <div class="spell-description">
+        <p>Ett ögonblicks inre smakprov avslöjar om en dryck är säker, jäst,
+           odrickbar eller giftig.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>InAq Base 1 (urskilja en egenskap) + 1 Touch ⇒ <strong>Level 2</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+
+  'identify-the-ink': `
+    <h2>Identify the Ink</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 3</p>
+        <p><strong>Teknik/Form:</strong> Intellego Aquam</p>
+        <p><strong>Range:</strong> Touch</p>
+        <p><strong>Duration:</strong> Momentary</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 8</p>
+        <p><strong>Die ≥:</strong> 0</p>
+      </div>
+
+      <div class="spell-description">
+        <p>Genom att snudda vid skriften ser du exakt vilka pigment som ingår –
+           järngallbläck, sot, lichenfärger, blod m.m. – och kan ofta spåra källa
+           eller ålder.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>InAq Base 2 (urskilja sammansättning) + 1 Touch ⇒ <strong>Level 3</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+
+  'thirst-quenching-drop': `
+    <h2>Thirst-Quenching Drop</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 3</p>
+        <p><strong>Teknik/Form:</strong> Creo Aquam</p>
+        <p><strong>Range:</strong> Touch</p>
+        <p><strong>Duration:</strong> Momentary</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 7</p>
+        <p><strong>Die ≥:</strong> 0</p>
+      </div>
+
+      <div class="spell-description">
+        <p>Kondenserar fukt ur luften till en klar munfull vatten – tillräckligt för att
+           släcka akut törst eller fylla en liten ampulla.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>CrAq Base 2 (skapa mycket liten mängd vatten) + 1 Touch ⇒ <strong>Level 3</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+  'silent-tear': `
+    <h2>Silent Tear</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 2</p>
+        <p><strong>Teknik/Form:</strong> Rego Aquam</p>
+        <p><strong>Range:</strong> Personal</p>
+        <p><strong>Duration:</strong> Concentration</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 6</p>
+        <p><strong>Die ≥:</strong> 0</p>
+      </div>
+
+      <div class="spell-description">
+        <p>En enda tår lyfts från kinden och svävar stilla intill ögat – en
+           dramatisk symbol under tyst diplomati eller sorgesång.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>ReAq Base 1 (försiktig kontroll av vätska) +0 Pers +1 Con ⇒ <strong>Level 2</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+
+  'dancer-on-the-dew': `
+    <h2>Dancer on the Dew</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 1</p>
+        <p><strong>Teknik/Form:</strong> Rego Aquam</p>
+        <p><strong>Range:</strong> Personal</p>
+        <p><strong>Duration:</strong> Momentary</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 6</p>
+        <p><strong>Die ≥:</strong> 0</p>
+      </div>
+
+      <div class="spell-description">
+        <p>En liten sfär av dagg snurrar ett varv runt fingertoppen och bryter
+           ljuset på ett charmigt sätt – ger +3 Charm för den lekfulla gesten.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>ReAq Base 1 +0 Pers +0 Mom ⇒ <strong>Level 1</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+
+  'touch-of-the-clear-cup': `
+    <h2>Touch of the Clear Cup</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 2</p>
+        <p><strong>Teknik/Form:</strong> Perdo Aquam</p>
+        <p><strong>Range:</strong> Touch</p>
+        <p><strong>Duration:</strong> Momentary</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 2</p>
+        <p><strong>Die ≥:</strong> 2</p>
+      </div>
+
+      <div class="spell-description">
+        <p>Renar en dryck från sand, löv och annan smuts; smaken påverkas inte.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>PeAq Base 2 (förstöra fukt/oreda i objekt) +1 Touch ⇒ <strong>Level 3</strong>.  
+             *Husregel:* Behandlas som Lv 2 då endast orenheter tas bort.</p>
+        </div>
+      </div>
+    </div>`,
+
+  'snap-freeze': `
+    <h2>Snap-Freeze</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 4</p>
+        <p><strong>Teknik/Form:</strong> Muto Aquam</p>
+        <p><strong>Range:</strong> Touch</p>
+        <p><strong>Duration:</strong> Momentary</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 6</p>
+        <p><strong>Die ≥:</strong> 2</p>
+      </div>
+
+      <div class="spell-description">
+        <p>En liten droppe vätska stelnar genast till klar is – nyttigt för sigill,
+           spår eller för att stoppa ett läckande kärl.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>MuAq Base 3 (vatten → is) +1 Touch ⇒ <strong>Level 4</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+
+  'ward-of-the-dripping-cloak': `
+    <h2>Ward of the Dripping Cloak</h2>
+    <div class="spell-details">
+      <div class="spell-basics">
+        <p><strong>Nivå:</strong> 3</p>
+        <p><strong>Teknik/Form:</strong> Rego Aquam</p>
+        <p><strong>Range:</strong> Touch</p>
+        <p><strong>Duration:</strong> Diameter</p>
+        <p><strong>Target:</strong> Individual</p>
+        <p><strong>Casting Total:</strong> 6</p>
+        <p><strong>Die ≥:</strong> 0</p>
+      </div>
+
+      <div class="spell-description">
+        <p>Regn och stänk böjer av från kläder och hår; du förblir torr och
+           vattnet rinner av som från ett vaxat tyg.</p>
+
+        <div class="rules-notes">
+          <h3>Rules Notes (ArM5)</h3>
+          <p>ReAq Base 1 (avvisa vätska) +1 Touch +1 Diameter ⇒ <strong>Level 3</strong>.</p>
+        </div>
+      </div>
+    </div>`,
+		
+          'thread-of-shared-breath': `
+            <h2>Thread of Shared Breath</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Typ:</strong> InCo/InMe 10, Arcane Connection-bound</p>
+                <p><strong>Konstruktion:</strong> Med 1 pawn Vim-vis och en veckas labbarbete</p>
+                <p><strong>Penetration:</strong> 0</p>
+                <p><strong>Lab Total:</strong> Intellego 4 + Corpus/Mentem 4 + Int 3 + Magic Theory 4 + Aura 3 = 18</p>
+              </div>
+              <div class="spell-description">
+                <p>En tunn, silvertvinnad tråd som bär på ett djupt samband med Arsenias försvunna tvillingsyster. När Arsenia fokuserar i stillhet och håller tråden, känner hon om Seraphina är "borta", "nära" eller "förlorad" – inte som geografisk positionering utan som en emotionell närvaro.</p>
+                <p>Föremålet verkar genom symbolisk resonans snarare än geografisk precision – en känsla i magen, en viskning i dimman, ett hjärtslag som ekotvist speglar ett annat. Knytningen är subtil men stadig, främst genom det delade blodet och deras gemensamma barndom.</p>
+                <h3>Aktivering:</h3>
+                <p>Arsenia måste hålla tråden och viska sin systers namn vid solnedgång eller gryning. Resultatet kommer som en känsla eller bild – inte exakt plats, men emotionell status och närvarograd.</p>
+                <h3>Begränsningar:</h3>
+                <p>- Kan bara användas en gång per vecka.<br>- Fungerar inte om Seraphina skyddas av kraftig Magic Resistance eller befinner sig i tidsförskjutet regio.<br>- Ger bara den generella känslan "borta", "nära" eller "förlorad", inte precis position eller tillstånd.<br>- "Nära" kan betyda fysiskt, tidsmässigt eller narrativt – tolkningen är inte alltid uppenbar.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Magic Device; InCo/InMe 10 via Arcane Connection, penetration 0. Lab total enligt standard, Arcane Connection används för att relatera till Seraphina genom deras tvillingband.</p>
+                </div>
+              </div>
+            </div>
+          `,
+		  
+          'shroud-of-the-ever-true-sister': `
+            <h2>Shroud of the Ever-True Sister</h2>
+            <div class="spell-details">
+              <div class="spell-basics">
+                <p><strong>Typ:</strong> Lesser Enchanted Device (CrIm Glamour)</p>
+                <p><strong>Effekt-nivå:</strong> 24</p>
+                <p><strong>Konstruktion:</strong> 1 pawn vis öppning, 3 pawn investerat</p>
+                <p><strong>Lab Total:</strong> Creo 7 + Imaginem 15 + Int 3 + Magic Theory 4 + Aura 3 = 32</p>
+                <p><strong>Penetration:</strong> 0</p>
+              </div>
+              <div class="spell-description">
+                <p>En enkel nunnesjal av grått linnetyg som, när den sveps runt axlarna, skapar en fullständig fysisk glamour-förklädnad som en tyst klostersyster. Illusionen inkluderar en komplett nunnehabit, slöja, och de små, subtila förändringarna i hållning och ansiktsdrag som gör förklädnaden övertygande.</p>
+                <p>Föremålet aktiveras automatiskt vid soluppgång och solnedgång, eller närhelst Arsenia medvetet sveper sjalen runt sina axlar. Effekten känns och ter sig helt verklig för alla sinnen, inklusive beröring och ljud (sjalen ger ett svagt prasslande av tyg vid rörelse).</p>
+                <h3>Aktivering:</h3>
+                <p>När Arsenia sveper sjalen runt axlarna vid solupp- eller nedgång triggas effekten och varar konstant tills nästa solväxling. Tar hon av sjalen bryts illusionen; den tänds igen nästa gång hon sveper den eller vid nästa automatiska trigger.</p>
+                <h3>Begränsningar & spel:</h3>
+                <p>- Ingen casting eller botch-risk i fält.<br>- Om sjalen tas av Arsenia upphör effekten, men kan återaktiveras.<br>- Illusionen blir skör om hon bryter rollen (t.ex. uppför sig uppenbart icke-religiöst).<br>- Kläderna är inte verkliga vapen eller verktyg, även om de känns verkliga.<br>- Penetration är 0, så varelser med magisk resistans påverkas inte av illusionen.</p>
+                <div class="rules-notes">
+                  <h3>Rules Notes (ArM5)</h3>
+                  <p>Lesser Device: CrIm Glamour Base 5, +1 Touch, +2 Sun, +1 Glamour, +1 Complexity = Lvl 10. Device mods: +4 Environmental Trigger, +2 Uses/day, -3 Linked Trigger = Level 24 (5+1+2+1+1+4+2-3).</p>
+                </div>
+              </div>
+            </div>
+          `
+        };
+        
+        return spellDatabase[spellId] || '<p>Besvärjelsebeskrivning saknas.</p>';
+      }
+    </script>
+  </div>
+</body>
+</html>

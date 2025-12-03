@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alain & Arsenia - Relation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+      padding-bottom: 1rem;
+    }
+    h1 {
+      color: #fef3c7;
+      font-size: 2.5rem;
+      margin: 0;
+      font-family: 'Inconsolata', monospace;
+      font-weight: 700;
+    }
+    h1 span {
+      font-size: 2rem;
+      font-weight: normal;
+      font-style: italic;
+    }
+    h2 {
+      color: #fef3c7;
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-family: 'Inconsolata', monospace;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      color: #fef3c7;
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-family: 'Inconsolata', monospace;
+    }
+    .subtitle {
+      color: rgba(254, 243, 199, 0.8);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+      margin-bottom: 0.5rem;
+      font-family: 'Inconsolata', monospace;
+    }
+    .nav-link:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    .section-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    .section-button {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+      cursor: pointer;
+      font-size: 0.9rem;
+      border: 1px solid rgba(217, 119, 6, 0.2);
+    }
+    .section-button:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+      border-color: rgba(217, 119, 6, 0.4);
+    }
+    .section-button.active {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.6);
+    }
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .nav-button {
+      background-color: rgba(30, 41, 59, 0.6);
+      color: #fef3c7;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 0.25rem;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .nav-button:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.6);
+    }
+    .text-content {
+      margin-bottom: 2rem;
+      background-color: rgba(30, 41, 59, 0.3);
+      padding: 2rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    .text-content p {
+      margin-bottom: 1rem;
+    }
+    .quote {
+      border-left: 3px solid rgba(217, 119, 6, 0.5);
+      padding-left: 1rem;
+      margin-left: 1rem;
+      font-style: italic;
+      color: #fef3c7;
+      margin: 1.5rem 0 1.5rem 1rem;
+    }
+    .image-wrapper {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .portrait {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .portrait img {
+      max-width: 100%;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      max-height: 400px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: rgba(254, 243, 199, 0.5);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 2rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      background-color: rgba(30, 41, 59, 0.6);
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    th {
+      color: #fef3c7;
+      font-weight: 600;
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    tr:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background-color: rgba(30, 41, 59, 0.8);
+      color: #fef3c7;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .key-phrase {
+      font-style: italic;
+      color: #fef3c7;
+      font-weight: bold;
+    }
+    .magical-effect {
+      color: #a5f3fc;
+      font-style: italic;
+    }
+    @media (max-width: 640px) {
+      .container {
+        padding: 1rem;
+      }
+      .text-content {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      h1 span {
+        font-size: 1.6rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+  <style>
+    /* Lightbox styling */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+      cursor: pointer;
+    }
+
+    .lightbox-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fef3c7;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 20px rgba(254, 243, 199, 0.3);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      color: #f8fafc;
+      font-size: 2rem;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover {
+      color: #fef3c7;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Gör bilder klickbara */
+    .clickable-image {
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .clickable-image:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes zoom {
+      from {transform: scale(0.1)} 
+      to {transform: scale(1)}
+    }
+
+    .lightbox-content {
+      animation-name: zoom;
+      animation-duration: 0.4s;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Alain & Arsenia <span>"En Förbannad Resonans"</span></h1>
+      <p class="subtitle">Där skugga möter dröm och berättelse möter stål</p>
+      
+      <div class="nav-bar">
+        <a class="nav-link" href="index.html">Hem</a>
+        <a class="nav-link" href="grimoire.html">Grimoire</a>
+        <a class="nav-link" href="alain.html">Alain</a>
+        <a class="nav-link" href="stats.html">Karaktärsblad</a>
+        <a class="nav-link" href="bakgrund.html">Bakgrund</a>
+        <a class="nav-link" href="stories.html">Berättelser</a>
+		<a href="journaler.html" class="nav-link">Journaler</a>
+      </div>
+    </header>
+    
+    <!-- Porträttbild -->
+    <div class="portrait">
+      <img src="alain-arsenia.jpg" alt="Alain och Arsenia i skymningen" class="clickable-image" onclick="openLightbox(this.src)">
+    </div>
+    
+    <!-- Lightbox container -->
+    <div id="imageLightbox" class="lightbox">
+      <span class="lightbox-close">&times;</span>
+      <img class="lightbox-content" id="fullImage">
+    </div>
+    
+    <!-- Nyckelcitat -->
+    <blockquote class="quote">
+      "Ibland undrar jag om du bara är ytterligare en illusion jag skapat, Alain. Men illusioner gör inte ont att röra vid."<br>
+      — Arsenia till Alain
+    </blockquote>
+    <blockquote class="quote">
+      "Vi delar samma förbannelse, trollkvinna. Du förlorar dig själv i dina sagor, jag förlorar mig själv i mina segrar. Kanske är det därför vi hittar varandra i mörkret."<br>
+      — Alain till Arsenia
+    </blockquote>
+    
+    <div class="section-nav">
+      <button class="section-button active" onclick="showSection('sec1')">En bundenhet de inte valt</button>
+      <button class="section-button" onclick="showSection('sec2')">Drivet av nödvändighet</button>
+      <button class="section-button" onclick="showSection('sec3')">Speglingar och resonans</button>
+      <button class="section-button" onclick="showSection('sec4')">Gränsövergångar</button>
+      <button class="section-button" onclick="showSection('sec5')">Drömmar och hemligheter</button>
+    </div>
+    
+    <div class="text-content">
+      <div id="sec1" class="section active">
+        <h2>En bundenhet de inte valt</h2>
+        
+        <p>De två delar en fysisk relation som är lika intensiv som den är oönskad. Ingen av dem vill egentligen ha den – inte i det här sammanhanget, inte på de här villkoren. Och ändå söker de varandras kroppar som om det vore en ritual. Som om världen annars skulle gå sönder.</p>
+        
+        <p>Det är inte kärlek. Inte som den ser ut i sångerna.<br>
+        Det är skuld, hunger, ilska, tröst, och något som liknar ödesmättad överlevnadsinstinkt.</p>
+        
+        <p>Varför måste de fortsätta? För att något bryts i båda när de försöker avstå:</p>
+        
+        <p>Arsenia, tyngd av sin malediction och av systerns förlust, behöver någonting verkligt. Något som inte går att trolla fram, inte ens med Glamour.</p>
+        
+        <p>Alain bär krigets trauma i köttet. Endast i hennes närhet känner han att det fortfarande finns värme kvar i världen. Men varje gång han rör henne, förlorar han lite till – och det vet han.</p>
+        
+        <p>Och så finns det något annat. Något ingen av dem vågar säga högt:</p>
+        
+        <p>När de sover åtskilda, drömmer de samma dröm.<br>
+        Ett slagfält av ljus och dimma, där ett namn viskas genom blodrök: <span class="key-phrase">Seraphina</span>.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextSection()">Nästa avsnitt</button>
+        </div>
+      </div>
+      
+      <div id="sec2" class="section">
+        <h2>Drivet av nödvändighet</h2>
+        
+        <h3>För Arsenia:</h3>
+        <ul>
+          <li><strong>Förankring i verkligheten:</strong> Efter år av att manipulera illusioner, dimmas gränser och glamour, behöver hon något som är obestridligt verkligt - Alains kroppsliga närvaro, hans smärta och värme är omöjliga att fejka med magi</li>
+          <li><strong>Självbestraffning:</strong> Varje intim stund med Alain påminner henne om priset för hennes misslyckande med Seraphina - hon "förtjänar inte" äkta kärlek utan bara denna förvrängda spegelbild</li>
+          <li><strong>Spegling:</strong> I Alains "förbannelse" ser hon en reflektion av sitt eget öde - båda förlorar mer på varje seger</li>
+          <li><strong>Omedveten resonans:</strong> Något i hans närvaro förstärker hennes magiska band till Seraphina (vilket förklarar de delade drömmarna)</li>
+        </ul>
+        
+        <h3>För Alain:</h3>
+        <ul>
+          <li><strong>Mystisk dragning:</strong> En mörkare del av honom anar att Arsenia kan bli hans slutgiltiga förlust - den som äntligen ger hans liv mening</li>
+          <li><strong>Skyddsbehov:</strong> Att beskydda henne blir ett sätt att gottgöra alla han inte kunde rädda under krigen</li>
+          <li><strong>Legitimitet:</strong> Som enkel mundane i en magisk värld ger relationen med Arsenia honom en roll bland de mäktiga</li>
+          <li><strong>Förvirring:</strong> Han förstår inte de magiska krafterna kring henne, men känner dem som en dragningskraft han inte kan förklara</li>
+        </ul>
+        
+        <blockquote class="quote">
+          "Jag formar illusioner som lämnar märken i både sinne och verklighet – berättelser som går att ta på, ljus som bär tyngd, lögner som skyddar. Min magi är lika mycket en scen som en sköld... men mina sköldar har redan visat sig vara bräckliga."<br>
+          — Ur Arsenias privata anteckningar
+        </blockquote>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextSection()">Nästa avsnitt</button>
+        </div>
+      </div>
+      
+      <div id="sec3" class="section">
+        <h2>Speglingar och resonans</h2>
+        
+        <p>När Alain "Rödstäv" befinner sig inom Voice Range (cirka 15 meter) påverkas Arsenias spontana Glamour-spells av deras inbördes relation. Detta fenomen, känt som <span class="key-phrase">Emotional Resonance of Glamour</span>, ger hennes magi unika och föränderliga egenskaper.</p>
+        
+        <h3>Vänskap / Trygghet:</h3>
+        <p>När deras relation är harmonisk och förtroendefull, manifesterar hennes Glamour-effekter med <span class="magical-effect">ett silverskimmer, pärlemorglans och roséguldstoner</span>. Rörelserna blir flytande och ljuden milda. I dessa stunder kan Arsenia skapa illusioner som nästan överskrider gränsen mellan dröm och verklighet.</p>
+        
+        <h3>Konflikt / Misstro:</h3>
+        <p>I tider av spänning och avstånd mellan dem spricker hennes illusioner, <span class="magical-effect">bleknar i järngrått och rostrött</span>. Rörelserna hackar och ljuden ekar skärande. Magin förblir kraftfull men präglas av en destruktiv, nästan sorgsen kvalitet.</p>
+        
+        <p>Vissa besvärjelser visar särskilt starka resonanseffekter:</p>
+        
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Spell</th>
+                <th>Vänskap / Trygghet</th>
+                <th>Konflikt / Misstro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Thread of Story</strong></td>
+                <td>En stadig, silvertråd med guldskimmer som pulserar rytmiskt i takt med Alains hjärtslag</td>
+                <td>Tunn, nästan osynlig tråd som splittras i flera osäkra riktningar</td>
+              </tr>
+              <tr>
+                <td><strong>Sanctuary of Bound Shadows</strong></td>
+                <td>Varm kupol med vävda minnesbilder från gemensamma resor</td>
+                <td>Kylig, skuggig kupol med pulserande orosbilder</td>
+              </tr>
+              <tr>
+                <td><strong>Seeker's Respite</strong></td>
+                <td>Varm, stadig låga med guldskimmer; lägerelden formar bilder av passerade landskap</td>
+                <td>Flackande, kall flamskugga med blåaktig ton; skuggfigurer som tycks kämpa mot varandra</td>
+              </tr>
+              <tr>
+                <td><strong>Silver Rein of the Slumbering Steed</strong></td>
+                <td>Tömmen skimrar varmt, hästen tuggar rofyllt, dess ögon speglar månsken</td>
+                <td>Tömmen spricker ibland i gnistor, hästens lugn känns ansträngt, dess muskler darrar subtilt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <p>Under särskilt intensiva ögonblick av emotionell resonans kan svaga ekon av Seraphina ibland skönjas i Glamourens manifestationer - ett bekant leende i skimrets skiftningar, ett viskande i dimman som liknar hennes röst, eller en vag doftprofil som frammanar minnen av barndomen.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextSection()">Nästa avsnitt</button>
+        </div>
+      </div>
+      
+      <div id="sec4" class="section">
+        <h2>Gränsövergångar</h2>
+        
+        <p>Vissa situationer belyser deras relation särskilt tydligt, ofta vid gränser mellan olika tillstånd eller världar:</p>
+        
+        <h3>Gränsövergångar:</h3>
+        <p>När de reser mellan regios eller korsar gränsen mellan mundane/magiska områden blir deras fysiska närhet intensivare, som om deras kroppar söker bekräftelse på varandras existens. Båda har noterat att i dessa övergångsmoment blir beröringar nästan elektriska, och Alains närvaro förstärker Arsenias magiska förmåga att navigera gränslandskapets dimmor.</p>
+        
+        <h3>Arsenias svaghet i direkt solljus:</h3>
+        <p>Scener där Alain arrangerar skydd åt henne under dagsljusresor - skapar tältdukar, hittar skuggade stigar, och ibland bär henne när hon är försvagad. Hans beskyddargester blir ömma trots hans råa yttre, och dessa ögonblick skapar en sårbar intimitet som båda finner svår att hantera.</p>
+        
+        <blockquote class="quote">
+        "Skymningen föll snabbt över skogen, klibbig som halvtorkat blod. Jag hade redan samlat grenar till ett bål som aldrig skulle tändas. Gammal vana. I krig lär man sig att överleva, eller så dör man. Enkelt.
+        
+        'Du behöver inte,' sa Arsenia när jag dumpade grenarna i en ordnad hög. Hennes röst lät skör i skymningen, tunnare än vanligt efter dagen på vägarna.
+        
+        Jag svarade inte. Hon behövde min hög av grenar lika lite som jag behövde hennes magi. Men vi bar båda våra bördor."
+        </blockquote>
+        
+        <h3>Efter en av Arsenias laboratoriesäsonger:</h3>
+        <p>Efter veckor isolerad i magiskt arbete kan Arsenia nästan hungrigt söka hans fysiska närvaro, bara för att sedan dra sig undan med skam och självförakt efteråt.</p>
+        
+        <h3>Alains drömmar om Seraphina:</h3>
+        <p>När han beskriver dem till Arsenia märker hon att han ibland vet detaljer om systern som Arsenia aldrig berättat - vilket antyder att något magiskt verkligen sker mellan dem som kopplar till hennes försvunna syster.</p>
+        
+        <h3>Meriniternas reaktioner:</h3>
+        <p>Andra magiker från House Merinita reagerar med ogillande eller oro när de märker vilket inflytande en "simpel mundane" har på Arsenia - vilket tvingar dem båda att försvara något de själva inte förstår.</p>
+        
+        <h3>Faerie-möten:</h3>
+        <p>När de möter faeries reagerar dessa med särskilt intresse för paret, kallar dem "den splittrade spegeln" eller liknande kryptiska namn som antyder att deras band har en större betydelse i faerie-världen.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextSection()">Nästa avsnitt</button>
+        </div>
+      </div>
+      
+      <div id="sec5" class="section">
+        <h2>Drömmar och hemligheter</h2>
+        
+        <p>De mörkaste hemligheter har ett sätt att länka samman själar. Både Arsenia och Alain bär på trauman relaterade till ett systerskap som brutits genom deras egna handlingar:</p>
+        
+        <h3>Alains mörka hemlighet:</h3>
+        <p>Under sin tid som legosoldat var Alain del av en grupp svältande soldater som plundrade en by. I kaoset dödade han en ung man som försökte försvara sin syster med en högaffel. Detta skapade ett trauma han aldrig kunnat fly från - den döda pojkens träkorsmedalj bär han fortfarande som en påminnelse om sin skuld.</p>
+        
+        <blockquote class="quote">
+        "Alains svärd klöv luften, fann kött, ben, sänkte sig i en kropp som föll. Flickans ansikte, skräckslaget, förvrängdes i hans minne till en mask av anklagelse.
+        
+        När stormen bedarrat vände sig Alain tyst bort från sina kamrater, från deras byten. I hans kupa av händer vilade en död ynglings medalj, en enkel träcirkel med inristat kors."
+        </blockquote>
+        
+        <h3>Arsenias förlust:</h3>
+        <p>Den magiska avtalet med Irisblomman som kostade Arsenia hennes syster Seraphina skapar en spegling till Alains trauma - båda har förorsakat en systers smärta och förlust genom sina handlingar.</p>
+        
+        <p>Denna parallella skuld knyter dem samman på ett djupare plan, som två sidor av samma mynt. Deras delade drömmar om Seraphina är inte bara magiskt betydelsefulla - de fungerar som en psykologisk väg att bearbeta deras gemensamma skuld.</p>
+        
+        <h3>De delade drömmarna:</h3>
+        
+        <blockquote class="quote">
+        "De vaknade samtidigt. Svettiga, skakande, tysta.
+        
+        'Fåglar utan huvuden den här gången?' frågade hon.
+        
+        'En fältlägerplats. Blod i regnet. Din syster stod mitt i det.'
+        
+        Arsenia sa inget.
+        
+        'Hon kallade mig vid namn. Inte Alain. Hon sa 'den siste som ska minnas henne'.'
+        
+        Tystnad, igen. Glamouren i rummet började fläcka. Speglarna sprack i kanterna. Hon reste sig och gick.
+        
+        Alain satt kvar, höll en kniv mellan fingrarna som om det var ett altarskålp."
+        </blockquote>
+        
+        <p>I dessa drömmar förs de båda in i ett gränslandskap som varken är Arcadia eller den vanliga världen, utan en plats där skuldens minnen möter magiska sanningar. Det är i dessa drömmar som de kanske får sina första ledtrådar till hur Seraphina kan räddas - och hur både Arsenia och Alain kan finna någon form av förlåtelse.</p>
+        
+        <div class="navigation-buttons">
+          <button class="nav-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Tillbaka till toppen</button>
+          <button class="nav-button" onclick="showNextSection()">Nästa avsnitt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <a href="#" class="back-to-top" id="backToTop">↑</a>
+  
+  <script>
+    // Visa endast ett avsnitt i taget
+    function showSection(sectionId) {
+      // Hitta index för detta avsnitt
+      currentSectionIndex = sections.indexOf(sectionId);
+      
+      // Uppdatera knappstilarna
+      const sectionButtons = document.querySelectorAll('.section-button');
+      sectionButtons.forEach(button => {
+        button.classList.remove('active');
+      });
+      document.querySelector(`.section-button[onclick="showSection('${sectionId}')"]`).classList.add('active');
+      
+      // Dölj alla avsnitt
+      const sectionsElements = document.querySelectorAll('.section');
+      sectionsElements.forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Visa valt avsnitt
+      document.getElementById(sectionId).classList.add('active');
+      
+      // Scrolla till toppen av textsektionen
+      document.querySelector('.text-content').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Visa/dölj "tillbaka till toppen"-knappen
+    window.onscroll = function() {
+      const backToTopButton = document.getElementById('backToTop');
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    };
+    
+    let currentSectionIndex = 0;
+    const sections = ['sec1', 'sec2', 'sec3', 'sec4', 'sec5'];
+
+    function showNextSection() {
+      currentSectionIndex = (currentSectionIndex + 1) % sections.length;
+      showSection(sections[currentSectionIndex]);
+    }
+    
+    // Skrolla tillbaka till toppen när knappen klickas
+    document.getElementById('backToTop').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    // Lightbox funktionalitet
+    function openLightbox(imgSrc) {
+      const lightbox = document.getElementById('imageLightbox');
+      const fullImage = document.getElementById('fullImage');
+      lightbox.style.display = 'block';
+      fullImage.src = imgSrc;
+    }
+    
+    // Stäng lightbox när man klickar på X
+    document.querySelector('.lightbox-close').onclick = function() {
+      document.getElementById('imageLightbox').style.display = 'none';
+    }
+    
+    // Stäng lightbox när man klickar utanför bilden
+    document.getElementById('imageLightbox').onclick = function(event) {
+      if (event.target === this) {
+        this.style.display = 'none';
+      }
+    }
+    
+    // Stäng lightbox med Escape-tangenten
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && document.getElementById('imageLightbox').style.display === 'block') {
+        document.getElementById('imageLightbox').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Säsongernas Krönikor - Fragmentarium</title>
+ <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+ <style>
+   body {
+     font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+     margin: 0;
+     padding: 0;
+     background-color: #0f172a;
+     color: #f8fafc;
+     line-height: 1.6;
+   }
+   .container {
+     max-width: 1000px;
+     margin: 0 auto;
+     padding: 2rem;
+   }
+   header {
+     margin-bottom: 2rem;
+   }
+   h1 {
+     color: #fef3c7;
+     font-size: 2.5rem;
+     margin: 0;
+     position: relative;
+     display: inline-block;
+     font-family: 'Inconsolata', 'Courier New', monospace;
+     font-weight: 600;
+   }
+   h1::after {
+     content: '';
+     position: absolute;
+     bottom: -10px;
+     left: 0;
+     right: 0;
+     height: 1px;
+     background: linear-gradient(to right, transparent, rgba(245, 158, 11, 0.5), transparent);
+   }
+   h2, h3 {
+     font-family: 'Inconsolata', 'Courier New', monospace;
+     font-weight: 600;
+     color: #fef3c7;
+   }
+   .nav-bar {
+     display: flex;
+     gap: 1rem;
+     margin-bottom: 2rem;
+     border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+     padding-bottom: 1rem;
+     flex-wrap: wrap;
+   }
+   .nav-link {
+     color: #fef3c7;
+     text-decoration: none;
+     padding: 0.5rem 1rem;
+     border-radius: 0.25rem;
+     background-color: rgba(30, 41, 59, 0.4);
+     transition: background-color 0.2s;
+   }
+   .nav-link:hover {
+     background-color: rgba(30, 41, 59, 0.8);
+   }
+   .nav-link.active {
+     background-color: rgba(217, 119, 6, 0.2);
+     font-weight: bold;
+   }
+   .journal-entry {
+     background-color: rgba(30, 41, 59, 0.7);
+     border: 1px solid rgba(217, 119, 6, 0.2);
+     border-radius: 0.5rem;
+     padding: 1.5rem;
+     margin-bottom: 2rem;
+     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+   }
+   .journal-header {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-bottom: 1rem;
+     border-bottom: 1px solid rgba(217, 119, 6, 0.5);
+     padding-bottom: 0.5rem;
+     flex-wrap: wrap;
+     gap: 0.5rem;
+   }
+   .journal-title {
+     color: #fef3c7;
+     font-size: 1.5rem;
+     margin: 0;
+   }
+   .journal-date {
+     color: #9ca3af;
+     font-style: italic;
+     margin-left: 0.75rem;
+   }
+   .journal-author {
+     background: rgba(245, 158, 11, 0.18);
+     color: #fbbf24;
+     padding: 0.22rem 0.85rem;
+     border-radius: 2rem;
+     font-size: 1.05rem;
+     font-family: 'Inconsolata', monospace;
+     font-weight: bold;
+     letter-spacing: 1px;
+     margin-left: 0.75rem;
+     margin-top: 0.1rem;
+   }
+   .journal-content {
+     white-space: pre-line;
+   }
+   .journal-content p {
+     margin-bottom: 1rem;
+   }
+   .journal-content p:last-child {
+     margin-bottom: 0;
+   }
+   .journal-meta {
+     display: flex;
+     justify-content: space-between;
+     font-size: 0.9rem;
+     color: #9ca3af;
+     margin-top: 1rem;
+     border-top: 1px solid rgba(217, 119, 6, 0.2);
+     padding-top: 0.5rem;
+     flex-wrap: wrap;
+     gap: 0.5rem;
+   }
+   .journal-location {
+     font-style: italic;
+   }
+   .journal-tags span {
+     display: inline-block;
+     background-color: rgba(217, 119, 6, 0.2);
+     color: #fef3c7;
+     padding: 0.2rem 0.5rem;
+     border-radius: 0.25rem;
+     margin-right: 0.5rem;
+     font-size: 0.8rem;
+   }
+   footer {
+     text-align: center;
+     margin-top: 3rem;
+     color: #9ca3af;
+     font-size: 0.9rem;
+   }
+   
+   /* Index styles */
+   .journal-index {
+     background-color: rgba(30, 41, 59, 0.7);
+     border: 1px solid rgba(217, 119, 6, 0.2);
+     border-radius: 0.5rem;
+     padding: 1.5rem;
+     margin-bottom: 2rem;
+     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+   }
+   .journal-index h2 {
+     color: #fef3c7;
+     font-size: 1.5rem;
+     margin-top: 0;
+     margin-bottom: 1rem;
+     border-bottom: 1px solid rgba(217, 119, 6, 0.5);
+     padding-bottom: 0.5rem;
+   }
+   .index-tabs {
+     display: flex;
+     gap: 0.5rem;
+     margin-bottom: 1rem;
+     flex-wrap: wrap;
+   }
+   .index-tab {
+     padding: 0.5rem 1rem;
+     background-color: rgba(30, 41, 59, 0.6);
+     border-radius: 0.25rem;
+     color: #fef3c7;
+     cursor: pointer;
+     transition: background-color 0.2s;
+     border: 1px solid transparent;
+   }
+   .index-tab:hover {
+     background-color: rgba(30, 41, 59, 0.9);
+   }
+   .index-tab.active {
+     background-color: rgba(217, 119, 6, 0.2);
+     border-color: rgba(217, 119, 6, 0.4);
+   }
+   .index-content {
+     display: none;
+   }
+   .index-content.active {
+     display: block;
+   }
+   .index-list {
+     display: grid;
+     grid-template-columns: 1fr;
+     gap: 0.5rem;
+   }
+   @media (min-width: 640px) {
+     .index-list {
+       grid-template-columns: repeat(2, 1fr);
+     }
+   }
+   .index-item {
+     background-color: rgba(30, 41, 59, 0.5);
+     padding: 0.75rem 1rem;
+     border-radius: 0.25rem;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     transition: background-color 0.2s;
+   }
+   .index-item:hover {
+     background-color: rgba(30, 41, 59, 0.8);
+   }
+   .index-item a {
+     color: #f8fafc;
+     text-decoration: none;
+     flex: 1;
+   }
+   .index-date {
+     color: #9ca3af;
+     font-size: 0.8rem;
+   }
+   .index-author {
+     padding: 0.1rem 0.5rem;
+     background-color: rgba(217, 119, 6, 0.15);
+     border-radius: 0.25rem;
+     font-size: 0.8rem;
+     color: #fbbf24;
+     margin-left: 0.5rem;
+   }
+ </style>
+</head>
+<body>
+ <div class="container">
+   <header>
+     <h1>Fragmentarium över säsongerna</h1>
+   </header>
+   
+   <nav class="nav-bar">
+     <a href="index.html" class="nav-link">Hem</a>
+     <a href="bakgrund.html" class="nav-link">Bakgrund</a>
+     <a href="grimoire.html" class="nav-link">Grimoire</a>
+     <a href="alain.html" class="nav-link">Alain</a>
+     <a href="stats.html" class="nav-link">Karaktärsblad</a>
+     <a href="stories.html" class="nav-link">Berättelser</a>
+     <a href="journaler.html" class="nav-link active">Journaler</a>
+   </nav>
+   
+   <!-- Journal Index -->
+   <div class="journal-index">
+     <h2>Journalindex</h2>
+     
+     <div class="index-tabs">
+       <div class="index-tab active" onclick="showTab('chronological')">Senaste först</div>
+       <div class="index-tab" onclick="showTab('by-author')">Efter författare</div>
+       <div class="index-tab" onclick="showTab('by-location')">Efter plats</div>
+     </div>
+     
+     <div id="chronological" class="index-content active">
+       <div class="index-list">
+	   <div class="index-item">
+  <a href="#entry-varma-hander">Varma händer, kalla sanningar</a>
+  <span class="index-date">Vinter 1219</span>
+  <span class="index-author">Alain</span>
+</div>
+<div class="index-item">
+  <a href="#entry-sma-mirakler">Små mirakler</a>
+  <span class="index-date">Vinter 1219</span>
+  <span class="index-author">Arsenia</span>
+</div>
+<div class="index-item">
+  <a href="#entry-forfalskad-njutning">Förfalskad njutning</a>
+  <span class="index-date">Vinter 1219</span>
+  <span class="index-author">Arsenia</span>
+</div>
+	   <div class="index-item">
+  <a href="#entry-oktober">Oktober 1219 - Opprik Stenhjärta</a>
+  <span class="index-date">Oktober 1219</span>
+  <span class="index-author">Arsenia</span>
+</div>	   
+	   <div class="index-item">
+  <a href="#entry-alain-resa">Alains dagbok - Fjärde dagen på vägen</a>
+  <span class="index-date">Sensommar 1219</span>
+  <span class="index-author">Alain</span>
+</div>
+         <div class="index-item">
+           <a href="#entry-berget">Journal – 23:e dagen i Setembre, 1219</a>
+           <span class="index-date">Setembre 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-missing">Journal – När någon saknas</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-salt">Journal – Sensommarkväll, under saltets tecken</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-blod">Blod i gryningen</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Alain</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-forsvunna">Snabbanteckning: De försvunna magikerna</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-forsta-motet">Första mötet, sensommar, okända magiker</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Alain</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-skugga-saga">I gränslandet mellan skugga och saga</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+       </div>
+     </div>
+     
+     <div id="by-author" class="index-content">
+       <h3>Arsenia</h3>
+       <div class="index-list">
+	   <div class="index-item">
+  <a href="#entry-sma-mirakler">Små mirakler</a>
+  <span class="index-date">Vinter 1219</span>
+</div>
+<div class="index-item">
+  <a href="#entry-forfalskad-njutning">Förfalskad njutning</a>
+  <span class="index-date">Vinter 1219</span>
+</div>
+	   <div class="index-item">
+  <a href="#entry-oktober">Oktober 1219 - Opprik Stenhjärta</a>
+  <span class="index-date">Oktober 1219</span>
+</div>
+         <div class="index-item">
+           <a href="#entry-berget">Journal – 23:e dagen i Setembre, 1219</a>
+           <span class="index-date">Setembre 1219</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-missing">Journal – När någon saknas</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-salt">Journal – Sensommarkväll, under saltets tecken</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-skugga-saga">I gränslandet mellan skugga och saga</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+       </div>
+       
+       <h3>Alain</h3>
+       <div class="index-list">
+	   <div class="index-item">
+  <a href="#entry-varma-hander">Varma händer, kalla sanningar</a>
+  <span class="index-date">Vinter 1219</span>
+</div>
+	   <div class="index-item">
+  <a href="#entry-alain-resa">Alains dagbok - Fjärde dagen på vägen</a>
+  <span class="index-date">Sensommar 1219</span>
+</div>
+         <div class="index-item">
+           <a href="#entry-blod">Blod i gryningen</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-forsta-motet">Första mötet, sensommar, okända magiker</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+       </div>
+       
+       <h3>Okänd författare</h3>
+       <div class="index-list">
+         <div class="index-item">
+           <a href="#entry-forsvunna">Snabbanteckning: De försvunna magikerna</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+       </div>
+     </div>
+     
+     <div id="by-location" class="index-content">
+	 <h3>På vägar mellan platser</h3>
+<div class="index-list">
+  <div class="index-item">
+    <a href="#entry-alain-resa">Alains dagbok - Fjärde dagen på vägen</a>
+    <span class="index-date">Sensommar 1219</span>
+    <span class="index-author">Alain</span>
+  </div>
+</div>
+       <h3>Vid berget och gruvan</h3>
+       <div class="index-list">
+	   <div class="index-item">
+  <a href="#entry-oktober">Oktober 1219 - Opprik Stenhjärta</a>
+  <span class="index-date">Oktober 1219</span>
+  <span class="index-author">Arsenia</span>
+</div>
+         <div class="index-item">
+           <a href="#entry-berget">Journal – 23:e dagen i Setembre, 1219</a>
+           <span class="index-date">Setembre 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+       </div>
+       
+       <h3>I och omkring oppidum</h3>
+       <div class="index-list">
+         <div class="index-item">
+           <a href="#entry-missing">Journal – När någon saknas</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-salt">Journal – Sensommarkväll, under saltets tecken</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-blod">Blod i gryningen</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Alain</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-forsvunna">Snabbanteckning: De försvunna magikerna</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+       </div>
+       
+       <h3>Transsylvaniens skogar</h3>
+       <div class="index-list">
+         <div class="index-item">
+           <a href="#entry-forsta-motet">Första mötet, sensommar, okända magiker</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Alain</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-skugga-saga">I gränslandet mellan skugga och saga</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+       </div>
+     </div>
+   </div>
+   
+   <section>
+   <div id="entry-forfalskad-njutning" class="journal-entry">
+  <div class="journal-header">
+    <h2 class="journal-title">Förfalskad njutning</h2>
+    <span class="journal-date">Vinter 1219</span>
+    <span class="journal-author">Arsenia</span>
+  </div>
+  <div class="journal-content">
+    <p>Jag kunde få bönorna att smaka som rosvatten och honung. En liten viskning, en enkel förändring av sinnesintrycken. Men varje gång jag överväger det, tänker jag på Seraphina. Hur många falska måltider åt vi tillsammans i Arcadia? Hur mycket av vårt liv var bara... glamour? Så jag låter bönorna smaka som bönor. Och Alain grimaserar över sin malört utan att veta att jag också lider.</p>
+  </div>
+  <div class="journal-meta">
+    <div class="journal-location">Vid vinterlägret, under kalla himlar</div>
+    <div class="journal-tags">
+      <span>Magi</span>
+      <span>Seraphina</span>
+      <span>Skuld</span>
+    </div>
+  </div>
+</div>
+
+<div id="entry-sma-mirakler" class="journal-entry">
+  <div class="journal-header">
+    <h2 class="journal-title">Små mirakler</h2>
+    <span class="journal-date">Vinter 1219</span>
+    <span class="journal-author">Arsenia</span>
+  </div>
+  <div class="journal-content">
+    <p>Barnet i byn såg så hungrig ut. Knotiga ben, stora ögon. Jag gav honom vårt sista äpple och lät det smaka som alla äpplen han aldrig fått. Som kärlek och trygghet och midsommarafton. Han log för första gången på evigheter. Alain såg, sa inget, men hans hand vilade en sekund längre på min axel när vi gick.</p>
+  </div>
+  <div class="journal-meta">
+    <div class="journal-location">I byn, under grå morgon</div>
+    <div class="journal-tags">
+      <span>Empati</span>
+      <span>Barn</span>
+      <span>Alain</span>
+    </div>
+  </div>
+</div>
+
+<div id="entry-varma-hander" class="journal-entry">
+  <div class="journal-header">
+    <h2 class="journal-title">Varma händer, kalla sanningar</h2>
+    <span class="journal-date">Vinter 1219</span>
+    <span class="journal-author">Alain</span>
+  </div>
+  <div class="journal-content">
+    <p>Hennes händer är alltid kalla numera. Inte förbannelsens fel – det är vintern som kryper in i henne. Hon låtsas att det inte gör något, bygger illusioner av värme istället för att bara ta på sig en jävla handske. Stoltheten kommer döda henne före fienderna gör det. Men när hon sover pressar hon händerna mot min rygg. Som om hon vill stjäla värme utan att erkänna att hon behöver den.</p>
+  </div>
+  <div class="journal-meta">
+    <div class="journal-location">Vinterlägret, under täcken</div>
+    <div class="journal-tags">
+      <span>Arsenia</span>
+      <span>Vinter</span>
+      <span>Omsorg</span>
+    </div>
+  </div>
+</div>
+   <div id="entry-oktober" class="journal-entry">
+  <div class="journal-header">
+    <h2 class="journal-title">Oktober 1219 - Opprik Stenhjärta</h2>
+    <span class="journal-date">Oktober 1219</span>
+    <span class="journal-author">Arsenia</span>
+  </div>
+  <div class="journal-content">
+    <p>Andra veckan av oktober månad, när himlen faller som grå mull över oss och snön ännu inte visar sitt sanna ansikte, skriver jag detta vid glöd av en eld som känns mer verklig än mig själv. Opprik Stenhjärta försvann igen samma dag vi fann honom, och med honom försvann vårt enda vittne till vad som tog saltgruvan.
+	<p>Vi fann honom i björngrottan – inte en björn alls, utan en bergsgubbe som suttit och stirrat ut genom väggen mellan världar sedan midsommar. När han berättade sin historia kände jag hur verkligheten själv började flyta: "Hon som alltid varit här" – saltgruvan var inte bara en plats, utan en varelse. Ett levande väsen av kristall och tid som någon... dödade.
+    <p>Jag gav honom en berättelse. Opprik Stenhjärta, väktaren av bergspassen, han som vaktade henne som var salt och djup. Tusen år av vänskap mellan sten och tid, tills mörka krafter kom och krossade det som alltid funnits. I stunden såg jag hur hans ögon fick tillbaka sitt ljus, hur han reste sig från sin hopkrupna hållning och följde oss ner till vårt läger.</p>
+    <p>Så snart vi nådde våra halvfärdiga väggar sa han: "Jag måste till mina systrar." Och försvann. Bara så. Som om berättelsen jag gett honom var tillräcklig för att han skulle komma ihåg vad han var, men inte tillräcklig för att hålla honom kvar hos oss.
+    <p>Första snön föll när vi var uppe vid de varma källorna för att samla vis. En märklig kontrast – att stå upp till midjan i hett mineralvatten medan snöflingor smälte på våra ansikten. Vi passade på att bada ordentligt, första gången på länge som vi faktiskt slappnade av. Varmt vatten, ren hud, och för några timmar kunde vi glömma mysterier och försvinnanden och bara vara människor som behövde vila.</p>
+    <p>Men armbandet av tvinnat hår vilar kallt mot min handled även i hettan. Inga spår av Seraphina. Alls. Som om hon aldrig funnits, som om mina minnen av henne vore bara drömmar jag varit för envis för att släppa taget om.
+    <p>Det var då Torvald berättade om det avlägsna landet där han en gång rest. Ett land där jorden spyr upp hett vatten och eld mot himlen, där träd är sällsynta som ädelstenar och hela landskap ligger under is och aska. Ett land där faeries dansar kring geysirer och bygger sina säten av frostat glas och vulkansten. Han beskrev det med den säkerhet som bara kommer från att ha känt isen under fötterna och ångan i ansiktet.
+    <p>"Många källor där," sa han, och jag såg hur hans ögon fick den avlägsna blick som kommer när man minns platser som förändrat en. "Hett vatten överallt. Och mycket... mycket av det andra."
+    <p>När han sa det kände jag hur armbandet blev varmare. Bara en sekund, bara en antydan, men tillräckligt för att andningen skulle stocka sig. Ett land av vatten och eld och fae-magi... om Seraphina är där, om hon följt någon väg från Arcadia till det fysiska världens kant...
+<div style="text-align: center; margin: 1rem 0 0.1rem 0;">
+  <img src="arseniabad1.png" 
+       alt="Arsenia vid de varma källorna under första snöfallet" 
+       style="max-width: 300px; height: auto; border-radius: 0.5rem; cursor: pointer; border: 1px solid rgba(217, 119, 6, 0.3); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);"
+       onclick="openImageModal('arseniabad1.png')"
+       title="Klicka för att förstora">
+  <p style="font-style: italic; font-size: 0.9rem; color: #9ca3af; margin-top: 0.2rem; margin-bottom: 0.1rem;">
+    Vid de varma källorna under första snöfallet
+  </p>
+</div>
+    <p>Men det är så långt borta. Bortom hav jag aldrig sett, bortom kuster som kanske inte ens har namn. Och vi har just kommit igång med att bygga vårt första hem på decennier.
+    <p>Ändå. När jag sitter här och lyssnar till vinden genom våra otäta väggar, tänker jag på hett vatten under kall himmel, på en plats där gränsen mellan världarna är tunnare än frost.
+    <p>Kanske. När våren kommer. När mysterierna här är lösta eller förglömda.
+    <p>Kanske.</p>
+    <em>– Arsenia, i snöns första tystnad, mellan det som var och det som kanske blir.</em>
+  </div>
+  <div class="journal-meta">
+    <div class="journal-location">Vid de täckta taken och de otäta väggarna, under snöns tystnad</div>
+    <div class="journal-tags">
+      <span>Opprik Stenhjärta</span>
+      <span>Varma källor</span>
+      <span>Seraphina</span>
+      <span>Island</span>
+    </div>
+  </div>
+</div>
+   
+   <div id="entry-alain-resa" class="journal-entry">
+  <div class="journal-header">
+    <h2 class="journal-title">Alains dagbok - Fjärde dagen på vägen</h2>
+    <span class="journal-date">Sensommar 1219</span>
+    <span class="journal-author">Alain</span>
+  </div>
+  <div class="journal-content">
+    <p>
+<em>Skrivet vid lägerbålet, någonstans mellan helvete och ingenstans</em>
+
+Fjärde jävla dagen på den här förbannade vägen, och jag börjar komma ihåg varför jag hatar att resa ensam. Åtminstone när man reser med magiker får man se konstiga saker. När man reser ensam får man bara tid att tänka, och det är fan aldrig bra.
+
+Hästen är sur på mig. Jag är sur på hästen. Vi förstår varandra perfekt.
+
+Tibor och Marisol väntar i byn framför mig – åtminstone hoppas jag det. Kunde lika gärna ha rymt eller blivit uppätna av vargar vid det här laget. Men Arsenia sa att de var pålitliga, och hon ljuger sällan. Mest för att hon är för dålig på det för att anstränga sig.
+
+Tänker på henne där borta vid det förbannade berget. Undrar om hon fortfarande bygger sina skuggtält och viskar med dimman. Utan mig där att hålla solen borta... Fan. Borde inte ha lämnat henne. Men någon måste hämta de där grogsen, och de andra är för viktiga för att skicka iväg. Eller för fega. Svårt att säga skillnad.
+
+Det är konstigt hur fort man vänjer sig vid att vara någons skugga. Först irriterar det en, sen blir det bara... naturligt. Som att andas. Nu när jag rider ensam känns det som om jag glömt något viktigt hemma. Som min andra stövel eller mitt huvud.
+
+Hon sa ingenting när jag sa att jag skulle åka. Bara nickade och drog manteln tätare. Men jag såg det i hennes ögon – samma sak jag känner nu. Att avståndet gör ont på ett sätt som inte borde finnas.
+
+Tibor lär bli glad att se mig. Marisol också, förmodligen. De är bra folk, på sitt sätt. Konstigt att tänka på dem som "Arsenias grogs" när hon aldrig behandlar dem som ägodelar. Men det är väl hennes stil – att se personer där andra ser verktyg.
+
+Imorgon når jag byn. Sen blir det en veckas ritt tillbaka, med två personer som inte vet vad fan som väntar dem.
+
+Åtminstone kommer jag ha sällskap på hemvägen. Även om det inte är rätt sorts sällskap.
+
+Även om hon inte är där för att gå i min skugga.
+
+<em>— Alain, för långt borta från där jag hör hemma</em>
+    </p>
+  </div>
+  <div class="journal-meta">
+    <div class="journal-location">På vägen till hämta grogs</div>
+    <div class="journal-tags">
+      <span>Ensam resa</span>
+      <span>Arsenia</span>
+      <span>Tibor & Marisol</span>
+    </div>
+  </div>
+</div>
+   
+     <div id="entry-berget" class="journal-entry">
+       <div class="journal-header">
+         <h2 class="journal-title">Journal – 23:e dagen i Setembre, 1219</h2>
+         <span class="journal-date">Setembre 1219</span>
+         <span class="journal-author">Arsenia</span>
+       </div>
+       <div class="journal-content">
+         <p>
+     Tredje dagen innan Mikaels våg tips över till vinter, skriver jag detta medan månskimret spelar genom mina skuggväggar, och bergets kyla sipprar igenom även den varmaste illusion. Vi har slagit läger vid en bergssida som vägrar berätta sina hemligheter, och jag kan inte avgöra om det gör mig mer eller mindre orolig än om den hade skrikit dem högt.
+
+     Gruvan är borta. Inte gömd, inte förvrängd av Faerie-magi, inte förflyttad till en annan tid. Bara... <strong>borta</strong>. Som om någon raderade den från världens berättelse med samma lätthet som jag raderar ett misslyckat spellförsök från pergament. Men gruvor lämnar ärr, och ärr försvinner inte utan spår.
+
+     Auran dog när vi närmade oss. Det var som att känna hur luften själv slutade andas. Reynaud antecknade det med darriga händer, och jag ser i hans ögon samma fråga som plågar mig: om auran dog för oss, vad hände då med de som kom hit med fullt magiskt självförtroende?
+
+     Men det är inte bara aurans frånvaro som plågar oss. All vår magi känns... dämpad. Som om någon vridit ner volymen på världens sang. Varje besvärjelse känns som att kasta genom täta gardiner, varje formel som att viska i bomull. Reynaud och Constantin gjorde flera försök att hitta vägen in genom bergväggen där gruvan borde varit - deras magi letade, sökte, knäckade mot stenen som flugor mot fönsterglas. Inget. Inte ens ekon av vad som en gång funnits där.
+
+     Torvald undersökte björngrottan bredvid med sina förstärkta sinnen. Äkta naturlig, sa han. Äkta björn, äkta tid, äkta berggrund. Det borde vara lugnande, men istället känns det som ännu en bit av pusslet som inte passar. En äkta björngrotta precis där en saltgruva borde vara - som om någon ville ge oss något verkligt att hitta när det viktigare hade försvunnit.
+
+     Constantin försöker skämta bort det hela - drar opassande skämt som får oss alla att titta bort, sa dem med ett skratt som inte riktigt nådde hans ögon. Men jag ser hur hans händer darrar när han tror att ingen tittar. Humor är hans sätt att hantera det som inte kan förklaras. Reynaud antecknar metodiskt varje detalj som om ordning kunde skapa mening av kaos. Men jag börjar tro att detta mysterium handlar mindre om vad som försvann, och mer om vem som ville att det skulle försvinna. Och varför.
+
+     Armbandet av tvinnat hår vilar kallt mot min handled. Seraphina känns längre bort än någonsin, som om avståndet till Arcadia växte för varje försvunnen ledtråd vi stöter på. Eller kanske är det jag som rör mig bort från henne, djupare in i någon annans saga istället för min egen.
+
+     Jag har byggt min kupol av skuggor mot bergssidan. Stenen är kall, men den ljuger inte. Den bara tiger, och just nu föredrar jag tystnad framför lögner. Imorgon börjar vi om - tillbaka till byn, tillbaka till att ställa rätt frågor istället för att leta på fel platser.
+
+     Men ikväll vilar jag i bergets ficka och lyssnar till—
+
+     <em>Vänta.</em>
+
+     Det där. Från grottan.
+
+     En röst?
+
+     <em>Jag lägger ner pennan och lyssnar intensivt. Ja, definitivt en röst. Låg, nästan viskande, men mänsklig. Eller... något som låter mänskligt.</em>
+
+     <em>Försiktigt river jag upp kupolens skuggvägg och glider ut i nattluften, bara i linne och mantel, för att undersöka vad björngrottan egentligen döljer...</em>
+         </p>
+       </div>
+       <div class="journal-meta">
+         <div class="journal-location">Vid det stumma berget, skuggornas kupol</div>
+         <div class="journal-tags">
+           <span>Försvunnen gruva</span>
+           <span>Mysterium</span>
+           <span>Röst i natten</span>
+         </div>
+       </div>
+     </div>
+
+     <div id="entry-missing" class="journal-entry">
+       <div class="journal-header">
+         <h2 class="journal-title">Journal – När någon saknas</h2>
+         <span class="journal-date">Sensommar 1219</span>
+         <span class="journal-author">Arsenia</span>
+       </div>
+       <div class="journal-content">
+         <p>
+		 
+		 <div style="text-align: center; margin: 1rem 0 0.5rem 0;">
+  <img src="arseniaalain11.png" 
+       alt="Minnet av hur det ska vara" 
+       style="max-width: 300px; height: auto; border-radius: 0.5rem; cursor: pointer; border: 1px solid rgba(217, 119, 6, 0.3); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);"
+       onclick="openImageModal('arseniaalain11.png')"
+       title="Klicka för att förstora">
+  <p style="font-style: italic; font-size: 0.9rem; color: #9ca3af; margin-top: 0.2rem; margin-bottom: 0.5rem;">
+    Lägerminnen
+  </p>
+</div>
+     Det är märkligt hur frånvaron av en människa kan förändra hela landskapet. Alain är borta; han sa inget om varför, bara att han måste gå. Kanske för att möta dem som ska hålla oss trygga, eller bara för att han inte klarar av att vänta på svar som aldrig kommer.
+
+     Plötsligt är tystnaden runt mig tyngre, vinden lite vassare mot kinden. Jag märker hur jag söker honom med blicken när skuggorna växer, och känner hur stegen blir försiktigare när ingen går bredvid för att stänga ute ljuset eller faran.
+
+     Jag förstår honom ändå. Vissa rastlösheter kan inte botas med berättelser eller eld, bara med rörelse. Och kanske behöver vi båda hitta våra svar på olika vägar, innan hösten och vintern binder oss här.
+
+     Så jag väntar, lyssnar på hammarslagen, och syr mina drömmar ännu tätare om nätterna. Det blir mörkare nu, fortare för varje dag.
+
+    <em> – Arsenia, i väntan på ett steg i mörkret </em>
+         </p>
+       </div>
+       <div class="journal-meta">
+         <div class="journal-location">Under grå moln, i byn</div>
+         <div class="journal-tags">
+           <span>Alain</span>
+           <span>Väntan</span>
+           <span>Ensamhet</span>
+         </div>
+       </div>
+     </div>
+
+     <div id="entry-salt" class="journal-entry">
+       <div class="journal-header">
+         <h2 class="journal-title">Journal – Sensommarkväll, under saltets tecken</h2>
+         <span class="journal-date">Sensommar 1219</span>
+         <span class="journal-author">Arsenia</span>
+       </div>
+       <div class="journal-content">
+         <p>
+     Det finns kvällar då världen bara håller andan. Då byns fönster blänker av nyfikenhet bakom gardiner av tystnad, och marken känns för trång för hemligheterna som göms under ytan.
+
+     Jag återvände ensam från skogen idag, bärandes på Torvalds utrustning medan han utforskade trakten i järvens skepnad. Hans frånvaro var lika talande som den ordlösa skymningen själv. När han slutligen anslöt bar vi båda på svar som inte ville bli till ord. Vi hade följt gamla djurstigar, sett rävens spår där daggen lagt sig, lyssnat till nattens viskningar – och funnit att skogen varken bjöd på hot eller tröst. Bara löften om fler frågor.
+
+     Byborna drar sig undan, tystare för varje dag. Det sägs att den sista som såg magikerna var här vid midsommar, men ingen minns detaljer – eller vill låtsas minnas. Kanske är de redan en saga bland de levande.
+
+     Och nu – saltgruvan. En plats där jorden gömmer sitt blod, där saltet river och bevarar, där allt man tappar förvandlas till minnen. Vi måste undersöka den snart. Jag känner det i benen, som om saltet redan krupit in under huden.
+
+     Det är så lätt att tappa bort sig själv när världen bara viskar och aldrig svarar. Men det är också då magin växer – när natten är mättad av tystnad, och alla väntar på att någon ska våga fråga: Vad gömmer du egentligen här, du gamla jord?
+
+     Snart får vi kanske svar. Eller bara nya skuggor. Men ännu en natt skriver jag mitt namn i askan och hoppas att någon läser det innan vinden tar det vidare.
+
+     <em> – Arsenia, i saltets och skuggornas tid. </em>
+         </p>
+       </div>
+       <div class="journal-meta">
+         <div class="journal-location">Vid bergets skuggor, nära byn</div>
+         <div class="journal-tags">
+           <span>Undersökning</span>
+           <span>Saltgruvan</span>
+           <span>Torvald</span>
+         </div>
+       </div>
+     </div>
+
+     <div id="entry-blod" class="journal-entry">
+       <div class="journal-header">
+         <h2 class="journal-title">Blod i gryningen</h2>
+         <span class="journal-date">Sensommar 1219</span>
+         <span class="journal-author">Alain</span>
+       </div>
+       <div class="journal-content">
+         <p>
+     Transsylvaniens skogar stank av död. Inte av ruttnande kroppar – det hade varit ärligare åtminstone – utan av dödens löfte. Som en varg som ännu inte slagit till. Som en böld som ännu inte brustit.<br>
+     Första dagen med de där magikerna, och redan längtade jag efter en ordentlig strid. Åtminstone vet man var man har en kniv i revbenen. Ärlig sak. Den här skiten? Politik, magi och hemligheter? Ren jävla pest.<br>
+     Arsenia pressade sig mot mitt skärmande skydd när vi korsade den solbelysta gläntan, hennes andning ytlig. Huden på hennes synliga handled hade redan börjat rodna och flagna där solstrålarna nått fram. Jag bredde ut min mantel lite mer, flyttade mig så min skugga täckte henne bättre.<br>
+     "Bättre?" frågade jag lågt.<br>
+     Ett svagt nickande var allt jag fick. Hennes panna glänste av svett, men inte av hettan. Av smärta. Förbannelser är värre än sår – åtminstone kan man förbinda ett sår.<br>
+     Ceverin gick framför oss – ryggen spänd som ett spjut, rak som en pinne uppkörd i hästrumpan. Tremere-typen, en man som älskar regler mer än sitt eget blod. Skulle nog skita ordning om man skrämde honom tillräckligt.<br>
+     "Vi måste hitta skugga snart," muttrade jag. "Hon klarar inte mycket mer."<br>
+     Han vände sig inte ens om. "Många mysterier väntar, vi kan inte stanna för varje... besvär."<br>
+     "Märkligt," sa jag. "Trodde du ville ha henne levande. Eller har ni fler magiker att slösa på det här uppdraget?"<br>
+     Det fick honom att sakta in. Typiskt. Egenintresse fungerar alltid.<br>
+     Constantin vandrade som i sömn, drömmande om fornstora dagar medan Torvald spanade ut i skogen som ett djur. Jag litade inte på någon av dem. Men det var något med den förbannade platsen – som om vi redan var döda men bara väntade på att kroppen skulle märka det.<br>
+     "Jag behöver inte din... hjälp," viskade Arsenia med läppar torra som pergament.<br>
+     "Och jag behöver inte din tacksamhet," svarade jag. "Så vi är båda nöjda."<br>
+     Under nästa träddunge sjönk hon ihop mot en stam, drog upp knäna mot bröstet. Ansiktet var vitt som ben, men kinderna brännröda där solstrålarna hade nått henne under huvan.<br>
+     "En dag kommer du tacka mig," mumlade jag medan jag byggde ett enkelt skydd av min mantel som gav henne djupare skugga.<br>
+     "För vad?" frågade hon med slutna ögon.<br>
+     "För att jag är tillräckligt korkad att stå kvar när allt går åt helvete. För att jag kommer blöda innan du gör det."<br>
+     "Och varför skulle du göra det?"<br>
+     "Ingen jävla aning." Jag skrattade kort. "Jag har gjort många dumheter i mitt liv. Tror inte en till kommer märkas."<br>
+     Vi fortsatte vår vandring genom skogen, Arsenia nu åtminstone skyddad från den direkta solen av lövverket ovanför oss, mot ett covenant utan magiker, mot ett mysterium utan svar. Hennes silverhår glimmade under huvan, min svettiga hand vilade på svärdsfästet.<br>
+     Så börjar alla historier som slutar illa. Med en man, ett svärd, och ett löfte som bara en idiot skulle hålla.<br>
+    <em>  — Alain Rödstäv, för dum för att dö, för skadad för att bry sig.  </em>
+         </p>
+       </div>
+       <div class="journal-meta">
+         <div class="journal-location">I skogen utanför oppidum</div>
+         <div class="journal-tags">
+           <span>Arsenia</span>
+           <span>Sol</span>
+           <span>Konflikt</span>
+         </div>
+       </div>
+     </div>
+
+     <div id="entry-forsvunna" class="journal-entry">
+       <div class="journal-header">
+         <h2 class="journal-title">Snabbanteckning: De försvunna magikerna</h2>
+         <span class="journal-date">Sensommar 1219</span>
+         <span class="journal-author">Okänd</span>
+       </div>
+       <div class="journal-content">
+         <p>
+     Fyra borta innan vi ens kom fram:
+
+     - Lucilla ex Bonisagus (expeditionsledare)
+     - Arinaeus ex Tremere (tillfällig oppida-ledare)
+     - Echo ab Spirali ex Criamon (kryptisk)
+     - Domina Ysabel of Amber Leaves ex Merinita (faeriehand, berättelser)
+
+     Och sjutton grogs.  
+     Ingen vet vad som hände – bara spår, namn i gamla papper och en tom plats vid bordet.
+         </p>
+       </div>
+       <div class="journal-meta">
+         <div class="journal-location">Framför huset, Transsylvanien</div>
+         <div class="journal-tags">
+           <span>Anteckning</span>
+           <span>Försvunna</span>
+           <span>Magiker</span>
+         </div>
+       </div>
+     </div>
+
+     <div id="entry-forsta-motet" class="journal-entry">
+       <div class="journal-header">
+         <h2 class="journal-title">Första mötet, sensommar, okända magiker</h2>
+         <span class="journal-date">Sensommar 1219</span>
+         <span class="journal-author">Alain</span>
+       </div>
+       <div class="journal-content">
+         <p>
+     Första gången vi ses, allihop. Det är som att bli ihopslängd med främlingar på en marknad där alla bär dolk innanför kappan – du vet att någon tänker sticka dig, men du vet inte när, eller varför. Ingen av oss har gått den här vägen tillsammans förr. Det märks.
+
+     Sensommaren ligger kvar över marken som ett fuktigt täcke. Svetten rinner innan vi ens hunnit lämna båten. Solen pressar ner oss i marken, dammet fastnar i halsen, och värmen dröjer kvar i skogen som om sommaren vägrar ge upp. Ingen säger något om det, men alla känner det.
+
+     Arsenia, hon är märkligast av oss. Håller sig i skuggan, drar huvan långt över ansiktet fast solen bränner och svetten rinner. Det är som om ljuset skrämmer henne mer än mörkret – ögonen flackar när hon måste gå i öppet ljus. Hon är blek som nykalkad mur, pratar tyst och undviker allas blick. Jag har sett folk med sår de inte vill visa – hennes är bara mer inuti, tror jag. Men hon håller sig för sig själv, ingen vill vara den första som frågar varför.
+
+     Jag vet varför. Jag har sett hur huden rodnar där solljuset letar sig in under tyget. Hennes magi hjälper, men inte tillräckligt. När vi måste ut på öppna fält går jag nära, täcker henne så gott det går. Hon säger inget, tackar inte, men det behövs inte. Det är vår egen överenskommelse: jag skyddar henne från solen, hon skyddar mig från det som är värre.
+
+     Reynaud antecknar. Hela tiden. Svettiga handflator, bläcket flyter i värmen. Torvald är bara tyst, står stilla och stirrar ut i skogen som om han letar efter ett svar han aldrig kommer hitta. Constantin pratar om ruiner och historia, men lyssnar på oss lika mycket som på marken.
+
+     Fredrish – han är gammal, van att bestämma, frågar aldrig om lov. Han verkar mest bry sig om sina papper och att vi gör som vi blir tillsagda. Ceverin, Tremeren, springer ärenden – han svettas också, men det är inte av värme.
+
+     Fyra magiker borta. Vi är här för att hitta dem, eller i alla fall få reda på varför de försvann. Ingen av oss säger det högt, men jag ser det i blickarna – alla undrar om vi är nästa.
+
+     Jag väntar inget gott. Men jag håller koll på skuggorna, på Arsenia, och på de andra. Första gången vi reser ihop, och förmodligen inte sista. Om vi överlever.
+
+     <em> – Alain Rödstäv, ännu inte död, ännu inte vän med någon.  </em>
+         </p>
+       </div>
+       <div class="journal-meta">
+         <div class="journal-location">Transsylvaniens utkanter</div>
+         <div class="journal-tags">
+           <span>Resa</span>
+           <span>Gruppdynamik</span>
+           <span>Sol</span>
+         </div>
+       </div>
+     </div>
+	 <div id="entry-skugga-saga" class="journal-entry">
+       <div class="journal-header">
+         <h2 class="journal-title">I gränslandet mellan skugga och saga</h2>
+         <span class="journal-date">Sensommar 1219</span>
+         <span class="journal-author">Arsenia</span>
+       </div>
+       <div class="journal-content">
+         <p>
+     Det sägs att varje saga börjar med främlingar, och att första kapitlet alltid skrivs i svett, damm och väntan. Nu har jag funnit mig själv i en sådan början: fyra magiker, sammanförda av Tribunalens vilja, men sammanbundna endast av osäkerhet och det sköra bandet som är ett gemensamt öde.
+
+     Solen här är skoningslös, särskilt så här mot slutet av sommaren när värmen vägrar ge vika och luften darrar av stillastående ljus. Den lägger sitt brandgula nät över markerna och tvingar fram varje skuggas sanna längd. För mig är ljuset en fiende, en gammal förbannelse i blodet som bränner där andras värme smeker. Mina skyddsbesvärjelser fladdrar mot solljuset som tunna slöjor – men de spricker alltid där dagens egg är vassast. Jag söker skuggorna, drar kappan tätt omkring mig, och låter dagarna bli tysta böner om moln.
+
+     Alain märker det, förstås. Han säger inget, men jag känner hur han rör sig mellan solen och mig, som om han kan tukta själva ljuset med sin närvaro. Det är inte kärlek, inte helt. Mer som ett band av skuld, delad ensamhet och den där ordlösa förståelsen som bara finns mellan sådana som redan förlorat för mycket. Jag går i hans skugga när jag kan, och han låter mig utan frågor.
+
+     De andra är nya för mig, liksom jag är för dem. Reynaud antecknar världen som om varje ord kunde skydda honom. Torvald bär tystnaden som en mantel; Constantin drömmer om ruiner och svar där jag bara ser fler frågor.
+
+     Vi har fått Tribunalens förtroende – eller snarare dess börda. Fyra magiker borta, deras namn hänger i luften som osynliga klockor som slår tiden ur led. Allt här känns provisoriskt: vänskapen, huset, tilliten.
+
+     Jag väntar inte på räddning. Jag väntar på nattens första svalka, på att sagan ska ta mig vidare genom skogen, kanske närmare ekot av min tvillingsjäl. Jag samlar varje skugga, varje viskning, och syr dem till en ny berättelse – en där solen är avlägsen, och där Alain och jag fortfarande vandrar tillsammans.
+
+     Det är så här sagor börjar, men jag vet bättre än att hoppas på ett lyckligt slut. Det räcker att få gå vidare, en dag till, i skuggan av någon som minns.
+
+     <em> – Arsenia, dotter av månskärvor och förlorade sånger.  </em>
+         </p>
+       </div>
+       <div class="journal-meta">
+         <div class="journal-location">Vid kanten av Transsylvaniens skogar</div>
+         <div class="journal-tags">
+           <span>Resa</span>
+           <span>Första mötet</span>
+           <span>Alain</span>
+         </div>
+       </div>
+     </div>
+   </section>
+   
+   <footer>
+     <a href="index.html" style="color: #9ca3af; text-decoration: none;">Tillbaka till huvudsidan</a>
+   </footer>
+ </div>
+ 
+ <!-- JavaScript för indexfunktionalitet -->
+<script>
+  function showTab(tabId) {
+    // Göm alla innehåll och avaktivera alla flikar
+    document.querySelectorAll('.index-content').forEach(content => {
+      content.classList.remove('active');
+    });
+    document.querySelectorAll('.index-tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    
+    // Visa det valda innehållet och aktivera fliken
+    document.getElementById(tabId).classList.add('active');
+    document.querySelector(`.index-tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+  }
+  
+  // LÄGG TILL BILDMODAL-FUNKTIONERNA HÄR:
+  function openImageModal(imgPath) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    modal.style.display = "block";
+    modalImg.src = imgPath;
+  }
+
+  function closeImageModal() {
+    document.getElementById('imageModal').style.display = "none";
+  }
+
+  // Stäng modalen om användaren klickar utanför bilden
+  window.onclick = function(event) {
+    const modal = document.getElementById('imageModal');
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+<!-- Modal för bildvisning -->
+<div id="imageModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); overflow: auto;">
+  <span class="modal-close" onclick="closeImageModal()" style="position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer;">&times;</span>
+  <img class="modal-content" id="modalImage" style="margin: auto; display: block; max-width: 90%; max-height: 90%; margin-top: 2%;">
+</div>
+</body>
+</html>

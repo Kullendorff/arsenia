@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arsenia "Sagoskärvan" Merinita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    h1 {
+      color: #fef3c7;
+      font-size: 3rem;
+      position: relative;
+      display: inline-block;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(245, 158, 11, 0.5), transparent);
+    }
+    h1 span {
+      font-size: 2.5rem;
+      font-weight: normal;
+      font-style: italic;
+    }
+		/* Typografi för rubriker och knappar */
+	h1, h2, h3,
+	.info-box h2,
+	.nav-button,
+	.button-grid .nav-button span:first-child /* ikonrader blir snyggt monospace */
+	{
+	  font-family: 'Inconsolata', 'Courier New', monospace;
+	  font-weight: 600;          /* eller 700 för fetare rubriker */
+	  letter-spacing: 0.03em;    /* luftighet så monospace inte känns kompakt */
+	}
+    header p {
+      color: rgba(254, 243, 199, 0.8);
+      font-style: italic;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .main-grid {
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+    .info-box {
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    .info-box h2 {
+      color: #fef3c7;
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.5);
+      padding-bottom: 0.5rem;
+    }
+    .info-box p {
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+    .info-box ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+    .highlight {
+      color: #fef3c7;
+    }
+    .portrait {
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 0.5rem 0.5rem 0 0;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .portrait:hover {
+      transform: scale(1.02);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      overflow: auto;
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      margin-top: 2%;
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .text-content {
+      padding: 1.5rem;
+    }
+    .text-content h2 {
+      color: #fef3c7;
+      font-size: 1.5rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    .text-content p {
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .quote {
+      border-left: 2px solid rgba(217, 119, 6, 0.5);
+      padding-left: 1rem;
+      font-style: italic;
+      color: #fef3c7;
+    }
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 640px) {
+      .button-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .nav-button {
+      background-color: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      text-align: center;
+      color: #fef3c7;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .nav-button:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.4);
+    }
+    .icon {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+	.sigill-section {
+	  background-color: rgba(30, 41, 59, 0.7);
+	  border: 1px solid rgba(217, 119, 6, 0.2);
+	  border-radius: 0.5rem;
+	  padding: 1.5rem;
+	  margin: 1.5rem 0;
+	  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+	}
+	.sigill-section h2 {
+	  color: #fef3c7;
+	  font-size: 1.2rem;
+	  border-bottom: 1px solid rgba(217, 119, 6, 0.5);
+	  padding-bottom: 0.5rem;
+	  margin-bottom: 1rem;
+	}
+	.sigill-section p {
+	  color: #f8fafc; /* Justerad till samma som body text */
+	  font-size: 0.9rem;
+	  line-height: 1.5;
+	}
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+    }
+    footer p {
+      font-style: italic;
+      color: rgba(254, 243, 199, 0.6);
+      font-size: 0.9rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+	  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Arsenia <span>"Sagoskärvan"</span> Merinita</h1>
+      <p>Illusionsarkitekt & Sagotids-Magiker av House Merinita</p>
+    </header>
+    
+    <main class="main-grid">
+      <!-- Left column -->
+      <div>
+        <div class="info-box">
+          <h2>Mysterier & Makt</h2>
+          <p><span class="highlight">House:</span> Merinita</p>
+          <p><span class="highlight">Ålder:</span> 30 år (f. 1194)</p>
+          <p><span class="highlight">Covenant:</span> Pendlande sökare</p>
+          <p><span class="highlight">Initierade mysterier:</span></p>
+          <ul>
+            <li><span class="highlight">Faerie Magic</span> (Outer Mystery)</li>
+            <li><span class="highlight">Glamour</span> (Major Mystery)</li>
+            <li><span class="highlight">Spell Timing</span> (Minor Mystery)</li>
+          </ul>
+          <p style="margin-top: 0.75rem;"><span class="highlight">Specialfokus:</span> Glamour-magi som gör illusioner substantiella och sagovävnad i tid och rum</p>
+        </div>
+        
+        <div class="info-box">
+          <h2>Kärnmotivation</h2>
+          <p>
+            Att finna en väg att återföra sin syster från Arcadia innan alla hennes mänskliga minnen förgås. 
+            Varje steg på denna stig för Arsenia närmare den avgrund som Irisblomman först försökte dra dem båda ner i.
+          </p>
+        </div>
+        
+		<div class="sigill-section">
+          <h2>Magiskt Sigill: Flämtande Skuggspel</h2>
+          <p>Alla Arsenias magiska effekter, oavsett form eller art, bär spår av ett levande skuggspel – tunna, dansande silhuetter som verkar anspela på en osynlig berättelse.</p>
+          <p><strong>Beskrivning i spelet:</strong> Det är subtilt i vardagen – en illusion av en kappa hon skapat kan få en svag inre rörelse av skuggfigurer; en sömnspell kan få rummet att andas med viskande berättelser; ett eldskydd kan glimra som ett minne av en saga snarare än ren kraft. För den som känner henne kan skuggspelens mönster ibland ge antydningar om Arsenias känslotillstånd i ögonblicket.</p>
+        </div>
+	 </div>
+      
+      <!-- Middle column with portrait and description -->
+      <div>
+        <div class="info-box" style="padding: 0; overflow: hidden;">
+          <div class="portrait" id="mainPortrait" style="background-image: url('arsenia1.png');" onclick="openModal('arsenia1.png')"></div>
+          <div class="text-content">
+            <h2>Sagoväverska & Sökare</h2>
+            <p>
+              En kvinna formad av illusioner – både de hon själv skapar och de hon en gång levde i. 
+              Hennes magi väver verklighetens gränser tunna, men bakom skönheten döljer sig ett bränt 
+              hjärta. Hon bär sorgen efter en älskad syster som förlorades i ett faerie-avtal som gick fel, 
+              ett avtal hon själv iscensatte – i hopp om att skydda dem båda.
+            </p>
+            <p>
+              Tvillingsystern, <strong class="highlight">Seraphina</strong>, blev kvar i Arcadia – 
+              där hon nu går under faerie-namnet <em>La Cantarella della Nebbia</em>, "Dimsångerskan" – 
+              när Arsenia bröt kontraktet för att rädda deras liv.
+            </p>
+            <p>
+              Vid hennes sida följer <strong class="highlight">Alain "Rödstäv"</strong>, en ärrad friknekt 
+              vars svärd är lika snabbt som hans undergång tycks vara. Trots sin styrka och sitt skratt vet han 
+              att varje seger bär en förbannelse, och i Arsenia ser han ett sista hopp om att ge sitt liv en annan mening.
+            </p>
+            
+            <div id="extra-content" style="display: none;">
+              <p class="quote">
+                "Jag formar illusioner som lämnar märken i både sinne och verklighet – berättelser som går att ta på, 
+                ljus som bär tyngd, lögner som skyddar. Min magi är lika mycket en scen som en sköld... men mina 
+                sköldar har redan visat sig vara bräckliga. Jag hör henne sjunga om natten, min syster som inte 
+                längre minns att hon är min syster. Jag måste lära mig att sjunga tillbaka på ett sätt som når henne."
+              </p>
+              
+              <p>
+                Arsenias största gåva och förbannelse är hennes förmåga att väva Glamour – illusioner som blir fysiskt 
+                verkliga genom Faerie-magins kraft. Varje manifesterad besvärjelse är lika mycket konstverk som vapen, 
+                med silverglans och dimslöjor som förtätas till broar, kappor, eller levande bilder.
+              </p>
+              
+              <p>
+                Hon föredrar att resa i skymningen och gryningen, då solljuset (genom hennes <em>Greater Malediction</em>) 
+                bränner hennes hud och försvagar hennes krafter. Denna känslighet för solen har gjort henne till en 
+                varelse av halvskugga – ett mellanting mellan magikern hon tränas till att vara och de faerie-väsen 
+                som förförde hennes barndoms sinne.
+              </p>
+            </div>
+            
+            <button 
+              id="toggle-button"
+              onclick="toggleContent()"
+              style="color: #fef3c7; background: none; border: none; cursor: pointer; font-size: 0.9rem; padding: 0; display: flex; align-items: center;">
+              Visa mer
+              <span id="button-arrow" style="margin-left: 4px;">↓</span>
+            </button>
+          </div>
+        </div>
+        		<div class="button-grid">
+		  <a href="bakgrund.html" class="nav-button">
+			<span class="icon">📜</span>
+			<span>Bakgrund</span>
+		  </a>
+		  <a href="alain.html" class="nav-button">
+			<span class="icon">👥</span>
+			<span>Alain</span>
+		  </a>
+		  <a href="stats.html" class="nav-button">
+			<span class="icon">📊</span>
+			<span>Karaktärsblad</span>
+		  </a>
+		  <a href="grimoire.html" class="nav-button">
+			<span class="icon">📖</span>
+			<span>Grimoire</span>
+		  </a>
+		  <a href="stories.html" class="nav-button">
+			<span class="icon">✨</span>
+			<span>Stories</span>
+		  </a>
+		  <a href="journaler.html" class="nav-button">
+			<span class="icon">📔</span>
+			<span>Journaler</span>
+		  </a>
+		</div>
+      </div>
+    </main>
+    
+    <footer>
+      <p>
+        "Hon formade sina illusioner som andra formar lera – men medan leran torkar och spricker, 
+        lever Arsenias skapelser av kall luft och månsken, förtätade till något lika verkligt som lögner och sanning blandade."
+      </p>
+    </footer>
+  </div>
+
+  <!-- Modal för bildvisning -->
+  <div id="imageModal" class="modal">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
+
+  <script>
+    function toggleContent() {
+      const extraContent = document.getElementById('extra-content');
+      const button = document.getElementById('toggle-button');
+      const arrow = document.getElementById('button-arrow');
+      
+      if (extraContent.style.display === 'none') {
+        extraContent.style.display = 'block';
+        button.innerText = 'Visa mindre';
+        button.appendChild(arrow);
+        arrow.innerText = '↑';
+      } else {
+        extraContent.style.display = 'none';
+        button.innerText = 'Visa mer';
+        button.appendChild(arrow);
+        arrow.innerText = '↓';
+      }
+    }
+
+    // Funktioner för bildmodalen
+    function openModal(imgPath) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modal.style.display = "block";
+      modalImg.src = imgPath;
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = "none";
+    }
+
+    // Stäng modalen om användaren klickar utanför bilden
+    window.onclick = function(event) {
+      const modal = document.getElementById('imageModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>

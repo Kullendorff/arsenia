@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alain "Rödstäv"</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+      padding-bottom: 1rem;
+    }
+    h1 {
+      color: #fef3c7;
+      font-size: 2.5rem;
+      margin: 0;
+      font-family: 'Inconsolata', monospace;
+      font-weight: 700;
+    }
+    .tagline {
+      color: rgba(254, 243, 199, 0.8);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+      margin-bottom: 0.5rem;
+      font-family: 'Inconsolata', monospace;
+    }
+    .nav-link:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    h2 {
+      color: #fef3c7;
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-family: 'Inconsolata', monospace;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      color: #fef3c7;
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-family: 'Inconsolata', monospace;
+    }
+    .portrait {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .portrait img {
+      max-width: 100%;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      max-height: 400px;
+    }
+    .quote {
+      background-color: rgba(30, 41, 59, 0.3);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      border-left: 4px solid rgba(217, 119, 6, 0.5);
+      color: #fef3c7;
+    }
+    .stats, .abilities, .virtues-flaws {
+      background-color: rgba(30, 41, 59, 0.3);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin: 2rem 0;
+      border: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    th {
+      color: #fef3c7;
+      font-weight: 600;
+    }
+    .overview {
+      list-style-type: none;
+      padding: 0;
+    }
+    .overview li {
+      margin-bottom: 0.5rem;
+    }
+    .split-section {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .split-section > div {
+      flex: 1;
+      min-width: 300px;
+    }
+    .citation {
+      font-style: italic;
+      color: rgba(254, 243, 199, 0.5);
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .nav-button {
+      display: block;
+      text-align: center;
+      background-color: rgba(30, 41, 59, 0.6);
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      transition: all 0.2s;
+    }
+    .nav-button:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.6);
+    }
+    /* Lightbox styling */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+      cursor: pointer;
+    }
+
+    .lightbox-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fef3c7;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 20px rgba(254, 243, 199, 0.3);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      color: #f8fafc;
+      font-size: 2rem;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover {
+      color: #fef3c7;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Gör bilder klickbara */
+    .clickable-image {
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .clickable-image:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes zoom {
+      from {transform: scale(0.1)} 
+      to {transform: scale(1)}
+    }
+
+    .lightbox-content {
+      animation-name: zoom;
+      animation-duration: 0.4s;
+    }
+    
+    /* Motivationssektionens stilar */
+    .motivation {
+      background-color: rgba(30, 41, 59, 0.3);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin: 2rem 0;
+      border: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    
+    .motivation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    
+    .motivation-card {
+      background-color: rgba(30, 41, 59, 0.5);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      border-left: 3px solid rgba(217, 119, 6, 0.5);
+    }
+    
+    .motivation-card h3 {
+      color: #fef3c7;
+      margin-top: 0;
+      font-size: 1.3rem;
+    }
+    
+    .key-effect {
+      color: #a5f3fc;
+      font-style: italic;
+      margin-top: 1rem;
+    }
+    
+    .motivation-quote {
+      background-color: rgba(30, 41, 59, 0.6);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      text-align: center;
+      border-left: 3px solid rgba(217, 119, 6, 0.7);
+      color: #fef3c7;
+      font-size: 1.1rem;
+    }
+    
+    .important-note {
+      background-color: rgba(30, 41, 59, 0.4);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin-top: 1.5rem;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+    }
+    
+    .important-note h3 {
+      color: #fef3c7;
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+    
+    /* Flaw Modals */
+    .flaw-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+    
+    .flaw-modal-content {
+      position: relative;
+      background-color: #1e293b;
+      margin: 10% auto;
+      padding: 1.5rem;
+      border: 2px solid rgba(217, 119, 6, 0.5);
+      border-radius: 0.5rem;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      animation-name: modalopen;
+      animation-duration: 0.4s;
+    }
+    
+    @keyframes modalopen {
+      from {opacity: 0; transform: scale(0.8)}
+      to {opacity: 1; transform: scale(1)}
+    }
+    
+    .flaw-modal-title {
+      color: #fef3c7;
+      margin-top: 0;
+      font-size: 1.5rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .flaw-modal-description {
+      margin-bottom: 1.5rem;
+    }
+    
+    .flaw-modal-effect {
+      background-color: rgba(30, 58, 138, 0.3);
+      border-left: 3px solid #a5f3fc;
+      padding: 1rem;
+      color: #a5f3fc;
+      margin-bottom: 1.5rem;
+    }
+    
+    .read-more-button {
+      display: inline-block;
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      background-color: rgba(217, 119, 6, 0.3);
+      color: #fef3c7;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .read-more-button:hover {
+      background-color: rgba(217, 119, 6, 0.6);
+    }
+    
+    .modal-close {
+      color: #f8fafc;
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .modal-close:hover {
+      color: #fef3c7;
+    }
+    
+    @media (max-width: 768px) {
+      .motivation-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .container {
+        padding: 1rem;
+      }
+      .split-section > div {
+        min-width: 100%;
+      }
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+      .flaw-modal-content {
+        width: 90%;
+        margin: 15% auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header med namn och kort introduktion -->
+    <header>
+      <h1>Alain "Rödstäv"</h1>
+      <p class="tagline">En ärrad friknekt vars svärd är lika snabbt som hans undergång tycks vara</p>
+      
+      <!-- Navigationsfält i toppen -->
+      <div class="nav-bar">
+        <a class="nav-link" href="index.html">Hem</a>
+        <a class="nav-link" href="grimoire.html">Grimoire</a>
+        <a class="nav-link" href="alain.html">Alain</a>
+        <a class="nav-link" href="stats.html">Karaktärsblad</a>
+        <a class="nav-link" href="bakgrund.html">Bakgrund</a>
+        <a class="nav-link" href="stories.html">Berättelser</a>
+		<a href="journaler.html" class="nav-link">Journaler</a>
+      </div>
+    </header>
+
+    <!-- Porträttbild -->
+    <div class="portrait">
+      <img src="alain-portrait.jpg" alt="Porträtt av Alain Rödstäv" class="clickable-image">
+    </div>
+
+    <!-- Citatruta -->
+    <blockquote class="quote">
+      "Vi delar samma förbannelse, trollkvinna. Du förlorar dig själv i dina sagor, jag förlorar mig själv i mina segrar…"
+    </blockquote>
+
+    <!-- MOTIVATIONSSEKTION START - Infogat här -->
+    <section class="motivation">
+      <h2>Inre konflikter &amp; drivkrafter</h2>
+      
+      <div class="motivation-grid">
+        <div class="motivation-card">
+          <h3>Den sista återbetalningen</h3>
+          <p>Under en fruktansvärd svältvandring plundrade Alain och hans kompanjoner en by för att överleva. I tumultet dödade han en man som försvarade sin syster – ett ögonblick som har förgiftat hans samvete.</p>
+          <p>Han ser sitt beskydd av Arsenia som ett sätt att gottgöra sin skuld, men vet också att ingen seger någonsin kan återlösa det blod han spillt. Hur många han än räddar, kommer den döda pojkens medalj att tynga hans bröst.</p>
+          <p class="key-effect">När Alain hjälper andra i fara, särskilt oskyldiga, är det inte bara för Arsenias skull – det är för att stilla sin egen skuld. Han kan aldrig blunda för andras lidande.</p>
+        </div>
+        
+        <div class="motivation-card">
+          <h3>Förbannelsens tyngd</h3>
+          <p>Varje triumf kostar mer än den smakar. Varje seger följs av en större förlust. Detta är Alains förbannelse, en sanning som ekar genom hela hans liv.</p>
+          <p>Han dras till Arsenia delvis för att hon är hans spegling – någon som också lever i skuggan av ett misslyckat försök att rädda en syster. Hos henne ser han sin egen sårbarhet återspeglad.</p>
+          <p class="key-effect">När Alain dricker för mycket eller söker spel och dobbel, är det inte bara för att döva smärtan – det är för att omfamna förlusten som alltid kommer. Han vill förlora på sina egna villkor.</p>
+        </div>
+      </div>
+      
+      <div class="motivation-quote">
+        <p>"Jag är inte hennes svärd, inte hennes skydd. Jag är en man som går mot sin egen undergång, och om jag kan ta henne med mig i fallet eller rädda henne från det – det avgör ödet, inte jag."</p>
+      </div>
+      
+      <div class="important-note">
+        <h3>Viktigt att komma ihåg</h3>
+        <p>Alain är inte bara en "companion" eller ett verktyg för Arsenias berättelse. Han har sitt eget liv, sina egna konflikter. Trots den mystiska kopplingen till Arsenia och hennes sökan efter Seraphina önskar han ofta att han kunde bryta sig fri från det grepp hon har om honom – men något djupare håller honom kvar, något han inte förstår men ändå accepterar som sitt öde.</p>
+      </div>
+    </section>
+    <!-- MOTIVATIONSSEKTION SLUT -->
+
+    <!-- Navigationsknappar för bakgrund och relation -->
+    <div class="button-grid">
+      <a href="alain-bakgrund.html" class="nav-button">📜 Bakgrund</a>
+      <a href="alain-relation.html" class="nav-button">💞 Relation med Arsenia</a>
+    </div>
+
+    <!-- Översikt & Characteristics -->
+    <section class="stats">
+      <h2>Persondata &amp; Karaktärsblad</h2>
+      <ul class="overview">
+        <li><strong>Koncept:</strong> Reconquista-veteran och friknekt</li>
+        <li><strong>Ålder / Size:</strong> 32 år / Size +1 (Large)</li>
+        <li><strong>Warping / Confidence:</strong> 0 / 1 (3)</li>
+        <li><strong>Covenant:</strong> Bestäms vid kampanjstart</li>
+      </ul>
+
+      <h3>Characteristics</h3>
+      <table class="characteristics">
+        <thead>
+          <tr><th>Egenskap</th><th>Värde</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Intelligence (Int)</td><td>0</td></tr>
+          <tr><td>Perception (Per)</td><td>+1</td></tr>
+          <tr><td>Strength (Str)</td><td>+3</td></tr>
+          <tr><td>Stamina (Sta)</td><td>+2</td></tr>
+          <tr><td>Dexterity (Dex)</td><td>+1</td></tr>
+          <tr><td>Quickness (Qik)</td><td>0</td></tr>
+          <tr><td>Presence (Pre)</td><td>–1</td></tr>
+          <tr><td>Communication (Com)</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Abilities -->
+    <section class="abilities">
+      <h2>Abilities</h2>
+      <table class="abilities">
+        <thead>
+          <tr><th>Ability</th><th>Specialisering</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Native Language: Occitan</td><td>Gratis</td><td>5</td></tr>
+          <tr><td>Arabic</td><td>Andalusisk dialekt</td><td>2</td></tr>
+          <tr><td>Latin</td><td>Klassisk</td><td>2</td></tr>
+          <tr><td>Old French</td><td>Handelsmän</td><td>2</td></tr>
+          <tr><td>Awareness</td><td>Ambushes</td><td>4</td></tr>
+          <tr><td>Athletics</td><td>Balance</td><td>2</td></tr>
+          <tr><td>Brawl</td><td>Grapple</td><td>2</td></tr>
+          <tr><td>Carouse</td><td>Drinking Games</td><td>2</td></tr>
+          <tr><td>Charm</td><td>Witty Retort</td><td>2</td></tr>
+          <tr><td>Folk Ken</td><td>Soldiers</td><td>2</td></tr>
+          <tr><td>Guile</td><td>Bluff</td><td>2</td></tr>
+          <tr><td>Leadership</td><td>Intimidation</td><td>2</td></tr>
+          <tr><td>Profession: Soldier</td><td>Warfare</td><td>3</td></tr>
+          <tr><td>Ride</td><td>Battle Riding</td><td>3</td></tr>
+          <tr><td>Stealth</td><td>Night Movement</td><td>2</td></tr>
+          <tr><td>Survival</td><td>Hills</td><td>3</td></tr>
+          <tr><td>Hunt</td><td>Forest Tracking</td><td>2</td></tr>
+          <tr><td>Single Weapon</td><td>Sword</td><td>7 (+2 Puissant)</td></tr>
+          <tr><td>Bow</td><td>Shortbow</td><td>1</td></tr>
+          <tr><td>Craft: Wood-Carving</td><td>Figurines</td><td>2</td></tr>
+          <tr><td>Theology</td><td>Crusade Lore</td><td>1</td></tr>
+          <tr><td>Artes Liberales</td><td>Logic</td><td>1</td></tr>
+          <tr><td>Chirurgy</td><td>Sword Wounds</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Virtues & Flaws -->
+    <section class="virtues-flaws">
+      <h2>Virtues &amp; Flaws</h2>
+      <div class="split-section">
+        <div>
+          <h3>Virtues (10 poäng)</h3>
+          <ul>
+            <li>Warrior (Minor General)</li>
+            <li>Large (Minor General)</li>
+            <li>Great Strength (Minor General)</li>
+            <li>Tough (Minor General)</li>
+            <li>Enduring Constitution (Minor General)</li>
+            <li>Rapid Convalescence (Minor General)</li>
+            <li>Puissant Single Weapon (Minor General)</li>
+            <li>Cautious with Single Weapon (Minor General)</li>
+            <li>Venus' Blessing (Minor Story)</li>
+            <li>Linguist (Minor General)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Flaws (10 poäng)</h3>
+          <ul>
+            <li>Dark Secret (Major Story) – <em>Den sista återbetalningen</em> <span class="read-more-button" data-modal="darkSecretModal">Läs mer</span></li>
+            <li>Fury (Major Personality) – <em>Hotad heder</em> <span class="read-more-button" data-modal="furyModal">Läs mer</span></li>
+            <li>Dutybound (Minor Personality) – <em>Sona skuld</em> <span class="read-more-button" data-modal="dutyboundModal">Läs mer</span></li>
+            <li>Compulsion (Minor General) – <em>Gambling</em></li>
+            <li>Compulsion (Minor General) – <em>Drinking</em></li>
+            <li>Weakness (Minor General) – <em>Drink</em></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stridsvärden -->
+    <section class="stats">
+      <h2>Combat Stats</h2>
+      <table>
+        <thead>
+          <tr><th>Vapen</th><th>Init</th><th>Attack</th><th>Defense</th><th>Damage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Spear (thrust)</td><td>+8</td><td>+16</td><td>+11</td><td>+10</td></tr>
+          <tr><td>Longsword</td><td>+7</td><td>+15</td><td>+8</td><td>+9</td></tr>
+          <tr><td>Dagger</td><td>+6</td><td>+8</td><td>+6</td><td>+6</td></tr>
+          <tr><td>Fist</td><td>+6</td><td>+5</td><td>+5</td><td>+3</td></tr>
+        </tbody>
+      </table>
+      
+      <div style="margin-top: 1.5rem;">
+        <p><strong>Soak:</strong> +9 (Sta +2 + Tough +3 + Leather Jack +3 + Size +1)</p>
+        <p><strong>Fatigue Levels:</strong> OK • –1 • –3 • –5 • Unconscious</p>
+        <p><strong>Wound Ranges:</strong></p>
+        <ul style="list-style-type: none; padding-left: 1rem;">
+          <li>Light: 1–6</li>
+          <li>Medium: 7–12</li>
+          <li>Heavy: 13–18</li>
+          <li>Incapacitating: 19–24</li>
+          <li>Dead: 25+</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Navigationsknappar för bakgrund och relation (återupprepade längst ner) -->
+    <div class="button-grid">
+      <a href="alain-bakgrund.html" class="nav-button">📜 Bakgrund</a>
+      <a href="alain-relation.html" class="nav-button">💞 Relation med Arsenia</a>
+    </div>
+	<footer>
+      <p style="text-align: center; color: #fef3c7; font-style: italic; margin-top: 3rem; margin-bottom: 2rem;">
+        "Styrka kan mätas på många sätt - inte bara i svärdets egg, utan i viljan att bära andras bördor när ens egna redan är tunga nog."
+      </p>
+      <p style="text-align: center; margin-top: 1rem;">
+        <a href="index.html" style="color: #9ca3af; text-decoration: none;">Tillbaka till huvudsidan</a>
+      </p>
+    </footer>
+  </div>
+  
+  
+  <!-- Lightbox container -->
+  <div id="imageLightbox" class="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="fullImage">
+  </div>
+  
+  <!-- Flaw Modal Containers -->
+  <div id="darkSecretModal" class="flaw-modal">
+    <div class="flaw-modal-content">
+      <span class="modal-close">&times;</span>
+      <h2 class="flaw-modal-title">Den sista återbetalningen (Major Story-Flaw, –3p)</h2>
+      <div class="flaw-modal-description">
+        <p><strong>Bakgrund:</strong> Under en fruktansvärd svältvandring plundrade Alain och hans kompanjoner en by för att överleva. I tumultet dödade han en man som försvarade sin syster – ett ögonblick som har förgiftat hans samvete. Nu ser han varje stund med Arsenia och sökandet efter Seraphina som sin möjlighet att sona sitt brott, men skammen gnager ständigt.</p>
+      </div>
+      <div class="flaw-modal-effect">
+        <p><strong>Effekt:</strong> När Alain hjälper Arsenia i en icke-farlig situation (t.ex. tröstar, ger praktiskt stöd, guidar) måste han göra en Stress-roll (Willpower + Stamina) mot Ease Factor 9 för att agera utan själviskt skuldmotiv.</p>
+        <ul>
+          <li><strong>Lyckas</strong> han, går allt som planerat.</li>
+          <li><strong>Misslyckas</strong> han (total under 9), tvekar han och agerar klumpigt – han får –2 på alla rullar mot hjälpuppgiften den scenen.</li>
+          <li><strong>Botch</strong> (noll + botch-dice) översköljs han av skam: han förlorar 1 Confidence och Arsenia får –3 på alla sociala totals mot honom resten av dagen.</li>
+        </ul>
+      </div>
+      <p>Varje välmenande handling blir en kamp mot hans egen skuld. Den här bräckliga balansen mellan att sona sitt förflutna och vara ett stöd för Arsenia skapar både dramatik och konflikt i varje scen där deras vägar korsas.</p>
+    </div>
+  </div>
+  
+  <div id="furyModal" class="flaw-modal">
+    <div class="flaw-modal-content">
+      <span class="modal-close">&times;</span>
+      <h2 class="flaw-modal-title">Fury (Major Personality Flaw, –3p)</h2>
+      <div class="flaw-modal-description">
+        <p><strong>Bakgrund:</strong> Alains heder och stridsvärde är centrala för hans identitet. När detta förlöjligas eller ifrågasätts, särskilt offentligt, kan han tappa kontrollen helt och anfalla källan till förolämpningen utan att tänka på konsekvenserna.</p>
+      </div>
+      <div class="flaw-modal-effect">
+        <p><strong>Effekt:</strong> Vid öppen förolämpning måste Alain slå en Personality roll baserad på samma trait ("Fury") mot Ease Factor 9 för att behålla kontrollen.</p>
+		<ul>
+          <li><strong>Vid misslyckande</strong> anfaller han utan hänsyn till säkerhet, taktik eller konsekvenser. Detta tillstånd varar till situationen är över, eller i minst 5 minuter.</li>
+          <li><strong>I detta tillstånd</strong> ignorerar han order, försöker inte fly även när han borde, och attackerar den närmaste förolämpande motståndaren oavsett fara.</li>
+        </ul>
+      </div>
+      <p>Denna flaw manifesterar sig särskilt kraftigt när någon anklagar honom för feghet, ifrågasätter hans lojalitet eller förmåga att beskydda, eller antyder att han är ovärdig som krigare.</p>
+    </div>
+  </div>
+  
+  <div id="dutyboundModal" class="flaw-modal">
+    <div class="flaw-modal-content">
+      <span class="modal-close">&times;</span>
+      <h2 class="flaw-modal-title">Tvång att sona skulden (Minor Story-Flaw, –1p)</h2>
+      <div class="flaw-modal-description">
+        <p><strong>Bakgrund:</strong> Alain kan aldrig blunda för andras lidande. Skulden från byn han plundrade tvingar honom att ständigt återgälda sitt brott genom att rädda oskyldiga.</p>
+      </div>
+      <div class="flaw-modal-effect">
+        <p><strong>Effekt:</strong> När Alain bevittnar en oskyldig civilperson (ingen krigserfarenhet eller kampförmåga) i omedelbart livsfara i hans närvaro, <strong>måste</strong> han prioritera att rädda dem.</p>
+        <p>Om han av någon anledning avstår, förlorar han <strong>1 Confidence</strong> direkt och måste lägga till <strong>en extra botch-die</strong> på sitt nästa strids- eller skyddstest (han drabbas av skamens nervositet).</p>
+      </div>
+      <p>Varje oskyldigt liv i fara blir en prövning av hans samvete – och kan dra honom bort från Arsenias mål för att rätta till ett fel han aldrig kan glömma.</p>
+    </div>
+  </div>
+  
+  <script>
+    // Lightbox funktionalitet för porträttbild
+    const lightbox = document.getElementById('imageLightbox');
+    const fullImage = document.getElementById('fullImage');
+    const lightboxClose = document.querySelector('.lightbox-close');
+
+    // Gör alla bilder klickbara
+    document.querySelectorAll('.portrait img').forEach(img => {
+      img.onclick = function() {
+        lightbox.style.display = 'block';
+        fullImage.src = this.src;
+      }
+    });
+
+    // Stäng lightbox när man klickar på X
+    lightboxClose.onclick = function() {
+      lightbox.style.display = 'none';
+    }
+
+    // Stäng lightbox när man klickar utanför bilden
+    lightbox.onclick = function(event) {
+      if (event.target === lightbox) {
+        lightbox.style.display = 'none';
+      }
+    }
+
+    // Modal funktionalitet för flaws
+    const modals = document.querySelectorAll('.flaw-modal');
+    const readMoreButtons = document.querySelectorAll('.read-more-button');
+    const modalCloses = document.querySelectorAll('.modal-close');
+    
+    // Öppna modal när man klickar på Läs mer-knappen
+    readMoreButtons.forEach(button => {
+      button.onclick = function() {
+        const modalId = this.getAttribute('data-modal');
+        document.getElementById(modalId).style.display = 'block';
+      }
+    });
+    
+    // Stäng modal när man klickar på X
+    modalCloses.forEach(closeBtn => {
+      closeBtn.onclick = function() {
+        this.parentElement.parentElement.style.display = 'none';
+      }
+    });
+    
+    // Stäng modal när man klickar utanför innehållet
+    modals.forEach(modal => {
+      modal.onclick = function(event) {
+        if (event.target === this) {
+          this.style.display = 'none';
+        }
+      }
+    });
+
+    // Stäng både lightbox och modaler med Escape-tangenten
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        lightbox.style.display = 'none';
+        modals.forEach(modal => {
+          modal.style.display = 'none';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
