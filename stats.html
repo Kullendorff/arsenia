@@ -4,261 +4,122 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arsenia "Sagoskärvan" Merinita - Karaktärsblad</title>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #0f172a;
-      color: #f8fafc;
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 2rem;
-      gap: 2rem;
-    }
-    .header-text {
-      flex: 1;
-    }
-    /* Typografi för rubriker och korttitlar */
-    h1, h2, h3,
-    .section-title,
-    .featured-title,
-    .story-title {
-      font-family: 'Inconsolata', 'Courier New', monospace;
-      font-weight: 600;
-      letter-spacing: 0.03em; /* liten luftighet */
-    }
-    h1 {
-      color: #fef3c7;
-      font-size: 2.5rem;
-      margin: 0;
-      position: relative;
-      display: inline-block;
-    }
-    h1::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(245, 158, 11, 0.5), transparent);
-    }
-    h1 span {
-      font-size: 1.75rem;
-      font-weight: normal;
-    }
-    header p {
-      color: rgba(254, 243, 199, 0.8);
-      font-style: italic;
-      margin-top: 1rem;
-      margin-bottom: 0;
-    }
-    .portrait {
-      width: 200px;
-      height: 200px;
-      border-radius: 0.5rem;
-      background-size: cover;
-      background-position: center;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(217, 119, 6, 0.3);
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .portrait:hover {
-      transform: scale(1.05);
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      overflow: auto;
-    }
-    .modal-content {
-      margin: auto;
-      display: block;
-      max-width: 90%;
-      max-height: 90%;
-      margin-top: 2%;
-    }
-    .modal-close {
-      position: absolute;
-      top: 15px;
-      right: 35px;
-      color: #f1f1f1;
-      font-size: 40px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .nav-bar {
-      display: flex;
+    /* Stats-specifika stilar */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid rgba(217, 119, 6, 0.2);
-      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
-    .nav-link {
-      color: #fef3c7;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 0.25rem;
-      background-color: rgba(30, 41, 59, 0.4);
-      transition: background-color 0.2s;
-    }
-    .nav-link:hover {
-      background-color: rgba(30, 41, 59, 0.8);
-    }
-    .nav-link.active {
-      background-color: rgba(217, 119, 6, 0.2);
-      font-weight: bold;
-    }
-    .section {
+    .stat-item {
       background-color: rgba(30, 41, 59, 0.7);
       border: 1px solid rgba(217, 119, 6, 0.2);
       border-radius: 0.5rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-    .section h2 {
-      color: #fef3c7;
-      font-size: 1.5rem;
-      margin-top: 0;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid rgba(217, 119, 6, 0.5);
-      padding-bottom: 0.5rem;
-    }
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .stat-box {
-      background-color: rgba(30, 41, 59, 0.8);
-      padding: 0.75rem 1rem;
-      border-radius: 0.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 1rem;
     }
     .stat-label {
-      font-weight: bold;
-      color: #e5e7eb;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
     }
     .stat-value {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       color: #fef3c7;
+      font-family: 'Inconsolata', 'Courier New', monospace;
       font-weight: bold;
     }
-    .split-section {
+    .abilities-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
     }
-    @media (min-width: 768px) {
-      .split-section {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    .list-section {
-      background-color: rgba(30, 41, 59, 0.8);
-      border-radius: 0.25rem;
-      overflow: hidden;
-    }
-    .list-title {
-      background-color: rgba(217, 119, 6, 0.2);
-      padding: 0.5rem 1rem;
-      color: #fef3c7;
-      font-weight: bold;
-      margin: 0;
-    }
-    .list-items {
-      padding: 0.75rem 1rem;
-    }
-    .list-item {
-      margin-bottom: 0.5rem;
+    .ability-item {
       display: flex;
       justify-content: space-between;
-    }
-    .list-item:last-child {
-      margin-bottom: 0;
+      padding: 0.5rem 0.75rem;
+      background-color: rgba(30, 41, 59, 0.5);
+      border-radius: 0.25rem;
+      border-left: 3px solid rgba(217, 119, 6, 0.5);
     }
     .ability-name {
-      font-weight: bold;
-      color: #e5e7eb;
-    }
-    .ability-spec {
-      color: #9ca3af;
-      font-style: italic;
-      font-size: 0.9em;
+      color: #e2e8f0;
+      font-size: 0.9rem;
     }
     .ability-score {
       color: #fef3c7;
+      font-family: 'Inconsolata', 'Courier New', monospace;
       font-weight: bold;
     }
-    .techniques-grid, .forms-grid {
+    .arts-section {
+      margin-top: 2rem;
+    }
+    .arts-category {
+      margin-bottom: 1.5rem;
+    }
+    .arts-category h3 {
+      color: #fef3c7;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .arts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 0.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 1rem;
-    }
-    th {
-      text-align: left;
-      padding: 0.5rem;
-      background-color: rgba(217, 119, 6, 0.2);
-      color: #fef3c7;
-    }
-    td {
-      padding: 0.5rem;
-      border-bottom: 1px solid rgba(217, 119, 6, 0.1);
-    }
-    .virtue-label, .flaw-label {
-      font-weight: bold;
-      color: #e5e7eb;
-    }
-    .virtue-type, .flaw-type {
-      color: #9ca3af;
-      font-style: italic;
-      font-size: 0.9em;
-    }
-    .personal-detail {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      border-bottom: 1px solid rgba(217, 119, 6, 0.1);
-      padding-bottom: 0.5rem;
-    }
-    .personal-label {
-      font-weight: bold;
-      color: #e5e7eb;
-    }
-    .personal-value {
-      color: #fef3c7;
-    }
-    footer {
+    .art-item {
+      background-color: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      border-radius: 0.25rem;
+      padding: 0.75rem;
       text-align: center;
-      margin-top: 3rem;
+    }
+    .art-name {
+      color: #e2e8f0;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+    .art-score {
+      color: #fef3c7;
+      font-size: 1.25rem;
+      font-family: 'Inconsolata', 'Courier New', monospace;
+      font-weight: bold;
+    }
+    .virtue-flaw-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .virtue-flaw-item {
+      background-color: rgba(30, 41, 59, 0.5);
+      border-left: 3px solid rgba(217, 119, 6, 0.5);
+      padding: 0.75rem 1rem;
+      border-radius: 0.25rem;
+    }
+    .virtue-flaw-name {
+      color: #fef3c7;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+    .virtue-flaw-type {
       color: #9ca3af;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+    .virtue-flaw-desc {
+      color: #e2e8f0;
+      font-size: 0.85rem;
+      line-height: 1.4;
     }
   </style>
 </head>
