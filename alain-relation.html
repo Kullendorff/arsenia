@@ -5,12 +5,314 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alain & Arsenia - Relation</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inconsolata:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
   <style>
-    /* Inga fil-specifika stilar */
+    body {
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+      padding-bottom: 1rem;
+    }
+    h1 {
+      color: #fef3c7;
+      font-size: 2.5rem;
+      margin: 0;
+      font-family: 'Inconsolata', monospace;
+      font-weight: 700;
+    }
+    h1 span {
+      font-size: 2rem;
+      font-weight: normal;
+      font-style: italic;
+    }
+    h2 {
+      color: #fef3c7;
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-family: 'Inconsolata', monospace;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      color: #fef3c7;
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-family: 'Inconsolata', monospace;
+    }
+    .subtitle {
+      color: rgba(254, 243, 199, 0.8);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+      margin-bottom: 0.5rem;
+      font-family: 'Inconsolata', monospace;
+    }
+    .nav-link:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    .section-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    .section-button {
+      color: #fef3c7;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      background-color: rgba(30, 41, 59, 0.4);
+      transition: background-color 0.2s;
+      cursor: pointer;
+      font-size: 0.9rem;
+      border: 1px solid rgba(217, 119, 6, 0.2);
+    }
+    .section-button:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+      border-color: rgba(217, 119, 6, 0.4);
+    }
+    .section-button.active {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.6);
+    }
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .nav-button {
+      background-color: rgba(30, 41, 59, 0.6);
+      color: #fef3c7;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 0.25rem;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .nav-button:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      border-color: rgba(217, 119, 6, 0.6);
+    }
+    .text-content {
+      margin-bottom: 2rem;
+      background-color: rgba(30, 41, 59, 0.3);
+      padding: 2rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    .text-content p {
+      margin-bottom: 1rem;
+    }
+    .quote {
+      border-left: 3px solid rgba(217, 119, 6, 0.5);
+      padding-left: 1rem;
+      margin-left: 1rem;
+      font-style: italic;
+      color: #fef3c7;
+      margin: 1.5rem 0 1.5rem 1rem;
+    }
+    .image-wrapper {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .portrait {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .portrait img {
+      max-width: 100%;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      max-height: 400px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: rgba(254, 243, 199, 0.5);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 2rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      background-color: rgba(30, 41, 59, 0.6);
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.1);
+    }
+    th {
+      color: #fef3c7;
+      font-weight: 600;
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    tr:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background-color: rgba(30, 41, 59, 0.8);
+      color: #fef3c7;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .key-phrase {
+      font-style: italic;
+      color: #fef3c7;
+      font-weight: bold;
+    }
+    .magical-effect {
+      color: #a5f3fc;
+      font-style: italic;
+    }
+    @media (max-width: 640px) {
+      .container {
+        padding: 1rem;
+      }
+      .text-content {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      h1 span {
+        font-size: 1.6rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
   </style>
   <style>
-    /* Inga fil-specifika stilar */
+    /* Lightbox styling */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+      cursor: pointer;
+    }
+
+    .lightbox-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fef3c7;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 20px rgba(254, 243, 199, 0.3);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      color: #f8fafc;
+      font-size: 2rem;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover {
+      color: #fef3c7;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Gör bilder klickbara */
+    .clickable-image {
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .clickable-image:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes zoom {
+      from {transform: scale(0.1)} 
+      to {transform: scale(1)}
+    }
+
+    .lightbox-content {
+      animation-name: zoom;
+      animation-duration: 0.4s;
+    }
   </style>
 </head>
 <body>
