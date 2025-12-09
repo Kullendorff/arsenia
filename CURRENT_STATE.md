@@ -1,7 +1,7 @@
 # CURRENT STATE - Arsenia Merinita Saga
 
 ## Senast uppdaterad
-2025-12-09
+2025-12-09 (Umbra Vivens spell design)
 
 ## Kampanjöversikt
 
@@ -19,7 +19,11 @@ Arsenia "Sagoskärvan" Merinita söker sin tvillingsyster Seraphina (La Cantarel
 ## Senaste utveckling (från git-log och tekniskt arbete)
 
 ### Pågående arbete
-*Inga aktiva kampanjsessioner pågår.*
+**Spell Design: Umbra Vivens** (2025-12-09)
+- Designat ny Glamour-spell: **Umbra Vivens - The Shadow That Walks Beside**
+- Level: CrIm(Me) 35, Duration: Sun
+- Animerar Arsenias skugga till levande Glamour-följeslagare
+- Nästa steg: Kolla med SG om lab research process och story-bonusar från Arcadian shadow-erfarenhet
 
 ### Nyligen avslutat
 
@@ -132,12 +136,23 @@ Arsenia "Sagoskärvan" Merinita söker sin tvillingsyster Seraphina (La Cantarel
 *Ingen aktiv lab work dokumenterad.*
 
 ### Planerade projekt
-*Inga formella lab projects dokumenterade.*
 
-**Potentiella projekt (från grimoire.html):**
-- Vidareutveckla Glamour-spells
+**🌙 NÄSTA PROJEKT: Umbra Vivens - The Shadow That Walks Beside**
+- **Spell:** CrIm(Me) 35, Glamour
+- **Effekt:** Ger Arsenias skugga liv, substans och begränsad självständighet (Duration: Sun)
+- **Lab Total beräkning:**
+  - Base: Cr (7) + Im (15) + Int (3) + MT (4) = 29
+  - Med aura (+3-5) och story bonus från Arcadian shadows (+5-10) = **37-44 total**
+  - Tid: **~1 säsong** (35 ÷ 37-44 = 0.87-0.95 säsonger)
+- **Narrativ koppling:** Arsenia har träffat levande skuggor i Arcadia/Faerie-kontext
+- **Virtues som hjälper:** Faerie-Raised Magic, Glamour, Faerie Magic
+- **Status:** Awaiting SG approval för research method och story-bonusar
+- **Spell designad:** 2025-12-09
+
+**Potentiella framtida projekt:**
 - Formalisera spontana InIm/MuIm-effekter
 - Research för Seraphina-sökningen
+- Vidareutveckla Glamour-spells baserade på Arcadian erfarenhet
 
 ---
 
@@ -243,9 +258,12 @@ Arsenia "Sagoskärvan" Merinita söker sin tvillingsyster Seraphina (La Cantarel
 - Ledtråd till Seraphina?
 
 📖 **Spell development:**
-- Använd `ars-magica-spell-generator` för nya spells
+- **PRIORITET:** Kolla med SG om Umbra Vivens lab research
+  - Diskutera story-bonusar från Arcadian shadow-erfarenhet
+  - Bestäm exakt research method (standard lab work vs story-driven)
+  - Eventuell narrativ integration (Seraphina-drömmar under research?)
+- Uppdatera grimoire.html med Umbra Vivens när spellen är lärd
 - Formalisera ofta använda spontana effekter
-- Uppdatera grimoire.html med nya spells
 
 🎭 **Character development:**
 - Planera Arts progression (fokus: Imaginem till 20+?)
