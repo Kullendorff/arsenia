@@ -1,7 +1,7 @@
 # CURRENT STATE - Arsenia Merinita Saga
 
 ## Senast uppdaterad
-2025-12-03
+2025-12-09
 
 ## Kampanjöversikt
 
@@ -21,13 +21,30 @@ Arsenia "Sagoskärvan" Merinita söker sin tvillingsyster Seraphina (La Cantarel
 ### Pågående arbete
 *Inga aktiva kampanjsessioner pågår.*
 
-**Tekniskt:** Git commit förbereds 🔄
-- Alla tekniska ändringar färdiga
-- Väntar på commit + push till GitHub
-
 ### Nyligen avslutat
 
-#### Tekniskt arbete
+#### Tekniskt arbete (2025-12-09)
+
+- **CLAUDE.md skapad**: Komplett projektdokumentation ✅
+  - Beskriver alla 6 agenter och deras användning
+  - Dokumenterar designsystem och arbetsflöden
+  - Listar alla karaktärer inkl. spelgruppen (Johan, Andreas, Christopher, Jonas)
+  - Innehåller viktiga principer och vanliga uppgifter
+
+- **journaler.html förbättrad**: "Senaste sist"-sortering ✅
+  - Både journalindex OCH journalposter sorteras
+  - Ingen växling vid upprepade klick
+  - Nya läsare kan nu läsa kronologiskt från början till slut
+
+- **character-voice-writer.md uppdaterad**: Stilistisk inspiration ✅
+  - Lagt till McKillip, Le Guin, Clarke för Arsenias röst
+  - Lagt till Cook, Abercrombie för Alains röst
+
+- **.gitignore skapad**: PDF-filer och backups ignoreras ✅
+
+- **Git commit + push klart**: a6b745b ✅
+
+#### Tidigare tekniskt arbete
 
 - **Webbplats standardisering**: Komplett redesign med extern CSS ✅
   - `style.css` skapad med CSS-variabler
@@ -156,12 +173,18 @@ Arsenia "Sagoskärvan" Merinita söker sin tvillingsyster Seraphina (La Cantarel
 ├── stats.html (karaktärsblad)
 ├── grimoire.html (spells)
 ├── stories.html (narrativa berättelser)
-├── journaler.html (session journals)
+├── journaler.html (session journals med sortering) ✅
 ├── bakgrund.html (Arsenias backstory)
 ├── alain.html (Alain's page)
 ├── alain-bakgrund.html (Alain's backstory)
 ├── alain-relation.html (Arsenia-Alain relation)
 ├── style.css (extern CSS) ✅
+├── CLAUDE.md (projektdokumentation) ✅
+├── CURRENT_STATE.md (denna fil)
+├── ars_magica_spell_guide.md (spell-design guide) ✅
+├── spellformat.md (spell output-format)
+├── spellsguide.md (spell-skapande guide)
+├── .gitignore (ignorera PDFs och backups) ✅
 └── .claude/agents/ (6 agents) ✅
 ```
 
@@ -207,9 +230,10 @@ Arsenia "Sagoskärvan" Merinita söker sin tvillingsyster Seraphina (La Cantarel
 - [x] Uppdatera alla HTML-filer
 - [x] Skapa 6 agenter
 - [x] Skapa CURRENT_STATE.md
-- [ ] **Git commit och push** 🔄
-  - Commit message: "Standardisera design + skapa agenter"
-  - Files to commit: style.css, 10 HTML-filer, 6 agent-filer, CURRENT_STATE.md, update_css.py
+- [x] Skapa CLAUDE.md
+- [x] Förbättra journaler.html med sortering
+- [x] **Git commit och push** ✅ (a6b745b)
+  - CLAUDE.md, journaler.html, character-voice-writer.md, .gitignore, ars_magica_spell_guide.md
 
 ### Kampanj (när nästa session spelas)
 
