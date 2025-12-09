@@ -1,0 +1,18 @@
+# PDF-filer (stora regelböcker)
+*.pdf
+
+# Backup-filer
+*.backup
+
+# Temporära filer
+*.tmp
+*.temp
+
+# OS-specifika filer
+.DS_Store
+Thumbs.db
+
+# Editor-filer
+*.swp
+*.swo
+*~

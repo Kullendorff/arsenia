@@ -256,7 +256,8 @@
      
      <div class="index-tabs">
        <div class="index-tab active" onclick="showTab('chronological')">Senaste först</div>
-       <div class="index-tab" onclick="showTab('by-author')">Efter författare</div>
+       <div class="index-tab" onclick="showTab('chronological-reverse')">Senaste sist</div>
+      <div class="index-tab" onclick="showTab('by-author')">Efter författare</div>
        <div class="index-tab" onclick="showTab('by-location')">Efter plats</div>
      </div>
      
@@ -323,7 +324,71 @@
          </div>
        </div>
      </div>
-     
+
+     <div id="chronological-reverse" class="index-content">
+       <div class="index-list">
+         <div class="index-item">
+           <a href="#entry-skugga-saga">I gränslandet mellan skugga och saga</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-forsta-motet">Första mötet, sensommar, okända magiker</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Alain</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-forsvunna">Snabbanteckning: De försvunna magikerna</a>
+           <span class="index-date">Sensommar 1219</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-blod">Blod i gryningen</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Alain</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-salt">Journal – Sensommarkväll, under saltets tecken</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-missing">Journal – När någon saknas</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-alain-resa">Alains dagbok - Fjärde dagen på vägen</a>
+           <span class="index-date">Sensommar 1219</span>
+           <span class="index-author">Alain</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-berget">Journal – 23:e dagen i Setembre, 1219</a>
+           <span class="index-date">Setembre 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-oktober">Oktober 1219 - Opprik Stenhjärta</a>
+           <span class="index-date">Oktober 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-forfalskad-njutning">Förfalskad njutning</a>
+           <span class="index-date">Vinter 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-sma-mirakler">Små mirakler</a>
+           <span class="index-date">Vinter 1219</span>
+           <span class="index-author">Arsenia</span>
+         </div>
+         <div class="index-item">
+           <a href="#entry-varma-hander">Varma händer, kalla sanningar</a>
+           <span class="index-date">Vinter 1219</span>
+           <span class="index-author">Alain</span>
+         </div>
+       </div>
+     </div>
+
      <div id="by-author" class="index-content">
        <h3>Arsenia</h3>
        <div class="index-list">
@@ -861,6 +926,14 @@ Imorgon når jag byn. Sen blir det en veckas ritt tillbaka, med två personer so
  
  <!-- JavaScript för indexfunktionalitet -->
 <script>
+  // Spara ursprunglig ordning vid sidladdning
+  let originalOrder = [];
+  let currentOrder = 'newest-first';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    originalOrder = Array.from(document.querySelectorAll('.journal-entry'));
+  });
+
   function showTab(tabId) {
     // Göm alla innehåll och avaktivera alla flikar
     document.querySelectorAll('.index-content').forEach(content => {
@@ -869,13 +942,46 @@ Imorgon når jag byn. Sen blir det en veckas ritt tillbaka, med två personer so
     document.querySelectorAll('.index-tab').forEach(tab => {
       tab.classList.remove('active');
     });
-    
+
     // Visa det valda innehållet och aktivera fliken
     document.getElementById(tabId).classList.add('active');
     document.querySelector(`.index-tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+
+    // Sortera journalposterna om det är en kronologisk tab
+    if (tabId === 'chronological') {
+      sortJournalEntries('newest-first');
+    } else if (tabId === 'chronological-reverse') {
+      sortJournalEntries('oldest-first');
+    }
   }
-  
-  // LÄGG TILL BILDMODAL-FUNKTIONERNA HÄR:
+
+  function sortJournalEntries(order) {
+    // Om ordningen redan är rätt, gör ingenting
+    if (currentOrder === order) {
+      return;
+    }
+
+    const section = document.querySelector('section');
+    let entries;
+
+    // Använd alltid ursprungliga ordningen som bas
+    if (order === 'oldest-first') {
+      entries = [...originalOrder].reverse();
+    } else {
+      entries = [...originalOrder];
+    }
+
+    // Ta bort alla entries
+    document.querySelectorAll('.journal-entry').forEach(entry => entry.remove());
+
+    // Lägg tillbaka i rätt ordning
+    entries.forEach(entry => section.appendChild(entry));
+
+    // Uppdatera nuvarande ordning
+    currentOrder = order;
+  }
+
+  // BILDMODAL-FUNKTIONER
   function openImageModal(imgPath) {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
